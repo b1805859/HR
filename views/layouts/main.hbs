@@ -91,6 +91,7 @@
           $("#input-code").keyup(function(){
             socket.emit("search-code", $("#input-code").val())
           })
+          
         })
     </script>
   </head>
@@ -220,6 +221,34 @@
                 <div data-i18n="Employees">Nhân viên</div>
               </a>
             </li>
+
+
+            <!-- timekeeping -->
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Timekeepings">Chấm công</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="/api/timekeeping/fetchTimekeepingList" class="menu-link">
+                    <div data-i18n="Timekeepings">Vị trí chấm công</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/api/timekeeping/fetchTimekeepingList" class="menu-link">
+                    <div data-i18n="Timekeepings">Báo cáo chấm công</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/api/time/fetchTimekeepingList" class="menu-link">
+                    <div data-i18n="Timekeepings">Bảng chấm công</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
 
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Pages</span>
