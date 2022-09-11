@@ -20,9 +20,7 @@ router.get('/position', timekeepPositionController.getPosition)
 router.get('/positionMap', timekeepPositionController.getPositionMap)
 
 
-router.get('/formCreatePosition', (req, res, next) => {
-    res.render("timekeep/form-timekeep-create-position")
-})
+router.get('/formCreatePosition', (req, res, next) => { res.render("timekeep/form-timekeep-create-position") })
 router.post('/position', timekeepPositionController.storePosition)
 
 // router.post('/position/add', timekeepPositionController.setPosition)

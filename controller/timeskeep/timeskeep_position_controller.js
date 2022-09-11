@@ -27,9 +27,10 @@ class TimekeepPosition {
 
     //Lấy danh sách hồ sơ nhân viên có phân trang
     storePosition = async (req, res, next) => {
+        console.log("2")
         try {
             const store = await timekeepPosition.create(req.body);
-
+            console.log("store", store)
             res.json(store)
         } catch (err) {
 

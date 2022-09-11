@@ -23,7 +23,7 @@ async function getStores() {
                 ]
             },
             properties: {
-                code: store.code,
+                name: store.name,
                 icon: 'shop'
             }
         };
@@ -48,7 +48,7 @@ function loadMap(stores) {
             layout: {
                 'icon-image': '{icon}-15',
                 'icon-size': 1.5,
-                'text-field': '{code}',
+                'text-field': '{name}',
                 'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
                 'text-offset': [0, 0.9],
                 'text-anchor': 'top'

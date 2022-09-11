@@ -4,17 +4,13 @@ const ObjectId = Schema.ObjectId;
 const geocoder = require("../utils/geocoder")
 
 const TimekeepPosition = new Schema({
-    code: {
+    name: {
         type: String,
-        required: [true, 'Please add a store ID'],
         unique: true,
         trim: true,
-        maxlength: [10, 'Store ID must be less than 10 chars']
     },
-    address: {
-        type: String,
-        required: [true, 'Please add an address']
-    },
+    longitude: { type: 'string', string: 'Kinh độ' },
+    latitude: { type: 'string', string: 'Vĩ độ' },
     location: {
         type: {
             type: String,
@@ -35,16 +31,17 @@ const TimekeepPosition = new Schema({
 
 // Geocode & create location
 TimekeepPosition.pre('save', async function (next) {
-    const loc = await geocoder.geocode(this.address);
+    // const loc = await geocoder.geocode(this.address);
+    const res = await geocoder.reverse({ lat: this.latitude, lon: this.longitude });
+    console.log('res', res)
     this.location = {
         type: 'Point',
-        coordinates: [loc[0].longitude, loc[0].latitude],
-        formattedAddress: loc[0].formattedAddress
+        coordinates: [res[0].longitude, res[0].latitude],
+        formattedAddress: res[0].formattedAddress
     };
 
-    // Do not save address
-    this.address = undefined;
+
     next();
-});;
+});
 
 module.exports = mongoose.model('TimekeepPosition', TimekeepPosition);
