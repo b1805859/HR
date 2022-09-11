@@ -13,8 +13,10 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 })
-
 const upload = multer({ storage: storage })
+
+
+
 //Lấy thông tin chi tiết phòng ban
 router.get('/getEmployeeInformation/:id', employeeController.browse)
 

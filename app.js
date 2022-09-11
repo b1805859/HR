@@ -16,7 +16,7 @@ var authRouter = require('./routes/auth');
 var userRouter = require('./routes/users');
 var employeeRouter = require('./routes/employee');
 var departmentRouter = require('./routes/department')
-var timekeepingRouter = require('./routes/timekeeping')
+var timekeepRouter = require('./routes/timekeep')
 var app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
 //Api
 app.use('/api/department', departmentRouter)
 app.use('/api/employee', employeeRouter)
-app.use('/api/timekeeping', timekeepingRouter)
+app.use('/api/timekeep', timekeepRouter)
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/', indexRouter);
