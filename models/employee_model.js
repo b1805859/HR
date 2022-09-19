@@ -29,6 +29,7 @@ const EmployeeProfile = new Schema({
     bhyt_no: { type: 'string', string: 'Số thẻ BHYT' },
     bhyt_hospital: { type: 'string', string: 'Nơi đăng ký khám bệnh' },
 
+    bang_cong: { type: 'Boolean', default: false, string: 'Bảng công' },
     create_date: { type: 'Date', string: 'Ngày tạo' },
     create_uid: { type: Schema.Types.ObjectId, ref: 'UserAccount' },
     write_date: { type: 'Date', string: 'Ngày chỉnh sửa' },

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-const geocoder = require("../utils/geocoder")
+const geocoder = require("../../utils/geocoder")
 
 const TimekeepPosition = new Schema({
     name: {

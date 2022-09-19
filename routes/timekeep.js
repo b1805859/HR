@@ -1,31 +1,46 @@
 var express = require('express');
 var router = express.Router();
-const timekeepPositionController = require('../controller/timeskeep/timeskeep_position_controller.js');
+const timekeepPositionController = require('../controller/timekeep/position_controller.js');
+const timekeepTableController = require('../controller/timekeep/table_controller.js');
+const timekeepReportController = require('../controller/timekeep/report_controller.js');
+const timekeepMonthController = require('../controller/timekeep/month_controller');
+const timekeepAcupunctureController = require('../controller/timekeep/acupuncture_controller');
 const { sigleToObject, multipleToObject } = require("../utils/to_Object")
-// const path = require('path')
-// const multer = require('multer')
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, path.join(__dirname, '../public/assets/img/avatars/'))
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null, file.originalname);
-//     }
-// })
-// const upload = multer({ storage: storage })
 
 
 //Position
 router.get('/position', timekeepPositionController.getPosition)
+
+
 router.get('/positionMap', timekeepPositionController.getPositionMap)
 
-
 router.get('/formCreatePosition', (req, res, next) => { res.render("timekeep/form-timekeep-create-position") })
+
 router.post('/position', timekeepPositionController.storePosition)
 
-// router.post('/position/add', timekeepPositionController.setPosition)
+//Lấy danh sách hồ sơ nhân viên chưa có bảng công có phân trang (trang có đối số)
+router.get('/fetchTimekeepList/:page', timekeepPositionController.fetchListPage)
 
 
 
+
+
+//Table
+router.get('/table', timekeepTableController.renderFormCreateTable)
+//Tạo bảng chấm công cho tháng
+router.post('/table', timekeepTableController.createTable)
+
+
+
+//Report
+router.get('/fetchReportList/1', timekeepReportController.fetchReport)
+
+
+//Month
+router.post('/month', timekeepMonthController.createMonth)
+
+
+//Acupuncture
+router.post('/acupuncture', timekeepAcupunctureController.acupuncture)
 
 module.exports = router;
