@@ -5,8 +5,6 @@ const EmployeeProfile = require("../../models/employee_model")
 class TimekeepTable {
 
 
-
-
     renderFormCreateTable = async (req, res, next) => {
         try {
 
@@ -18,8 +16,6 @@ class TimekeepTable {
         catch (err) {
         }
     }
-
-
 
 
 

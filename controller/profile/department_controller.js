@@ -1,66 +1,75 @@
 const mongoose = require('mongoose');
-const { deleteOne } = require('../../models/department_model');
 const DepartmentDepartment = require('../../models/department_model')
-
+var ObjectId = require('mongoose').Types.ObjectId;
+const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 
 class Department {
 
-    //Lấy thông tin chi tiết phòng ban
-    async browse(req, res, next) {
-        const { id } = req.params
-        try {
-            if (!req.params.hasOwnProperty('id')) {
-                return res.status(401).send('Thiếu id phòng ban.');
-            }
+    // //Lấy thông tin chi tiết hồ sơ nhân viên
+    // browse = async (req, res, next) => {
+    //     const { id } = req.params
+    //     try {
+    //         if (!req.params.hasOwnProperty('id')) {
+    //             return res.status(401).send('Thiếu id hồ sơ nhân viên.');
+    //         }
 
-            const department = await DepartmentDepartment.findOne({ _id: id })
-            if (!department) {
-                return res.status(401).send('Không tìm thấy phòng ban.');
-            }
+    //         const employee = await DepartmentDepartment.findOne({ _id: id })
+    //         if (!employee) {
+    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
+    //         }
 
-            return res.json(department)
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
+    //         res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
 
 
     //Tạo phòng ban
     createDepartment = async (req, res, next) => {
-        const { name, phone, leader_id, description } = req.body
+        const { name, avatar, code, email, phone, gender, department_id, job, birthday, birth_place, cccd_no, cccd_issued_on,
+            cccd_issued_place, bank_no, religion, start_date, date_off, office_address, home_address, nation, degree, archive,
+            personal_tax_no, bhxh_no, bhyt_no, bhyt_hospital, khen_thuong, ky_luat } = req.body
+        const { filename } = req.file
         try {
-            if (!req.body.hasOwnProperty('name')) {
-                return res.status(401).send('Thiếu tên phòng ban.');
-            }
-            if (!req.body.hasOwnProperty('phone')) {
-                return res.status(401).send('Thiếu số điện thoại liên lạc phòng ban.');
+
+            //Kiểm tra mã nhân viên đã tồn tại
+            const nameEmployee = await DepartmentDepartment.find({ code })
+
+            if (nameEmployee.length > 0) {
+                return res.status(401).send('Mã nhân viên đã tồn tại.');
             }
 
-            const nameDepartment = await DepartmentDepartment.find({ name })
-            console.log("nameDepartment", nameDepartment)
-            if (nameDepartment.length > 0) {
-                return res.status(401).send('Tên phòng ban đã tồn tại.');
+            //Tạo json để tạo
+            let result = {
+                status: 'working',
+                avatar: String(filename).trim(),
+            }
+            let stringGroup = ["name", "avatar", "code", "email", "phone", "gender", "birth_place", "cccd_no",
+                "cccd_issued_place", "bank_no", "religion", "office_address", "home_address", "nation", "degree", "archive",
+                "personal_tax_no", "bhxh_no", "bhyt_no", "bhyt_hospital", "khen_thuong", "ky_luat"]
+
+            for (const element of stringGroup) {
+                if (typeof req.body[element] === 'string') {
+                    result = { ...result, [`${element}`]: req.body[`${element}`] }
+                }
             }
 
-            let result = {}
-            //Kiểm tra dữ liệu để tạo
-            if (String(name).trim()) {
-                result = { ...result, name }
-            }
-            if (String(phone).trim()) {
-                result = { ...result, phone }
-            }
-            if (String(description).trim()) {
-                result = { ...result, description }
+
+            let dateGroup = ["birthday", "cccd_issued_on", "start_date", "date_off"]
+            for (const element of dateGroup) {
+                if (typeof req.body[element] === 'Date') {
+                    result = { ...result, [`${element}`]: req.body[`${element}`] }
+                }
             }
 
-            const newDepartment = new DepartmentDepartment(result)
-            if (!newDepartment) {
-                res.status(401).send('Không thể tạo phòng ban');
+            const newEmployee = new DepartmentDepartment(result)
+            if (!newEmployee) {
+                res.status(401).send('Không thể tạo hồ sơ nhân viên');
             }
-            newDepartment.save()
-            res.json(newDepartment)
+            newEmployee.save()
+            this.fetchListPage(req, res)
         } catch (error) {
             console.log(error)
             return error
@@ -69,80 +78,143 @@ class Department {
     }
 
 
-    //Cập nhật thông tin phòng ban
-    updateDepartment = async (req, res, next) => {
-        const { id } = req.params
-        const { name, phone, leader_id, description } = req.body
-        try {
-            if (!req.body.hasOwnProperty('name')) {
-                return res.status(401).send('Thiếu tên phòng ban.');
-            }
-            if (!req.body.hasOwnProperty('phone')) {
-                return res.status(401).send('Thiếu số điện thoại liên lạc phòng ban.');
-            }
+    // //Cập nhật thông tin phòng ban
+    // updateEmployee = async (req, res, next) => {
+    //     const { id } = req.params
+    //     const { code, name, phone, email, cccd_no, nation, religion, country, bank_no, personal_tax_no, bhxh_no, bhyt_no, bhyt_hospital } = req.body
+    //     try {
 
-            const department = await DepartmentDepartment.findOne({ _id: id })
-            if (!department) {
-                return res.status(401).send('Không tìm thấy phòng ban để cập nhật.');
-            }
+    //         const employee = await this.browse(req)
 
-            let result = {}
-            //Kiểm tra dữ liệu để tạo
-            if (String(name).trim() && String(name).trim() != String(department.name).trim()) {
-                result = { ...result, name }
-            }
-            if (String(phone).trim() && String(phone).trim() != String(department.phone).trim()) {
-                result = { ...result, phone }
-            }
-            if (String(description).trim() && String(description).trim() != String(department.description).trim()) {
-                result = { ...result, description }
-            }
+    //         //Kiểm tra mã nhân viên đã tồn tại
+    //         const nameEmployee = await DepartmentDepartment.find({ code })
 
-            const updatedDepartment = await DepartmentDepartment.updateOne({ _id: id }, result)
-            if (!updatedDepartment) {
-                return res.status(401).send('Cập nhật không thành công')
-            }
-            return this.browse(req, res)
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-
-    }
+    //         if (nameEmployee.length > 0) {
+    //             return res.status(401).send('Mã nhân viên đã tồn tại.');
+    //         }
 
 
-    //Lấy danh sách phòng ban có phân trang
-    fetchList = async (req, res, next) => {
-        const { name } = req.body
-        let perPage = 5;
+    //         //Tạo json để tạo
+    //         let result = {}
+    //         let stringGroup = ["name", "avatar", "code", "email", "phone", "gender", "birth_place", "cccd_no",
+    //             "cccd_issued_place", "bank_no", "religion", "office_address", "home_address", "nation", "degree", "archive",
+    //             "personal_tax_no", "bhxh_no", "bhyt_no", "bhyt_hospital", "khen_thuong", "ky_luat"]
+
+    //         for (const element of stringGroup) {
+    //             if (typeof req.body[`${element}`] === 'string' && req.body[`${element}`] != employee[`${element}`]) {
+    //                 result = { ...result, [`${element}`]: req.body[`${element}`] }
+    //             }
+    //         }
+
+
+    //         let dateGroup = ["birthday", "cccd_issued_on", "start_date", "date_off"]
+    //         for (const element of dateGroup) {
+    //             if (typeof req.body[element] === 'Date') {
+    //                 result = { ...result, [`${element}`]: req.body[`${element}`] }
+    //             }
+    //         }
+
+
+    //         const updatedEmployee = await DepartmentDepartment.updateOne({ _id: id }, result)
+    //         if (!updatedEmployee) {
+    //             return res.status(401).send('Cập nhật không thành công')
+    //         }
+
+    //         return this.browse(req, res)
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+
+    // }
+
+
+
+    //Lấy danh sách hồ sơ nhân viên có phân trang
+    fetchListPage = async (req, res, next) => {
+        let perPage = 8;
         let page = req.params.page || 1
         try {
-            // if(req.body.hasOwnProperty('name') && String(name).trim())
-            // {
-            //     const department = await DepartmentDepartment.find({ })
-            //     if (!department) {
-            //         return res.status(401).send('Không tìm thấy phòng ban.');
-            //     }
-            // }
             await DepartmentDepartment
-                .find({})
+                .find()
+                .sort({ date: 1 })
                 .skip((perPage * page) - perPage)
                 .limit(perPage)
                 .exec((err, departments) => {
                     DepartmentDepartment.countDocuments((err, count) => {
                         if (err) return next(err);
-                        return res.json(departments)
+                        res.render('department/department-list', {
+                            departments: multipleToObject(departments), // sản phẩm trên một page
+                            current: page, // page hiện tại
+                            pages: Math.ceil(count / perPage) // tổng số các page
+                        });
                     })
                 })
-
-
 
         } catch (error) {
             console.log(error)
             return error
         }
     }
+
+    // //Lưu trữ hồ sơ nhân viên
+    // storeEmployee = async (req, res, next) => {
+    //     const { id } = req.params
+    //     try {
+    //         if (!req.params.hasOwnProperty('id')) {
+    //             return res.status(401).send('Thiếu id hồ sơ nhân viên.');
+    //         }
+
+    //         const employee = await DepartmentDepartment.findOne({ _id: id })
+    //         if (!employee) {
+    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
+    //         }
+    //         const res = await DepartmentDepartment.updateOne({ _id: id }, { status: 'demit' });
+
+    //         res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
+
+
+
+    // //search manv
+    // searchCode = async (req, res, next) => {
+    //     const { code } = req.params
+    //     try {
+
+    //         const employee = await DepartmentDepartment.findOne({ code: { $regex: code } })
+    //         if (!employee) {
+    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
+    //         }
+
+    //         res.json(employee)
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
+
+    // //search manv
+    // dropdown = async (req, res, next) => {
+    //     const { code } = req.params
+    //     try {
+    //         // { code: { $regex: code } }
+    //         const employee = await DepartmentDepartment.find({ code: { $regex: code } }).limit(8)
+    //         if (!employee) {
+    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
+    //         }
+
+    //         res.json(employee)
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
 }
 
 
 module.exports = new Department()
+

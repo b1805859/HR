@@ -143,7 +143,7 @@ class Employee {
                 .exec((err, employees) => {
                     EmployeeProfile.countDocuments((err, count) => {
                         if (err) return next(err);
-                        res.render('employee/employee-list', {
+                        res.render('employee/department-list', {
                             employees: multipleToObject(employees), // sản phẩm trên một page
                             current: page, // page hiện tại
                             pages: Math.ceil(count / perPage) // tổng số các page

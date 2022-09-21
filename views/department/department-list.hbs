@@ -83,84 +83,45 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Báo cáo chấm công</h4>
+      <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Phòng ban /</span> Danh sách phòng ban</h4>
 
       <nav class="navbar bg-light mb-2">
         <div class="container-fluid">
-          <form class="d-flex" role="search">
-            <input id="input-code" type="text" list="search-employee" class="form-control me-2"
-              placeholder="Nhập mã nhân viên">
-            <datalist id="search-employee">
-            </datalist>
-            <button id="btn-search-code" type="button" class="btn btn-danger"><i
-                class='bx bx-search bx-rotate-90'></i></button>
-          </form>
+          <button class="btn btn-success mt-3 mt-md-0" type="button">
+            <a href="/api/department/formCreateDepartment" class="text-white">
+              Thêm phòng ban
+            </a>
+          </button>
         </div>
       </nav>
-      <!-- Responsive Table -->
+      <!-- Basic Bootstrap Table -->
       <div class="card">
         <div class="table-responsive text-nowrap">
-          <table class="table">
+          <table class="table table-hover">
             <thead>
-              <tr class="text-nowrap">
-                <th>Mã nhân viên</th>
-                <th>Tên nhân viên</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>6</th>
-                <th>7</th>
-                <th>8</th>
-                <th>9</th>
-                <th>10</th>
-                <th>11</th>
-                <th>12</th>
-                <th>13</th>
-                <th>14</th>
-                <th>15</th>
-                <th>16</th>
-                <th>17</th>
-                <th>18</th>
-                <th>19</th>
-                <th>20</th>
-                <th>21</th>
-                <th>22</th>
-                <th>23</th>
-                <th>24</th>
-                <th>25</th>
-                <th>26</th>
-                <th>27</th>
-                <th>28</th>
-                <th>29</th>
-                <th>30</th>
-                <th>31</th>
+              <tr>
+                <th>avatar</th>
+                <th>Tên phòng ban</th>
+                <th>Trạng thái</th>
+                <th>Trưởng phòng</th>
               </tr>
             </thead>
-            <tbody>
-              {{#with employeeReports as | employeeReport |}}
-              {{!-- {{#with city.location as | loc |}}
-              {{city.name}}: {{loc.north}} {{loc.east}}
-              {{/with}} --}}
-              {{#each employeeReport}}
+            <tbody id="table-department" class="table-border-bottom-0">
+              {{#each departments}}
               <tr>
-                <td>{{code}}</td>
-                <td>{{name}}</td>
-                {{#with this.acupuncture as | report |}}
-                {{#each report}}
-                <td>v</td>
-                {{/each}}
-                {{/with}}
+                <td><a href="/api/department/getDepartmentInformation/{{this._id}}">{{this.code}}</a></td>
+                <td><a href="/api/department/getDepartmentInformation/{{this._id}}">{{this.name}}</a></td>
+                <td>{{this.gender}}</td>
+                <td></td>
+                <td>{{this.job}}</td>
+                <td><span class="badge bg-label-primary me-1">Active</span></td>
               </tr>
               {{/each}}
-              {{/with}}
-
             </tbody>
           </table>
         </div>
       </div>
-      <!--/ Responsive Table -->
+      <!--/ Basic Bootstrap Table -->
 
       <hr class="my-4" />
       <!-- Basic Pagination -->
@@ -170,19 +131,19 @@
             <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>
           </li>
           <li class="page-item active">
-            <a class="page-link" href="/api/employee/fetchEmployeeList/1">1</a>
+            <a class="page-link" href="/api/department/fetchDepartmentList/1">1</a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="/api/employee/fetchEmployeeList/2">2</a>
+            <a class="page-link" href="/api/department/fetchDepartmentList/2">2</a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="/api/employee/fetchEmployeeList/3">3</a>
+            <a class="page-link" href="/api/department/fetchDepartmentList/3">3</a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="/api/employee/fetchEmployeeList/4">4</a>
+            <a class="page-link" href="/api/department/fetchDepartmentList/4">4</a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="/api/employee/fetchEmployeeList/5">5</a>
+            <a class="page-link" href="/api/department/fetchDepartmentList/5">5</a>
           </li>
           <li class="page-item next">
             <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>
@@ -206,12 +167,12 @@
           if (current == 1) {
             // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled
             html += "<li class='page-item disabled'>"
-            html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
+            html += "<a class='page-link' href='/api/department/fetchDepartmentList/1'>First</a>"
             html += "</li>"
           } else {
             // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled
             html += "<li class='page-item'>"
-            html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
+            html += "<a class='page-link' href='/api/department/fetchDepartmentList/1'>First</a>"
             html += "</li>"
           }
 
@@ -230,13 +191,13 @@
             // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi
             if (i == current) {
               html += "<li class='page-item active'>"
-              html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
+              html += `<a class='page-link' href='/api/department/fetchDepartmentList/${i}'>`
               html += i
               html += "</a>"
               html += "</li>"
             } else {
               html += "<li class='page-item'>"
-              html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
+              html += `<a class='page-link' href='/api/department/fetchDepartmentList/${i}'>`
               html += i
               html += "</a>"
               html += "</li>"
@@ -260,7 +221,7 @@
           } else {
             // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6
             html += "<li class='page-item'>"
-            html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${pages}'>`
+            html += `<a class='page-link' href='/api/department/fetchDepartmentList/${pages}'>`
             html += "Last"
             html += "</a>"
             html += "</li>"

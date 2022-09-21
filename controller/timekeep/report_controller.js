@@ -16,10 +16,10 @@ class TimekeepReport {
         let page = req.params.page || 1
         try {
 
-            const report = await timekeepTable.aggregate([
+            const reports = await timekeepTable.aggregate([
                 {
                     $match: {
-                        _id: new ObjectId("63215058fb47ddb840bc7f0b")
+                        month_id: new ObjectId("63208b9f9eb7c641a238cee4")
                     }
                 },
                 {
@@ -43,28 +43,25 @@ class TimekeepReport {
                 //handle error case also
             });
 
-            console.log("Report", JSON.stringify(report))
-            const { employees } = report[0];
-            console.log("employees", employees)
-            const acupuncture = await timekeepAcupuncture.find({ employee_id: employees[0]._id, table_id: '63215058fb47ddb840bc7f0b' })
-            console.log("acupuncture", acupuncture)
 
-            // await EmployeeProfile
-            //     .find({ status: "working" })
-            //     .sort({ date: 1 })
-            //     .skip((perPage * page) - perPage)
-            //     .limit(perPage)
-            //     .exec((err, employees) => {
-            //         EmployeeProfile.countDocuments((err, count) => {
-            //             if (err) return next(err);
-            //             res.render('timekeep/timekeep-report', {
-            //                 report: multipleToObject(employees), // sản phẩm trên một page
-            //                 current: page, // page hiện tại
-            //                 pages: Math.ceil(count / perPage) // tổng số các page
-            //             });
-            //         })
-            //     })
+            const employeeReport = []
+            for (const report of reports) {
+                const { employees, months } = report
+                const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
 
+                let result = {
+                    acupuncture: acupuncture,
+                    ...employees[0],
+                }
+                employeeReport.push(result)
+            }
+
+            //console.log("employeeArray", employeeArray)
+            // console.log("monthArray", monthArray)
+            console.log("employeeReport", JSON.stringify(employeeReport))
+            res.render('timekeep/timekeep-report', {
+                employeeReports: employeeReport
+            });
         } catch (error) {
             console.log(error)
             return error
