@@ -1,12 +1,10 @@
-const mongoose = require('mongoose')
+
 module.exports = {
-    sigleToObject: function (doc) {
-        return doc.toObject(doc)
+
+    multipleToObject: function (mongooses) {
+        return mongooses.map(mongoose => mongoose.toObject());
     },
-    multipleToObject: function (docs) {
-        let result = docs.map(doc => {
-            return doc.toObject();
-        })
-        return result;
+    sigleToObject: function (mongoose) {
+        return mongoose ? mongoose.toObject() : mongoose;
     }
 }

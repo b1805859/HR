@@ -5,9 +5,9 @@ const ObjectId = Schema.ObjectId;
 const DepartmentDepartment = new Schema({
     name: { type: 'string', string: 'Tên phòng ban' },
     phone: { type: 'string', string: 'Số điện thoại' },
-    //status: { type: 'selection', selection: ["active", "inactive"] },
-    //leader_id: { type: Schema.Types.ObjectId, ref: "EmployeeProfile" },
-    description: { type: 'string', string: 'Mô tả' },
+    status: { type: 'string', enum: ['active', 'inactive'], },
+    employee_id: { type: 'string', string: 'Trưởng phòng' },
+    name_lead: { type: 'string', string: 'Tên trưởng phòng' },
 
     create_date: { type: Date, default: Date.now, string: 'Ngày tạo' },
     create_uid: { type: Schema.Types.ObjectId, ref: 'UserAccount' },

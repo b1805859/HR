@@ -1,292 +1,200 @@
-        <div class="layout-page">
-          <!-- Navbar -->
+<!-- Content wrapper -->
+<div class="content-wrapper">
+  <!-- Content -->
 
-          <nav
-            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme bg-dark"
-            id="layout-navbar"
-          >
-            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-                <i class="bx bx-menu bx-sm"></i>
-              </a>
-            </div>
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
 
-            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              <ul class="navbar-nav flex-row align-items-center ms-auto">
-                
-                <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                      <img src="/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                    </div>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <div class="d-flex">
-                          <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                              <img src="/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                            </div>
-                          </div>
-                          <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <!--/ User -->
-              </ul>
-            </div>
-          </nav>
+    <nav class="navbar bg-light mb-2">
+      <div class="container-fluid">
+        <form class="d-flex" role="search">
+          <input id="input-code" type="text" list="search-employee" class="form-control me-2"
+            placeholder="Nhập mã nhân viên">
+          <datalist id="search-employee">
+          </datalist>
+          <button id="btn-search-code" type="button" class="btn btn-danger"><i
+              class='bx bx-search bx-rotate-90'></i></button>
+        </form>
+        <button class="btn btn-success mt-3 mt-md-0" type="button">
+          <a href="/api/employee/formCreateEmployee" class="text-white">
+            Thêm nhân viên
+          </a>
+        </button>
+      </div>
+    </nav>
+    <!-- Basic Bootstrap Table -->
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Mã nhân viên</th>
+              <th>Tên nhân viên</th>
+              <th>Giới tính</th>
+              <th>Phòng ban</th>
+              <th>Chức vụ</th>
+              <th>Trạng thái hồ sơ</th>
+            </tr>
+          </thead>
+          <tbody id="table-employee" class="table-border-bottom-0">
+            {{#each employees}}
+            <tr>
+              <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.code}}</a></td>
+              <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.name}}</a></td>
+              <td>{{this.gender}}</td>
+              <td></td>
+              <td>{{this.job}}</td>
+              <td><span class="badge bg-label-primary me-1">Active</span></td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
 
-          <!-- / Navbar -->
+    <hr class="my-4" />
+    <!-- Basic Pagination -->
+    {{!-- <nav id="pagination" aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item prev">
+          <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>
+        </li>
+        <li class="page-item active">
+          <a class="page-link" href="/api/employee/fetchEmployeeList/1">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/api/employee/fetchEmployeeList/2">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/api/employee/fetchEmployeeList/3">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/api/employee/fetchEmployeeList/4">4</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/api/employee/fetchEmployeeList/5">5</a>
+        </li>
+        <li class="page-item next">
+          <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>
+        </li>
+      </ul>
+    </nav> --}}
+    <div id="pagination" class="row">
 
-          <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
+    </div>
 
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
+    <script>
+      var html = "";
+      var pages = {{ pages }}
+      var current = {{ current }}
 
-            <nav class="navbar bg-light mb-2">
-              <div class="container-fluid">
-                <form class="d-flex" role="search">
-                  <input id="input-code" type="text" list="search-employee" class="form-control me-2" placeholder="Nhập mã nhân viên" >
-                  <datalist id="search-employee">
-                  </datalist>
-                  <button id="btn-search-code" type="button" class="btn btn-danger"><i class='bx bx-search bx-rotate-90' ></i></button>
-                </form>
-                <button class="btn btn-success mt-3 mt-md-0" type="button">
-                  <a href="/api/employee/formCreateEmployee" class="text-white">
-                    Thêm nhân viên
-                  </a>
-                </button>
-              </div>
-            </nav>
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Mã nhân viên</th>
-                        <th>Tên nhân viên</th>
-                        <th>Giới tính</th>
-                        <th>Phòng ban</th>
-                        <th>Chức vụ</th>
-                        <th>Trạng thái hồ sơ</th>
-                      </tr>
-                    </thead>
-                    <tbody id="table-employee" class="table-border-bottom-0">
-                    {{#each employees}}
-                        <tr>
-                            <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.code}}</a></td>
-                            <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.name}}</a></td>
-                            <td>{{this.gender}}</td>
-                            <td></td>
-                            <td>{{this.job}}</td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
-                        </tr> 
-                    {{/each}}  
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
+      if (pages > 0) {
+        html += "<nav class='mx-auto'>"
+        html += "<ul class='pagination mt-1'>"
 
-              <hr class="my-4" />
-              <!-- Basic Pagination -->
-                {{!-- <nav id="pagination" aria-label="Page navigation">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item prev">
-                      <a class="page-link" href="javascript:void(0);"
-                        ><i class="tf-icon bx bx-chevrons-left"></i
-                      ></a>
-                    </li>
-                    <li class="page-item active">
-                      <a class="page-link" href="/api/employee/fetchEmployeeList/1">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="/api/employee/fetchEmployeeList/2">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="/api/employee/fetchEmployeeList/3">3</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="/api/employee/fetchEmployeeList/4">4</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="/api/employee/fetchEmployeeList/5">5</a>
-                    </li>
-                    <li class="page-item next">
-                      <a class="page-link" href="javascript:void(0);"
-                        ><i class="tf-icon bx bx-chevrons-right"></i
-                      ></a>
-                    </li>
-                  </ul>
-                </nav> --}}
-              <div id="pagination" class="row">
+        //FIRST ITEM 
+        if (current == 1) {
+          // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled
+          html += "<li class='page-item disabled'>"
+          html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
+          html += "</li>"
+        } else {
+          // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled
+          html += "<li class='page-item'>"
+          html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
+          html += "</li>"
+        }
 
-              </div>
+        // ITEMS
+        var i = (Number(current) > 3 ? Number(current) - 2 : 1)
+        // Toán tử điều kiện 3 ngôi syntax: < điều_kiện ? giá_trị_1 : giá_trị_2 >
+        // Nếu điều_kiện trả về true, toán tử có giá trị giá_trị_1. Ngược lại toán tử có giá trị giá_trị_2.
+        if (i !== 1) {
+          html += "<li class='page-item disabled'>"
+          html += "<a class='page-link' href='#'>...</a>"
+          html += "</li>"
+        }
 
-              <script>
-                var html="";
-                var pages = {{pages}}
-                var current = {{current}}
+        for (; i <= (Number(current) + 2) && i <= pages; i++) {
+          // Sử dụng vòng lặp để lặp qua từng trang và tăng số trang 
+          // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi
+          if (i == current) {
+            html += "<li class='page-item active'>"
+            html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
+            html += i
+            html += "</a>"
+            html += "</li>"
+          } else {
+            html += "<li class='page-item'>"
+            html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
+            html += i
+            html += "</a>"
+            html += "</li>"
+          }
 
-                         if(pages > 0) {
-                html +=   "<nav class='mx-auto'>"
-                html +=     "<ul class='pagination mt-1'>"
-            
-                              //FIRST ITEM 
-                               if(current == 1) {
-                            // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled
-                html +=           "<li class='page-item disabled'>"
-                html +=             "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
-                html +=           "</li>"
-                               } else {
-                              // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled
-                html +=          "<li class='page-item'>"
-                html +=             "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
-                html +=          "</li>"
-                               }
-              
-                              // ITEMS
-                              var i = (Number(current) > 3 ? Number(current) - 2 : 1) 
-                        // Toán tử điều kiện 3 ngôi syntax: < điều_kiện ? giá_trị_1 : giá_trị_2 >
-                      // Nếu điều_kiện trả về true, toán tử có giá trị giá_trị_1. Ngược lại toán tử có giá trị giá_trị_2.
-                               if(i !== 1) { 
-                html +=           "<li class='page-item disabled'>"
-                html +=              "<a class='page-link' href='#'>...</a>"
-                html +=           "</li>"
-                               }
-                
-                               for(; i <= (Number(current) + 2) && i <= pages; i++) {
-                              // Sử dụng vòng lặp để lặp qua từng trang và tăng số trang 
-                              // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi
-                              if(i == current) { 
-                html +=           "<li class='page-item active'>"
-                html +=              `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
-                html +=                      i
-                html +=              "</a>"
-                html +=           "</li>"
-                               } else {
-                html +=           "<li class='page-item'>"
-                html +=              `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
-                html +=                      i
-                html +=              "</a>"
-                html +=           "</li>"
-                               }
-                
-                              if (i == Number(current) + 2 && i < pages) {
-                html +=            "<li class='page-item disabled'>"
-                html +=              "<a class='page-link' href='#''>...</a>"
-                html +=            "</li>"
-                                }
-                               } 
-              
-                              // LAST ITEM
-                              if(current == pages) { 
-                            // Nếu số current( chỉ số phân trang ) là 6 và tổng số page là 6 thì Last bị disabled
-                html +=            "<li class='page-item disabled'>"
-                html +=              "<a class='page-link' href='#''>"
-                html +=                 "Last"
-                html +=              "</a>"
-                html +=            "</li>"
-                               } else {
-                              // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6
-                html +=            "<li class='page-item'>"
-                html +=               `<a class='page-link' href='/api/employee/fetchEmployeeList/${pages}'>`
-                html +=                 "Last"
-                html +=               "</a>"
-                html +=            "</li>"
-                               }
-                html +=            "</ul>"
-                html +=          "</nav>"
-                           }
-                html +=        "</div>"
-              
+          if (i == Number(current) + 2 && i < pages) {
+            html += "<li class='page-item disabled'>"
+            html += "<a class='page-link' href='#''>...</a>"
+            html += "</li>"
+          }
+        }
+
+        // LAST ITEM
+        if (current == pages) {
+          // Nếu số current( chỉ số phân trang ) là 6 và tổng số page là 6 thì Last bị disabled
+          html += "<li class='page-item disabled'>"
+          html += "<a class='page-link' href='#''>"
+          html += "Last"
+          html += "</a>"
+          html += "</li>"
+        } else {
+          // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6
+          html += "<li class='page-item'>"
+          html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${pages}'>`
+          html += "Last"
+          html += "</a>"
+          html += "</li>"
+        }
+        html += "</ul>"
+        html += "</nav>"
+      }
+      html += "</div>"
 
 
-                $("#pagination").html(html)
-              </script>
 
-                <!--/ Basic Pagination -->
-            </div>
-            <!-- / Content -->
+      $("#pagination").html(html)
+    </script>
 
-            <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
-                  ©
-                  <script>
-                    document.write(new Date().getFullYear());
-                  </script>
-                  , made with ❤️ by
-                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-                </div>
-                <div>
-                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+    <!--/ Basic Pagination -->
+  </div>
+  <!-- / Content -->
 
-                  <a
-                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Documentation</a
-                  >
+  <!-- Footer -->
+  <footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+      <div class="mb-2 mb-md-0">
+        ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        , made with ❤️ by
+        <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+      </div>
+      <div>
+        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-                  <a
-                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Support</a
-                  >
-                </div>
-              </div>
-            </footer>
-            <!-- / Footer -->
+        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank"
+          class="footer-link me-4">Documentation</a>
 
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
-        </div>
+        <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank"
+          class="footer-link me-4">Support</a>
+      </div>
+    </div>
+  </footer>
+  <!-- / Footer -->
+
+  <div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->

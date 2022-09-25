@@ -181,6 +181,28 @@ class Auth {
         });
     }
 
+
+
+    //Lấy thông tin chi tiết hồ sơ bản thân
+    profile = async (req, res, next) => {
+        const id = req.id
+        try {
+
+            const employee = await EmployeeProfile.findOne({ _id: id })
+            if (!employee) {
+                return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
+            }
+
+            res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
+
+
+
+
 }
 module.exports = new Auth()
 

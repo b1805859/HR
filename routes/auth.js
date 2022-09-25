@@ -12,4 +12,15 @@ router.post('/login', authController.login);
 //Gửi refreshToken
 router.post('/refresh', authController.refreshToken);
 
+
+//Lấy thông tin hồ sơ nhân viên
+router.get('/profile', authController.profile);
+
+
+// //Đổi mật khẩu
+// router.post('/password', authController.password);
+
+
+// //Đăng xuất
+// router.post('/logout', authController.logout);
 module.exports = router;
