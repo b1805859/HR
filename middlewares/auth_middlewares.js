@@ -1,31 +1,43 @@
 const userController = require('../controller/profile/user_controller')
 const authController = require('../controller/auth/auth_controller')
+const { ObjectId } = require('mongodb');
+const EmployeeProfile = require('../models/employee_model')
+const UserAccount = require('../models/users_models')
 
 class Middlewares {
+
+
     isAuth = async (req, res, next) => {
-        //Lấy access token từ header
-        const accessTokenFromHeader = req.headers.x_authorization;
-        if (!accessTokenFromHeader) {
-            return res.status(401).send('Không tìm thấy access token!');
+        if (String(req.signedCookies['user_code']) != 'undefined') {
+            const account = await UserAccount.findOne({ username: String(req.signedCookies['user_code']) })
+            const user = await EmployeeProfile.findOne({ code: String(req.signedCookies['user_code']) })
+            req.user = user
+            req.account = account
+
+            return next();
+        }
+        else {
+            return res.redirect('/auth/login')
+        }
+    }
+
+
+    checkRole = async (req, res, next) => {
+        const { account } = req
+        if (String(account.role) == 'nhan_su') {
+            return next()
+        }
+        else {
+            if (String(account.role) == 'nhan_vien') {
+                res.redirect('/user/')
+            } else {
+                res.redirect('/auth/login')
+            }
         }
 
-        const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-
-        const verified = await authController.verifyToken(
-            accessTokenFromHeader,
-            accessTokenSecret,
-        );
-
-        if (!verified) {
-            return res
-                .status(401)
-                .send('Bạn không có quyền truy cập vào tính năng này!');
-        }
-
-        const user = await userController.getUser(verified.payload.username);
-        req.user = user;
         return next();
     }
+
 }
 
 module.exports = new Middlewares()

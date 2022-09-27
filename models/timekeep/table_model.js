@@ -7,6 +7,7 @@ const TimekeepTable = new Schema({
     month_id: { type: Schema.Types.ObjectId, ref: 'TimekeepMonth', string: "Mã tháng" },
     employee_id: { type: Schema.Types.ObjectId, ref: 'EmployeeProfile', string: "Mã hồ sơ" },//nháp, thử vc, đang làm , nghỉ việc, thai sản
     position_id: { type: Schema.Types.ObjectId, ref: 'TimekeepPosition', string: "Mã vị trí chấm công" },
+    open: { type: 'boolean', default: true },
 
     create_date: { type: 'Date', string: 'Ngày tạo' },
     create_uid: { type: Schema.Types.ObjectId, ref: 'UserAccount' },

@@ -26,11 +26,10 @@ class Employee {
     }
 
 
-    //Tạo phòng ban
+    //Thêm nhân viên
     createEmployee = async (req, res, next) => {
-        const { name, avatar, code, email, phone, gender, department_id, job, birthday, birth_place, cccd_no, cccd_issued_on,
-            cccd_issued_place, bank_no, religion, start_date, date_off, office_address, home_address, nation, degree, archive,
-            personal_tax_no, bhxh_no, bhyt_no, bhyt_hospital, khen_thuong, ky_luat } = req.body
+        const { avatar, code, name, gender, phone, email, address, cccd_no, nation, religion, country, bank_no, type,
+            personal_tax_no, bhxh_no, bhyt_hospital, birthday } = req.body
         const { filename } = req.file
         try {
 
@@ -46,9 +45,8 @@ class Employee {
                 status: 'working',
                 avatar: String(filename).trim(),
             }
-            let stringGroup = ["name", "avatar", "code", "email", "phone", "gender", "birth_place", "cccd_no",
-                "cccd_issued_place", "bank_no", "religion", "office_address", "home_address", "nation", "degree", "archive",
-                "personal_tax_no", "bhxh_no", "bhyt_no", "bhyt_hospital", "khen_thuong", "ky_luat"]
+            let stringGroup = ["avatar", "code", "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
+                "personal_tax_no", "bhxh_no", "bhyt_hospital"]
 
             for (const element of stringGroup) {
                 if (typeof req.body[element] === 'string') {
@@ -57,7 +55,7 @@ class Employee {
             }
 
 
-            let dateGroup = ["birthday", "cccd_issued_on", "start_date", "date_off"]
+            let dateGroup = ["birthday"]
             for (const element of dateGroup) {
                 if (typeof req.body[element] === 'Date') {
                     result = { ...result, [`${element}`]: req.body[`${element}`] }
@@ -68,8 +66,8 @@ class Employee {
             if (!newEmployee) {
                 res.status(401).send('Không thể tạo hồ sơ nhân viên');
             }
-            newEmployee.save()
-            this.fetchListPage(req, res)
+            await newEmployee.save()
+            return this.fetchListPage(req, res)
         } catch (error) {
             console.log(error)
             return error

@@ -6,41 +6,41 @@ const timekeepReportController = require('../controller/timekeep/report_controll
 const timekeepMonthController = require('../controller/timekeep/month_controller');
 const timekeepAcupunctureController = require('../controller/timekeep/acupuncture_controller');
 const { sigleToObject, multipleToObject } = require("../utils/to_Object")
-
+const Auth = require('../middlewares/auth_middlewares')
 
 //Position
-router.get('/position', timekeepPositionController.getPosition)
+router.get('/position', Auth.isAuth, Auth.checkRole, timekeepPositionController.getPosition)
 
 
-router.get('/positionMap', timekeepPositionController.getPositionMap)
+router.get('/positionMap', Auth.isAuth, Auth.checkRole, timekeepPositionController.getPositionMap)
 
-router.get('/formCreatePosition', (req, res, next) => { res.render("timekeep/form-timekeep-create-position") })
+router.get('/formCreatePosition', Auth.isAuth, Auth.checkRole, (req, res, next) => { res.render("timekeep/form-timekeep-create-position") })
 
-router.post('/position', timekeepPositionController.storePosition)
+router.post('/position', Auth.isAuth, Auth.checkRole, timekeepPositionController.storePosition)
 
 //Lấy danh sách hồ sơ nhân viên chưa có bảng công có phân trang (trang có đối số)
-router.get('/fetchTimekeepList/:page', timekeepPositionController.fetchListPage)
+router.get('/fetchTimekeepList/:page', Auth.isAuth, Auth.checkRole, timekeepPositionController.fetchListPage)
 
 
 
 
 
 //Table
-router.get('/table', timekeepTableController.renderFormCreateTable)
+router.get('/table', Auth.isAuth, Auth.checkRole, timekeepTableController.renderFormCreateTable)
 //Tạo bảng chấm công cho tháng
-router.post('/table', timekeepTableController.createTable)
+router.post('/table', Auth.isAuth, Auth.checkRole, timekeepTableController.createTable)
 
 
 
 //Report
-router.get('/fetchReportList/1', timekeepReportController.fetchReport)
+router.get('/fetchReportList/1', Auth.isAuth, Auth.checkRole, timekeepReportController.fetchReport)
 
 
 //Month
-router.post('/month', timekeepMonthController.createMonth)
+router.post('/month', Auth.isAuth, Auth.checkRole, timekeepMonthController.createMonth)
 
 
 //Acupuncture
-router.post('/acupuncture', timekeepAcupunctureController.acupuncture)
+router.post('/acupuncture', Auth.isAuth, Auth.checkRole, timekeepAcupunctureController.acupuncture)
 
 module.exports = router;

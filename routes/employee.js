@@ -14,23 +14,24 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage: storage })
+const Auth = require('../middlewares/auth_middlewares')
 
 
 
 //Lấy thông tin chi tiết phòng ban
-router.get('/getEmployeeInformation/:id', employeeController.browse)
+router.get('/getEmployeeInformation/:id', Auth.isAuth, employeeController.browse)
 
 //Tạo phòng ban
-router.post('/createEmployee', upload.single('avatar'), employeeController.createEmployee)
+router.post('/createEmployee', upload.single('avatar'), Auth.isAuth, employeeController.createEmployee)
 //render form tạo hồ sơ nhân viên
 router.get('/formCreateEmployee', (req, res, next) => {
     res.render("employee/form-employee-create")
 })
 
 //Cập nhật thông tin phòng ban
-router.post('/updateEmployee/:id', employeeController.updateEmployee)
+router.post('/updateEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.updateEmployee)
 //render form cập nhật thông hồ sơ nhân viên
-router.get('/formUpdateEmployee/:id', async (req, res, next) => {
+router.get('/formUpdateEmployee/:id', Auth.isAuth, Auth.checkRole, async (req, res, next) => {
     const { id } = req.params
     try {
         if (!req.params.hasOwnProperty('id')) {
@@ -52,16 +53,16 @@ router.get('/formUpdateEmployee/:id', async (req, res, next) => {
 
 
 //Lấy danh sách phòng ban có phân trang (trang có đối số)
-router.get('/fetchEmployeeList/:page', employeeController.fetchListPage)
+router.get('/fetchEmployeeList/:page', Auth.isAuth, Auth.checkRole, employeeController.fetchListPage)
 
 
 //Lưu trữ hồ sơ nhân viên
-router.post('/storeEmployee/:id', employeeController.browse)
+router.post('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.browse)
 
 //search manv
-router.get('/searchCode/:code', employeeController.searchCode)
+router.get('/searchCode/:code', Auth.isAuth, Auth.checkRole, employeeController.searchCode)
 
 //dropdown manv
-router.get('/dropdown/:code', employeeController.dropdown)
+router.get('/dropdown/:code', Auth.isAuth, Auth.checkRole, employeeController.dropdown)
 
 module.exports = router;

@@ -5,7 +5,7 @@ class User {
     //Lấy thông tin user
     async getUser(username) {
         try {
-            const user = await userAccount.findOne({ name: username }).exec();
+            const user = await userAccount.findOne({ username: username }).exec();
             return user;
         } catch {
             return false;

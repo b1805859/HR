@@ -3,24 +3,24 @@ var router = express.Router();
 const departmentController = require('../controller/profile/department_controller');
 const DepartmentDepartment = require('../models/department_model')
 const { sigleToObject, multipleToObject } = require("../utils/to_Object")
-
+const Auth = require('../middlewares/auth_middlewares')
 
 
 
 //Lấy thông tin chi tiết phòng ban
-router.get('/getDepartmentInformation/:id', departmentController.browse)
+router.get('/getDepartmentInformation/:id', Auth.isAuth, Auth.checkRole, departmentController.browse)
 
 //Tạo phòng ban
-router.post('/createDepartment', departmentController.createDepartment)
+router.post('/createDepartment', Auth.isAuth, Auth.checkRole, departmentController.createDepartment)
 //render form tạo hồ sơ nhân viên
 router.get('/formCreateDepartment', (req, res, next) => {
     res.render("department/form-department-create")
 })
 
 //Cập nhật thông tin phòng ban
-router.post('/updateDepartment/:id', departmentController.updateDepartment)
+router.post('/updateDepartment/:id', Auth.isAuth, Auth.checkRole, departmentController.updateDepartment)
 // render form cập nhật thông hồ sơ nhân viên
-router.get('/formUpdateDepartment/:id', async (req, res, next) => {
+router.get('/formUpdateDepartment/:id', Auth.isAuth, Auth.checkRole, async (req, res, next) => {
     const { id } = req.params
     try {
         if (!req.params.hasOwnProperty('id')) {
@@ -42,7 +42,7 @@ router.get('/formUpdateDepartment/:id', async (req, res, next) => {
 
 
 //Lấy danh sách phòng ban có phân trang (trang có đối số)
-router.get('/fetchDepartmentList/:page', departmentController.fetchListPage)
+router.get('/fetchDepartmentList/:page', Auth.isAuth, Auth.checkRole, departmentController.fetchListPage)
 
 
 //Lưu trữ hồ sơ nhân viên

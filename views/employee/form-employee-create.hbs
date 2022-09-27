@@ -14,13 +14,13 @@
             method="POST">
             <div class="card-body">
               <div class="d-flex align-items-start align-items-sm-center gap-4">
-                <img src="/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100"
+                <img src="/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="200" width="200"
                   id="uploadedAvatar" />
                 <div class="button-wrapper">
                   <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                     <span class="d-none d-sm-block">Upload new photo</span>
                     <i class="bx bx-upload d-block d-sm-none"></i>
-                    <input type="file" id="upload" class="account-file-input" name="avatar" hidden />
+                    <input type="file" id="upload" class="account-file-input" name="avatar" hidden autocomplete="off" />
                   </label>
                   <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
                     <i class="bx bx-reset d-block d-sm-none"></i>
@@ -37,16 +37,17 @@
                 <div class="mb-3 col-md-6">
                   <label for="code" class="form-label">Mã nhân viên</label> (<span class="text-danger">*</span>)
                   <input class="form-control" type="text" id="code" name="code" placeholder="VD: B1805859" required
-                    autofocus />
+                    autocomplete="off" autofocus />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="name" class="form-label">Họ tên</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="name" name="name" value="" required
+                  <input class="form-control" type="text" id="name" name="name" value="" required autocomplete="off"
                     placeholder="VD: Lê Văn Hiếu" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="birthday" class="form-label">Ngày sinh</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="date" id="birthday" value="birthday" required />
+                  <input class="form-control" type="date" id="birthday" value="birthday" name="birthday" required
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="gender" class="form-label">Giới tính</label> (<span class="text-danger">*</span>)
@@ -59,29 +60,29 @@
                   <label class="phone" for="phoneNumber">Số điện thoại</label>
                   <div class="input-group input-group-merge">
                     <span class="input-group-text">VN (+84)</span>
-                    <input type="text" id="phone" name="phone" class="form-control" required />
+                    <input type="text" id="phone" name="phone" class="form-control" required autocomplete="off" />
                   </div>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="email" class="form-label">E-mail</label>
-                  <input class="form-control" type="text" id="email" name="email" value=""
+                  <input class="form-control" type="text" id="email" name="email" value="" autocomplete="off"
                     placeholder="john.doe@example.com" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="address" class="form-label">Địa chỉ</label> (<span class="text-danger">*</span>)
-                  <input type="text" class="form-control" id="address" name="address" required />
+                  <input type="text" class="form-control" id="address" name="address" required autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="cccd_no" class="form-label">CMND/CCCD</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="cccd_no" name="cccd_no" required />
+                  <input class="form-control" type="text" id="cccd_no" name="cccd_no" required autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="nation" class="form-label">Dân tộc</label> (<span class="text-danger">*</span>)
-                  <input type="text" class="form-control" id="nation" name="nation" required />
+                  <input type="text" class="form-control" id="nation" name="nation" required autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="religion" class="form-label">Tôn giáo</label>
-                  <input type="text" class="form-control" id="religion" name="religion" />
+                  <input type="text" class="form-control" id="religion" name="religion" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label class="form-label" for="country">Quốc tịch</label> (<span class="text-danger">*</span>)
@@ -118,7 +119,7 @@
                   <label for="bank_no" class="form-label">Tài khoản ngân hàng</label> (<span
                     class="text-danger">*</span>)
                   <input class="form-control" type="text" id="bank_no" name="bank_no"
-                    placeholder="0111324857233 - Vietcombank" required />
+                    placeholder="0111324857233 - Vietcombank" required autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
@@ -130,27 +131,20 @@
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="personal_tax_no" class="form-label">Mã số thuế</label>
-                  <input type="text" class="form-control" id="personal_tax_no" name="personal_tax_no" />
+                  <input type="text" class="form-control" id="personal_tax_no" name="personal_tax_no"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhxh_no" class="form-label">Số BHXH</label>
-                  <input type="text" class="form-control" id="bhxh_no" name="bhxh_no" />
+                  <input type="text" class="form-control" id="bhxh_no" name="bhxh_no" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_no" class="form-label">Số BHYT</label>
-                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="bhyt_no" class="form-label">Số BHYT</label>
-                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" />
+                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_hospital" class="form-label">Nơi đăng ký khám bệnh</label>
-                  <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital" />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="bhyt_hospital" class="form-label">Nơi đăng ký khám bệnh</label>
-                  <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital" />
+                  <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital" autocomplete="off" />
                 </div>
               </div>
               <div class="mt-2">
@@ -170,30 +164,7 @@
   </div>
   <!-- / Content -->
 
-  <!-- Footer -->
-  <footer class="content-footer footer bg-footer-theme">
-    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-      <div class="mb-2 mb-md-0">
-        ©
-        <script>
-          document.write(new Date().getFullYear());
-        </script>
-        , made with ❤️ by
-        <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-      </div>
-      <div>
-        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank"
-          class="footer-link me-4">Documentation</a>
-
-        <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank"
-          class="footer-link me-4">Support</a>
-      </div>
-    </div>
-  </footer>
-  <!-- / Footer -->
 
   <div class="content-backdrop fade"></div>
 </div>

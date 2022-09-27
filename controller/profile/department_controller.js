@@ -96,7 +96,7 @@ class Department {
 
             //Kiểm tra mã nhân viên đã tồn tại
             const nameDepartment = await DepartmentDepartment.find({ name })
-            console.log('nameDepartment', nameDepartment)
+
             if (nameDepartment.length > 0) {
                 return res.status(401).send('Tên phòng ban đã tồn tại.');
             }

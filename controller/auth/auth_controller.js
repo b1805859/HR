@@ -1,52 +1,13 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const userController = require('../profile/user_controller')
+const userAccount = require('../../models/users_models')
 const jwt = require('jsonwebtoken');
 var randToken = require('rand-token');
+const { ifError } = require('assert');
 const promisify = require('util').promisify;
 const verify = promisify(jwt.verify).bind(jwt);
 class Auth {
-
-    decodeToken = async (token, secretKey) => {
-        try {
-            return await jwt.verify(token, secretKey, {
-                ignoreExpiration: true,
-            });
-        } catch (error) {
-            console.log(`Error in decode access token: ${error}`);
-            return null;
-        }
-    };
-
-    generateToken = async (payload, secretSignature, tokenLife) => {
-        try {
-            return await jwt.sign(
-                {
-                    payload,
-                },
-                secretSignature,
-                {
-                    algorithm: 'HS256',
-                    expiresIn: tokenLife,
-                },
-            );
-        } catch (error) {
-            console.log(`Error in generate access token:  + ${error}`);
-            return null;
-        }
-
-    }
-
-
-    verifyToken = async (token, secretKey) => {
-        try {
-            return await verify(token, secretKey);
-        } catch (error) {
-            console.log(`Error in verify access token:  + ${error}`);
-            return null;
-        }
-    };
-
 
     //Đăng ký
     async register(req, res, next) {
@@ -65,9 +26,7 @@ class Auth {
                     .status(400)
                     .send('Có lỗi trong quá trình tạo tài khoản, vui lòng thử lại.');
             }
-            return res.send({
-                username,
-            });
+            res.render('auth/login')
         }
     }
 
@@ -84,124 +43,68 @@ class Auth {
         if (!isPasswordValid)
             return res.status(401).send('Mật khẩu không chính xác.');
 
-        const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
-        const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
-        const dataForAccessToken = {
-            username: user.username,
-        };
-        const accessToken = await this.generateToken(
-            dataForAccessToken,
-            accessTokenSecret,
-            accessTokenLife,
-        );
+        // Set cookie
+        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+        if (String(user.role) == 'nhan_su') {
 
-        if (!accessToken)
-            res.status(401).send('Đăng nhập không thành công, vui lòng thử lại.');
+            res.redirect('/')
+        } else if (String(user.role) == 'nhan_vien') {
 
-        let refreshToken = randToken.generate(16); // tạo 1 refresh token ngẫu nhiên
-
-        if (!user.refreshToken) {
-            // Nếu user này chưa có refresh token thì lưu refresh token đó vào database
-            await userController.updateRefreshToken(user.username, refreshToken);
-        } else {
-            // Nếu user này đã có refresh token thì lấy refresh token đó từ database
-            refreshToken = user.refreshToken;
-        }
-
-
-        return res.json({
-            message: 'Đăng nhập thành công.',
-            accessToken,
-            refreshToken,
-            user,
-        });
-    }
-
-
-
-    refreshToken = async (req, res) => {
-        //Lấy access token từ header
-        const accessTokenFromHeader = req.headers.x_authorization;
-        if (!accessTokenFromHeader) {
-            return res.status(400).send('Không tìm thấy access token.');
-        }
-
-        //Lấy refresh token từ body
-        const refreshTokenFromBody = req.body.refreshToken;
-        if (!refreshTokenFromBody) {
-            return res.status(400).send('Không tìm thấy refresh token.');
-        }
-
-
-        const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-        const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
-
-
-        //Decode access token
-        const decoded = await this.decodeToken(
-            accessTokenFromHeader,
-            accessTokenSecret
-        )
-
-        if (!decoded) {
-            return res.status(400).send('Access token không hợp lệ.');
-        }
-
-        const username = decoded.payload.username; // Lấy username từ payload
-
-        const user = await userController.getUser(username);
-        if (!user) {
-            return res.status(401).send('User không tồn tại.');
-        }
-
-        console.log("refreshTokenFromBody", refreshTokenFromBody)
-        console.log("user.refreshToken", user.refreshToken)
-        if (refreshTokenFromBody !== user.refreshToken) {
-            return res.status(400).send('Refresh token không hợp lệ.');
-        }
-        const dataForAccessToken = {
-            username,
-        };
-
-        const accessToken = await this.generateToken(
-            dataForAccessToken,
-            accessTokenSecret,
-            accessTokenLife,
-        );
-
-        if (!accessToken) {
-            return res
-                .status(400)
-                .send('Tạo access token không thành công, vui lòng thử lại.');
-        }
-
-        return res.json({
-            accessToken,
-        });
-    }
-
-
-
-    //Lấy thông tin chi tiết hồ sơ bản thân
-    profile = async (req, res, next) => {
-        const id = req.id
-        try {
-
-            const employee = await EmployeeProfile.findOne({ _id: id })
-            if (!employee) {
-                return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-            }
-
-            res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
-        } catch (error) {
-            console.log(error)
-            return error
+            res.redirect('/user/')
         }
     }
 
 
 
+
+
+
+    formLogin = (req, res, next) => {
+        res.render("auth/login", { layout: false })
+    };
+
+
+
+    formRegister = (req, res, next) => {
+        res.render("auth/register", { layout: false })
+    };
+
+
+    logout = (req, res, next) => {
+        res.clearCookie("user_code");
+        res.redirect('/auth/login')
+    };
+
+
+
+    formSetPassword = (req, res, next) => {
+        res.render("auth/set-password", { layout: false })
+    };
+
+
+    //Đổi mật khẩu
+    setPassword = async (req, res, next) => {
+        const { account } = req
+        console.log("account", account)
+        const passwordold = req.body.passwordold
+        const passwordnew = req.body.passwordnew
+        const isPasswordValid = bcrypt.compareSync(passwordold, account.password);
+        if (!isPasswordValid)
+            return res.status(401).send('Mật khẩu không chính xác.');
+
+
+        const hashPassword = bcrypt.hashSync(passwordnew, saltRounds);
+
+        await userAccount.updateOne({ _id: account._id }, { password: hashPassword });
+        if (String(account.role) == 'nhan_su') {
+            return res.redirect('/')
+        }
+        else {
+            return res.redirect('/user/')
+        }
+
+    }
 
 }
 module.exports = new Auth()

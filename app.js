@@ -22,10 +22,9 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const request = require('request');
 const axios = require("axios")
-
 // view engine setup
+app.use(cookieParser('ID'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
@@ -34,7 +33,6 @@ app.set('views', './views');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(cors());
 
 connect();
