@@ -3,56 +3,71 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Báo cáo chấm công</h4>
 
     <nav class="navbar bg-light mb-2">
       <div class="container-fluid">
-        <form class="d-flex" role="search">
-          <input id="input-code" type="text" list="search-employee" class="form-control me-2"
-            placeholder="Nhập mã nhân viên">
-          <datalist id="search-employee">
-          </datalist>
-          <button id="btn-search-code" type="button" class="btn btn-danger"><i
-              class='bx bx-search bx-rotate-90'></i></button>
+        <form class="d-flex" action="/api/timekeep/acupuncture/{{table_id}}" method="POST">
+          <button id="" type="submit" class="btn btn-danger">Chấm công</button>
         </form>
-        <button class="btn btn-success mt-3 mt-md-0" type="button">
-          <i class='bx bxs-user-plus'></i>
-          <a href="/api/employee/formCreateEmployee" class="text-white">
-            Thêm nhân viên
-          </a>
-        </button>
       </div>
     </nav>
-    <!-- Basic Bootstrap Table -->
+    <!-- Responsive Table -->
     <div class="card">
       <div class="table-responsive text-nowrap">
-        <table class="table table-hover">
+        <table class="table">
           <thead>
-            <tr>
+            <tr class="text-nowrap">
               <th>Mã nhân viên</th>
               <th>Tên nhân viên</th>
-              <th>Giới tính</th>
-              <th>Phòng ban</th>
-              <th>Chức vụ</th>
-              <th>Trạng thái hồ sơ</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+              <th>7</th>
+              <th>8</th>
+              <th>9</th>
+              <th>10</th>
+              <th>11</th>
+              <th>12</th>
+              <th>13</th>
+              <th>14</th>
+              <th>15</th>
+              <th>16</th>
+              <th>17</th>
+              <th>18</th>
+              <th>19</th>
+              <th>20</th>
+              <th>21</th>
+              <th>22</th>
+              <th>23</th>
+              <th>24</th>
+              <th>25</th>
+              <th>26</th>
+              <th>27</th>
+              <th>28</th>
+              <th>29</th>
+              <th>30</th>
+              <th>31</th>
             </tr>
           </thead>
-          <tbody id="table-employee" class="table-border-bottom-0">
-            {{#each employees}}
+          <tbody>
             <tr>
-              <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.code}}</a></td>
-              <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.name}}</a></td>
-              <td>{{this.gender}}</td>
-              <td></td>
-              <td>{{this.job}}</td>
-              <td><span class="badge bg-label-primary me-1">Active</span></td>
+              <td>{{employeeReport.code}}</td>
+              <td>{{employeeReport.name}}</td>
+              {{#with employeeReport.acupunctures as | report |}}
+              {{#each report}}
+              <td>1</td>
+              {{/each}}
+              {{/with}}
             </tr>
-            {{/each}}
           </tbody>
         </table>
       </div>
     </div>
-    <!--/ Basic Bootstrap Table -->
+    <!--/ Responsive Table -->
 
     <hr class="my-4" />
     <!-- Basic Pagination -->
@@ -170,8 +185,6 @@
     <!--/ Basic Pagination -->
   </div>
   <!-- / Content -->
-
-
 
   <div class="content-backdrop fade"></div>
 </div>

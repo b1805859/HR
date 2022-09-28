@@ -6,10 +6,12 @@ class TimekeepTable {
 
 
     renderFormCreateTable = async (req, res, next) => {
+        const { user } = req
         try {
 
             const months = await timekeepMonth.find().sort({ datefield: -1 })
             res.render("timekeep/timekeep-table", {
+                user: sigleToObject(user),
                 months: multipleToObject(months)
             })
         }
@@ -20,6 +22,7 @@ class TimekeepTable {
 
 
     createTable = async (req, res, next) => {
+        const { user } = req
         try {
             const { thang } = req.body
             const employeeList = await EmployeeProfile.find({ bang_cong: false })
@@ -35,10 +38,12 @@ class TimekeepTable {
                 }
 
                 const doc = new timekeepTable(result);
-                doc.save()
+                await doc.save()
+                await userAccount.updateOne({ _id: employee._id }, { bang_cong: true });
 
             }
             res.render("timekeep/timekeep-table", {
+                user: sigleToObject(user),
                 success: "Tạo bảng thành công"
             })
         }

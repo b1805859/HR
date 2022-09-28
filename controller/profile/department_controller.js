@@ -9,6 +9,8 @@ class Department {
     //Lấy thông tin chi tiết hồ sơ nhân viên
     browse = async (req, res, next) => {
         const { id } = req.params
+        const { user } = req
+
         try {
             if (!req.params.hasOwnProperty('id')) {
                 return res.status(401).send('Thiếu id phòng ban.');
@@ -19,7 +21,7 @@ class Department {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
 
-            res.render("department/form-department-information", { department: sigleToObject(department) })
+            res.render("department/form-department-information", { user: sigleToObject(user), department: sigleToObject(department) })
         } catch (error) {
 
             return error
@@ -132,6 +134,8 @@ class Department {
 
     //Lấy danh sách hồ sơ nhân viên có phân trang
     fetchListPage = async (req, res, next) => {
+        const { user } = req
+
         let perPage = 8;
         let page = req.params.page || 1
         try {
@@ -144,6 +148,7 @@ class Department {
                     DepartmentDepartment.countDocuments((err, count) => {
                         if (err) return next(err);
                         res.render('department/department-list', {
+                            user: sigleToObject(user),
                             departments: multipleToObject(departments), // sản phẩm trên một page
                             current: page, // page hiện tại
                             pages: Math.ceil(count / perPage) // tổng số các page

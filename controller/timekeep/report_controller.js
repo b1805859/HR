@@ -12,6 +12,7 @@ class TimekeepReport {
 
     //Lấy danh sách hồ sơ nhân viên có phân trang
     fetchReport = async (req, res, next) => {
+        const { user } = req
         let perPage = 8;
         let page = req.params.page || 1
         try {
@@ -60,6 +61,7 @@ class TimekeepReport {
             // console.log("monthArray", monthArray)
             console.log("employeeReport", JSON.stringify(employeeReport))
             res.render('timekeep/timekeep-report', {
+                user: sigleToObject(user),
                 employeeReports: employeeReport
             });
         } catch (error) {

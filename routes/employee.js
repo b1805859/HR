@@ -24,8 +24,9 @@ router.get('/getEmployeeInformation/:id', Auth.isAuth, employeeController.browse
 //Tạo phòng ban
 router.post('/createEmployee', upload.single('avatar'), Auth.isAuth, employeeController.createEmployee)
 //render form tạo hồ sơ nhân viên
-router.get('/formCreateEmployee', (req, res, next) => {
-    res.render("employee/form-employee-create")
+router.get('/formCreateEmployee', Auth.isAuth, (req, res, next) => {
+    const { user } = req
+    res.render("employee/form-employee-create", { user: sigleToObject(user) })
 })
 
 //Cập nhật thông tin phòng ban
@@ -33,6 +34,7 @@ router.post('/updateEmployee/:id', Auth.isAuth, Auth.checkRole, employeeControll
 //render form cập nhật thông hồ sơ nhân viên
 router.get('/formUpdateEmployee/:id', Auth.isAuth, Auth.checkRole, async (req, res, next) => {
     const { id } = req.params
+    const { user } = req
     try {
         if (!req.params.hasOwnProperty('id')) {
             return res.status(401).send('Thiếu id hồ sơ nhân viên.');
@@ -43,7 +45,7 @@ router.get('/formUpdateEmployee/:id', Auth.isAuth, Auth.checkRole, async (req, r
             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
         }
 
-        res.render("employee/form-employee-update", { employee: sigleToObject(employee) })
+        res.render("employee/form-employee-update", { employee: sigleToObject(employee), user: sigleToObject(user) })
     } catch (error) {
         console.log(error)
         return error
@@ -63,6 +65,6 @@ router.post('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeControlle
 router.get('/searchCode/:code', Auth.isAuth, Auth.checkRole, employeeController.searchCode)
 
 //dropdown manv
-router.get('/dropdown/:code', Auth.isAuth, Auth.checkRole, employeeController.dropdown)
+router.get('/dropdown/:code', employeeController.dropdown)
 
 module.exports = router;

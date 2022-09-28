@@ -9,10 +9,10 @@ const { sigleToObject, multipleToObject } = require("../utils/to_Object")
 const Auth = require('../middlewares/auth_middlewares')
 
 //Position
-router.get('/position', Auth.isAuth, Auth.checkRole, timekeepPositionController.getPosition)
+router.get('/position', Auth.isAuth, timekeepPositionController.getPosition)
 
 
-router.get('/positionMap', Auth.isAuth, Auth.checkRole, timekeepPositionController.getPositionMap)
+router.get('/positionMap', Auth.isAuth, timekeepPositionController.getPositionMap)
 
 router.get('/formCreatePosition', Auth.isAuth, Auth.checkRole, (req, res, next) => { res.render("timekeep/form-timekeep-create-position") })
 
@@ -40,7 +40,7 @@ router.get('/fetchReportList/1', Auth.isAuth, Auth.checkRole, timekeepReportCont
 router.post('/month', Auth.isAuth, Auth.checkRole, timekeepMonthController.createMonth)
 
 
-//Acupuncture
-router.post('/acupuncture', Auth.isAuth, Auth.checkRole, timekeepAcupunctureController.acupuncture)
+//Chấm công
+router.post('/acupuncture/:table_id', Auth.isAuth, timekeepAcupunctureController.acupuncture)
 
 module.exports = router;

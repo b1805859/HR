@@ -7,9 +7,15 @@ class TimekeepPosition {
 
     //Lấy danh sách vị trí chấm công
     getPosition = async (req, res, next) => {
+        const { user, account } = req
         try {
             const positions = await timekeepPosition.find();
-            res.render("timekeep/timekeep-position-list", { positions })
+            if (String(account.role) == 'nhan_su') {
+                res.render("timekeep/timekeep-position-list", { user: sigleToObject(user), positions })
+            }
+            else if (String(account.role) == 'nhan_vien') {
+                res.render("timekeep/timekeep-position-list", { user: sigleToObject(user), positions, layout: "user" })
+            }
         } catch (err) {
 
         }
@@ -39,6 +45,7 @@ class TimekeepPosition {
 
     //Lấy danh sách hồ sơ nhân viên chưa tạo bảng công có phân trang
     fetchListPage = async (req, res, next) => {
+        const { user } = req
         let perPage = 8;
         let page = req.params.page || 1
         try {
@@ -51,6 +58,7 @@ class TimekeepPosition {
                     EmployeeProfile.countDocuments((err, count) => {
                         if (err) return next(err);
                         res.render('timekeep/timekeep-table', {
+                            user: sigleToObject(user),
                             employees: multipleToObject(employees), // sản phẩm trên một page
                             current: page, // page hiện tại
                             pages: Math.ceil(count / perPage) // tổng số các page

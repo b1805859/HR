@@ -7,6 +7,7 @@ class Employee {
 
     //Lấy thông tin chi tiết hồ sơ nhân viên
     browse = async (req, res, next) => {
+        const { user } = req
         const { id } = req.params
         try {
             if (!req.params.hasOwnProperty('id')) {
@@ -18,7 +19,10 @@ class Employee {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
 
-            res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
+            res.render("employee/form-employee-information", {
+                user: sigleToObject(user),
+                employee: sigleToObject(employee)
+            })
         } catch (error) {
             console.log(error)
             return error
@@ -130,6 +134,8 @@ class Employee {
 
     //Lấy danh sách hồ sơ nhân viên có phân trang
     fetchListPage = async (req, res, next) => {
+        const { user } = req
+
         let perPage = 8;
         let page = req.params.page || 1
         try {
@@ -142,6 +148,7 @@ class Employee {
                     EmployeeProfile.countDocuments((err, count) => {
                         if (err) return next(err);
                         res.render('employee/employee-list', {
+                            user: sigleToObject(user),
                             employees: multipleToObject(employees), // sản phẩm trên một page
                             current: page, // page hiện tại
                             pages: Math.ceil(count / perPage) // tổng số các page
@@ -157,6 +164,8 @@ class Employee {
 
     //Lưu trữ hồ sơ nhân viên
     storeEmployee = async (req, res, next) => {
+        const { user } = req
+
         const { id } = req.params
         try {
             if (!req.params.hasOwnProperty('id')) {
@@ -169,7 +178,7 @@ class Employee {
             }
             const res = await EmployeeProfile.updateOne({ _id: id }, { status: 'demit' });
 
-            res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
+            res.render("employee/form-employee-information", { user: sigleToObject(user), employee: sigleToObject(employee) })
         } catch (error) {
             console.log(error)
             return error
@@ -199,7 +208,7 @@ class Employee {
     dropdown = async (req, res, next) => {
         const { code } = req.params
         try {
-            // { code: { $regex: code } }
+            console.log("code", code)
             const employee = await EmployeeProfile.find({ code: { $regex: code } }).limit(8)
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
