@@ -3,9 +3,87 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    zoom: 9,
-    center: [106.660172, 10.762622]
+    zoom: 10, // starting zoom
+    center: [106.660172, 10.762622] // starting position [lng, lat]
 });
+
+
+
+
+const size = 200;
+
+// This implements `StyleImageInterface`
+// to draw a pulsing dot icon on the map.
+const pulsingDot = {
+    width: size,
+    height: size,
+    data: new Uint8Array(size * size * 4),
+
+    // When the layer is added to the map,
+    // get the rendering context for the map canvas.
+    onAdd: function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+        this.context = canvas.getContext('2d');
+    },
+
+    // Call once before every frame where the icon will be used.
+    render: function () {
+        const duration = 1000;
+        const t = (performance.now() % duration) / duration;
+
+        const radius = (size / 2) * 0.3;
+        const outerRadius = (size / 2) * 0.7 * t + radius;
+        const context = this.context;
+
+        // Draw the outer circle.
+        context.clearRect(0, 0, this.width, this.height);
+        context.beginPath();
+        context.arc(
+            this.width / 2,
+            this.height / 2,
+            outerRadius,
+            0,
+            Math.PI * 2
+        );
+        context.fillStyle = `rgba(255, 200, 200, ${1 - t})`;
+        context.fill();
+
+        // Draw the inner circle.
+        context.beginPath();
+        context.arc(
+            this.width / 2,
+            this.height / 2,
+            radius,
+            0,
+            Math.PI * 2
+        );
+        context.fillStyle = 'rgba(255, 100, 100, 1)';
+        context.strokeStyle = 'white';
+        context.lineWidth = 2 + 4 * (1 - t);
+        context.fill();
+        context.stroke();
+
+        // Update this image's data with data from the canvas.
+        this.data = context.getImageData(
+            0,
+            0,
+            this.width,
+            this.height
+        ).data;
+
+        // Continuously repaint the map, resulting
+        // in the smooth animation of the dot.
+        map.triggerRepaint();
+
+        // Return `true` to let the map know that the image was updated.
+        return true;
+    }
+};
+
+
+
 
 // Fetch stores from API
 async function getStores() {
@@ -16,15 +94,14 @@ async function getStores() {
         return {
             type: 'Feature',
             geometry: {
-                type: 'Point',
-                coordinates: [
+                'type': 'Point',
+                'coordinates': [
                     store.location.coordinates[0],
                     store.location.coordinates[1]
-                ]
+                ] // icon position [lng, lat]
             },
             properties: {
                 name: store.name,
-                icon: 'shop'
             }
         };
     });
@@ -34,20 +111,22 @@ async function getStores() {
 
 // Load map with stores
 function loadMap(stores) {
-    map.on('load', function () {
+    map.on('load', () => {
+        map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
+
+        map.addSource('dot-point', {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': stores
+            }
+        });
         map.addLayer({
-            id: 'points',
-            type: 'symbol',
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: stores
-                }
-            },
-            layout: {
-                'icon-image': '{icon}-15',
-                'icon-size': 1.5,
+            'id': 'layer-with-pulsing-dot',
+            'type': 'symbol',
+            'source': 'dot-point',
+            'layout': {
+                'icon-image': 'pulsing-dot',
                 'text-field': '{name}',
                 'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
                 'text-offset': [0, 0.9],
@@ -58,3 +137,21 @@ function loadMap(stores) {
 }
 
 getStores();
+
+
+//Create a draggable Marker
+const marker = new mapboxgl.Marker({
+    draggable: true
+})
+    .setLngLat([106.660172, 10.762622])
+    .addTo(map);
+
+function onDragEnd() {
+    const lngLat = marker.getLngLat();
+    coordinates.style.display = 'block';
+    coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
+}
+
+marker.on('dragend', onDragEnd);
+
+

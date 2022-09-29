@@ -14,9 +14,12 @@ router.get('/position', Auth.isAuth, timekeepPositionController.getPosition)
 
 router.get('/positionMap', Auth.isAuth, timekeepPositionController.getPositionMap)
 
-router.get('/formCreatePosition', Auth.isAuth, Auth.checkRole, (req, res, next) => { res.render("timekeep/form-timekeep-create-position") })
+router.get('/formCreatePosition', Auth.isAuth, Auth.checkRole, (req, res, next) => {
+    const { user } = req
+    res.render("timekeep/form-timekeep-create-position", { user: sigleToObject(user) })
+})
 
-router.post('/position', Auth.isAuth, Auth.checkRole, timekeepPositionController.storePosition)
+router.post('/position', timekeepPositionController.storePosition)
 
 //Lấy danh sách hồ sơ nhân viên chưa có bảng công có phân trang (trang có đối số)
 router.get('/fetchTimekeepList/:page', Auth.isAuth, Auth.checkRole, timekeepPositionController.fetchListPage)

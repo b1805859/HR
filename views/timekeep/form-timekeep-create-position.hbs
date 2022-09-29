@@ -16,25 +16,27 @@
               <div class="row">
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Tên công ty</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="name" name="name" required autofocus />
+                  <input class="form-control" type="text" id="name" name="name" required autofocus autocomplete="off" />
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="latitude" class="form-label">Vĩ độ (Latitude)</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="latitude" name="latitude" value="" required />
+                  <input class="form-control" type="text" id="latitude" name="latitude" value="" required
+                    autocomplete="off" />
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="longitude" class="form-label">Kinh độ (Longitude)</label> (<span
                     class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="longitude" name="longitude" value="" required />
+                  <input class="form-control" type="text" id="longitude" name="longitude" value="" required
+                    autocomplete="off" />
                 </div>
 
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Lưu</button>
                 <button type="reset" class="btn btn-secondary">
-                  <a href="/api/employee/fetchEmployeeList" class="text-white">
+                  <a href="/" class="text-white">
                     Quay lại
                   </a>
                 </button>
@@ -42,6 +44,8 @@
             </div>
           </form>
           <!-- /Account -->
+          <div id="map" style="width: 100%; height: 500px;border-radius: 5px;"></div>
+          <pre id="coordinates" class="coordinates"></pre>
         </div>
       </div>
     </div>

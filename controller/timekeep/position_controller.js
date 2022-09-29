@@ -2,7 +2,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 const timekeepPosition = require("../../models/timekeep/position_model")
 const EmployeeProfile = require('../../models/employee_model')
-
+var mongoose = require('mongoose');
 class TimekeepPosition {
 
     //Lấy danh sách vị trí chấm công
@@ -35,10 +35,20 @@ class TimekeepPosition {
     //Lấy danh sách hồ sơ nhân viên có phân trang
     storePosition = async (req, res, next) => {
         try {
-            const store = await timekeepPosition.create(req.body);
-            res.json(store)
+            const { name, longitude, latitude } = req.body
+            let result = {
+                name,
+                longitude,
+                latitude
+            }
+            await timekeepPosition.create(result);
+            return res.redirect("/api/timekeep/position")
         } catch (err) {
-
+            console.error(err);
+            if (err.code === 11000) {
+                return res.status(400).json({ error: 'This store already exists' });
+            }
+            res.status(500).json({ error: 'Server error' });
         }
     }
 

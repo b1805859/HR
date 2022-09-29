@@ -6,8 +6,9 @@ const geocoder = require("../../utils/geocoder")
 const TimekeepPosition = new Schema({
     name: {
         type: String,
-        unique: true,
         trim: true,
+        unique: true,
+        required: true,
     },
     longitude: { type: 'string', string: 'Kinh độ' },
     latitude: { type: 'string', string: 'Vĩ độ' },
@@ -33,14 +34,12 @@ const TimekeepPosition = new Schema({
 TimekeepPosition.pre('save', async function (next) {
     // const loc = await geocoder.geocode(this.address);
     const res = await geocoder.reverse({ lat: this.latitude, lon: this.longitude });
-    console.log('res', res)
+    console.log("res", res)
     this.location = {
         type: 'Point',
         coordinates: [res[0].longitude, res[0].latitude],
         formattedAddress: res[0].formattedAddress
     };
-
-
     next();
 });
 

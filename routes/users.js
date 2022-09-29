@@ -13,7 +13,7 @@ const { sigleToObject, multipleToObject } = require('../utils/to_Object')
 
 router.get('/', Auth.isAuth, (req, res, next) => {
     const { user } = req
-    res.render('timekeep/timekeep-position-list', { user: sigleToObject(user), layout: 'user' })
+    res.render('user/timekeep-position-list', { user: sigleToObject(user), layout: 'user' })
 })
 
 
