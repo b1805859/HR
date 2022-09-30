@@ -139,21 +139,6 @@ function loadMap(stores) {
 getStores();
 
 
-//Create a draggable Marker
-const marker = new mapboxgl.Marker({
-    draggable: true
-})
-    .setLngLat([106.660172, 10.762622])
-    .addTo(map);
-
-function onDragEnd() {
-    const lngLat = marker.getLngLat();
-    coordinates.style.display = 'block';
-    coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
-}
-
-marker.on('dragend', onDragEnd);
-
 
 
 map.on('style.load', () => {
