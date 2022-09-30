@@ -80,8 +80,8 @@ io.on('connection', (socket) => {
                 longitude: data.longitude
             }
         });
-        console.log("data", data)
         const { position } = response.data
+        console.log("position", position)
         if (position.length > 0) {
             const acupuncture = await axios({
                 method: 'post',
@@ -91,6 +91,9 @@ io.on('connection', (socket) => {
                     user_id: data.user_id
                 }
             });
+        }
+        else {
+            socket.emit("server-send-result", { msg: "Vị trí chấm công không đúng" })
         }
     })
 

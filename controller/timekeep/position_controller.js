@@ -95,7 +95,7 @@ class TimekeepPosition {
                         ]
                     },
                     distanceField: "dist.calculated",
-                    maxDistance: 240000,
+                    maxDistance: 550,
                     spherical: true
                 }
             }

@@ -25,6 +25,11 @@ socket.on("server-send-client-employee", employee => {
 
 })
 
+
+socket.on("server-send-result", data => {
+    alert(data.msg)
+})
+
 $(document).ready(function () {
     $("#btn-search-code").click(function () {
         socket.emit("user-input-code", $("#input-code").val())
