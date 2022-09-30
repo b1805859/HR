@@ -13,15 +13,17 @@ router.get('/getDepartmentInformation/:id', Auth.isAuth, Auth.checkRole, departm
 //Tạo phòng ban
 router.post('/createDepartment', Auth.isAuth, Auth.checkRole, departmentController.createDepartment)
 //render form tạo hồ sơ nhân viên
-router.get('/formCreateDepartment', (req, res, next) => {
-    res.render("department/form-department-create")
+router.get('/formCreateDepartment', Auth.isAuth, (req, res, next) => {
+    const { user } = req
+    res.render("department/form-department-create", { user: sigleToObject(user) })
 })
 
 //Cập nhật thông tin phòng ban
-router.post('/updateDepartment/:id', Auth.isAuth, Auth.checkRole, departmentController.updateDepartment)
+router.post('/updateDepartment/:id', Auth.isAuth, departmentController.updateDepartment)
 // render form cập nhật thông hồ sơ nhân viên
 router.get('/formUpdateDepartment/:id', Auth.isAuth, Auth.checkRole, async (req, res, next) => {
     const { id } = req.params
+    const { user } = req
     try {
         if (!req.params.hasOwnProperty('id')) {
             return res.status(401).send('Thiếu id phòng ban.');
@@ -32,7 +34,7 @@ router.get('/formUpdateDepartment/:id', Auth.isAuth, Auth.checkRole, async (req,
             return res.status(401).send('Không tìm thấy phòng ban.');
         }
 
-        res.render("department/form-department-update", { department: sigleToObject(department) })
+        res.render("department/form-department-update", { department: sigleToObject(department), user: sigleToObject(user) })
     } catch (error) {
         console.log(error)
         return error

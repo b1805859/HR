@@ -116,8 +116,11 @@ class Department {
             }
 
             const employee = await EmployeeProfile.findOne({ code: employee_code })
-            result = { ...result, employee_id: employee._id, name_lead: employee.name }
+
+            result = { ...result, employee_id: String(employee._id), name_lead: employee.name }
+
             const updatedDepartment = await DepartmentDepartment.updateOne({ _id: id }, result)
+
             if (!updatedDepartment) {
                 return res.status(401).send('Cập nhật không thành công')
             }

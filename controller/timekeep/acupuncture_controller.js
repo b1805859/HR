@@ -8,13 +8,13 @@ class TimekeepAcupuncture {
     //Chấm công
     acupuncture = async (req, res, next) => {
         let result = {}
-        const { user } = req
-        const { table_id } = req.params
+        const { table_id, user_id } = req.body
         try {
             const table = await timekeepTable.find({ _id: table_id })
 
             if (!table)
                 res.json({ message: "Bảng không tồn tại" })
+
 
             var now = new Date();
             var year = now.getFullYear();
@@ -26,17 +26,17 @@ class TimekeepAcupuncture {
 
             const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day })
             if (acupunctureCheck)
-                res.json({ message: "Đã chấm công" })
+                return res.json({ message: "Đã chấm công" })
 
             result = {
                 date: day,
-                employee_id: user._id,
+                employee_id: user_id,
                 table_id,
             }
-            console.log("result", result)
             let newAcupuncture = new timekeepAcupuncture(result)
+
             await newAcupuncture.save()
-            res.json({ data: newAcupuncture })
+            return res.json({ data: newAcupuncture })
         } catch (error) {
             console.log(error)
             return error

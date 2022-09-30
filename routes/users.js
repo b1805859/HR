@@ -20,15 +20,20 @@ router.get('/', Auth.isAuth, (req, res, next) => {
 //lấy thông tin user
 router.get('/profile', Auth.isAuth, async (req, res) => {
     //Lấy thông tin chi tiết hồ sơ bản thân
-    const { user } = req
+    const { user, account } = req
     try {
 
         const employee = await EmployeeProfile.findOne({ _id: user._id })
         if (!employee) {
             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
         }
+        if (String(account.role) == "nhan_su") {
+            res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee) })
+        }
+        else {
+            res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee), layout: 'user' })
+        }
 
-        res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee), layout: 'user' })
     } catch (error) {
         console.log(error)
         return error

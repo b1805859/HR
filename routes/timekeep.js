@@ -21,6 +21,10 @@ router.get('/formCreatePosition', Auth.isAuth, Auth.checkRole, (req, res, next) 
 
 router.post('/position', timekeepPositionController.storePosition)
 
+
+//Tìm kiếm vị trí gần
+router.post('/findPosition', timekeepPositionController.findPosition)
+
 //Lấy danh sách hồ sơ nhân viên chưa có bảng công có phân trang (trang có đối số)
 router.get('/fetchTimekeepList/:page', Auth.isAuth, Auth.checkRole, timekeepPositionController.fetchListPage)
 
@@ -44,6 +48,6 @@ router.post('/month', Auth.isAuth, Auth.checkRole, timekeepMonthController.creat
 
 
 //Chấm công
-router.post('/acupuncture/:table_id', Auth.isAuth, timekeepAcupunctureController.acupuncture)
+router.post('/acupuncture', timekeepAcupunctureController.acupuncture)
 
 module.exports = router;

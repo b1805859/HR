@@ -16,11 +16,12 @@
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Tên phòng ban</label> (<span class="text-danger">*</span>)
                   <input class="form-control" type="text" id="name" name="name" placeholder="VD: Kế toán" required
-                    autofocus />
+                    autofocus autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-12">
                   <label for="phone" class="form-label">Số điện thoại phòng ban</label>
-                  <input class="form-control" type="text" id="phone" name="phone" placeholder="" autofocus />
+                  <input class="form-control" type="text" id="phone" name="phone" placeholder="" autofocus
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="employee_code" class="form-label">Trưởng phòng</label>
@@ -33,7 +34,7 @@
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Tạo mới phòng ban</button>
                 <button type="reset" class="btn btn-secondary">
-                  <a href="/api/department/fetchDepartmentList/:1" class="text-white">
+                  <a href="/" class="text-white">
                     Quay lại
                   </a>
                 </button>

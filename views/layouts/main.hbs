@@ -50,45 +50,10 @@
   <!-- Jquery -->
   <script src="/assets/js/jquery.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io("http://localhost:3000");
 
-    socket.on("server-send-dropdown", employees => {
-      $("#search-employee").html("")
-      employees.map(employee => {
-        $("#search-employee").append(`
-                <option value="${employee.code}"></option>
-            `)
-      })
 
-    })
-
-    socket.on("server-send-client-employee", employee => {
-      $("#table-employee").html("")
-      $("#table-employee").append(`
-              <tr>
-                  <td><a href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>
-                  <td><a href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>
-                  <td>${employee.gender}</td>
-                  <td></td>
-                  <td>${employee.job}</td>
-                  <td><span class="badge bg-label-primary me-1">Active</span></td>
-              </tr> 
-          `)
-
-    })
-
-    $(document).ready(function () {
-      $("#btn-search-code").click(function () {
-        socket.emit("user-input-code", $("#input-code").val())
-      })
-
-      $("#input-code").keyup(function () {
-        socket.emit("search-code", $("#input-code").val())
-      })
-
-    })
-  </script>
+  {{!-- //Socket hiếu viết :))) --}}
+  <script src="/assets/js/socket.js"></script>
 </head>
 
 <body>
@@ -197,7 +162,7 @@
 
           <ul class="menu-sub">
             <li class="menu-item">
-              <a href="/auth/profile" class="menu-link">
+              <a href="/user/profile" class="menu-link">
                 <div data-i18n="Without menu">Hồ sơ của tôi</div>
               </a>
             </li>

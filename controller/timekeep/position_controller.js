@@ -1,4 +1,3 @@
-var ObjectId = require('mongoose').Types.ObjectId;
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 const timekeepPosition = require("../../models/timekeep/position_model")
 const EmployeeProfile = require('../../models/employee_model')
@@ -79,6 +78,31 @@ class TimekeepPosition {
         } catch (error) {
             console.log(error)
             return error
+        }
+    }
+
+
+    findPosition = async (req, res, next) => {
+        const { latitude, longitude } = req.body
+        const { user } = req
+        try {
+            const position_data = await timekeepPosition.aggregate([{
+                $geoNear: {
+                    near: {
+                        type: 'Point',
+                        coordinates: [
+                            Number(longitude), Number(latitude)
+                        ]
+                    },
+                    distanceField: "dist.calculated",
+                    maxDistance: 240000,
+                    spherical: true
+                }
+            }
+            ]);
+            return res.json({ position: position_data, user: sigleToObject(user) });
+        } catch (err) {
+            res.status(400).send({ success: false, msg: err.message });
         }
     }
 }

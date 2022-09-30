@@ -21,7 +21,7 @@ const Auth = require('../middlewares/auth_middlewares')
 //Lấy thông tin chi tiết phòng ban
 router.get('/getEmployeeInformation/:id', Auth.isAuth, employeeController.browse)
 
-//Tạo phòng ban
+//Thêm hồ sơ nhân viên
 router.post('/createEmployee', upload.single('avatar'), Auth.isAuth, employeeController.createEmployee)
 //render form tạo hồ sơ nhân viên
 router.get('/formCreateEmployee', Auth.isAuth, (req, res, next) => {
@@ -30,7 +30,7 @@ router.get('/formCreateEmployee', Auth.isAuth, (req, res, next) => {
 })
 
 //Cập nhật thông tin phòng ban
-router.post('/updateEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.updateEmployee)
+router.post('/updateEmployee/:id', upload.single('avatar'), Auth.isAuth, employeeController.updateEmployee)
 //render form cập nhật thông hồ sơ nhân viên
 router.get('/formUpdateEmployee/:id', Auth.isAuth, Auth.checkRole, async (req, res, next) => {
     const { id } = req.params
@@ -59,10 +59,10 @@ router.get('/fetchEmployeeList/:page', Auth.isAuth, Auth.checkRole, employeeCont
 
 
 //Lưu trữ hồ sơ nhân viên
-router.post('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.browse)
+router.get('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.storeEmployee)
 
 //search manv
-router.get('/searchCode/:code', Auth.isAuth, Auth.checkRole, employeeController.searchCode)
+router.post('/searchCode/:code', employeeController.searchCode)
 
 //dropdown manv
 router.get('/dropdown/:code', employeeController.dropdown)

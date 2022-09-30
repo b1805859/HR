@@ -8,7 +8,7 @@ class Middlewares {
 
 
     isAuth = async (req, res, next) => {
-        if (String(req.signedCookies['user_code']) != 'undefined') {
+        if (String(req.signedCookies['user_code']) != 'undefined' || String(req.signedCookies['user_code']) != 'null') {
             const account = await UserAccount.findOne({ username: String(req.signedCookies['user_code']) })
             const user = await EmployeeProfile.findOne({ code: String(req.signedCookies['user_code']) })
             req.user = user

@@ -13,15 +13,17 @@
           <!-- Account -->
           <hr class="my-0" />
           <div class="card-body">
-            <form action="/api/department/updateDepartment/{{department._id}}" id="formAccountSettings" method="POST">
+            <form id="formAccountSettings" action="/api/department/updateDepartment/{{department._id}}" method="POST">
               <div class="row">
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Tên phòng ban</label>
-                  <input class="form-control" type="text" id="name" name="name" value="{{department.name}}" autofocus />
+                  <input class="form-control" type="text" id="name" name="name" value="{{department.name}}" autofocus
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Số điện thoại liên lạc</label>
-                  <input class="form-control" type="text" id="phone" name="phone" value="{{department.phone}}" />
+                  <input class="form-control" type="text" id="phone" name="phone" value="{{department.phone}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-12">
                   <label for="status" class="form-label">Trạng thái</label>
@@ -40,12 +42,12 @@
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary">
-                  <a href="" class="text-white">
+                  <a class="text-white">
                     Lưu
                   </a>
                 </button>
                 <button type="reset" class="btn btn-secondary">
-                  <a href="/api/employee/getEmployeeInformation/{{Department._id}}" class="text-white">
+                  <a href="/api/department/getDepartmentInformation/{{department._id}}" class="text-white">
                     Quay lại
                   </a>
                 </button>

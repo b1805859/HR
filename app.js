@@ -36,12 +36,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 connect();
+
+
+//Api
+app.use('/api/department', departmentRouter)
+app.use('/api/employee', employeeRouter)
+app.use('/api/timekeep', timekeepRouter)
+app.use('/auth', authRouter);
+app.use('/user', userRouter);
+app.use('/', indexRouter);
+
+
 //Socket io
 io.on('connection', (socket) => {
     console.log('connected');
 
     socket.on("user-input-code", data => {
-        axios.get(`http://localhost:3000/api/employee/searchCode/${data}`)
+        axios.post(`http://localhost:3000/api/employee/searchCode/${data}`)
             .then(function (response) {
                 socket.emit("server-send-client-employee", response.data);
             })
@@ -58,16 +69,32 @@ io.on('connection', (socket) => {
                 console.log(error);
             });
     })
+
+    socket.on("user-acupuncture", async data => {
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:3000/api/timekeep/findPosition`,
+            headers: {},
+            data: {
+                latitude: data.latitude,
+                longitude: data.longitude
+            }
+        });
+        console.log("data", data)
+        const { position } = response.data
+        if (position.length > 0) {
+            const acupuncture = await axios({
+                method: 'post',
+                url: `http://localhost:3000/api/timekeep/acupuncture`,
+                data: {
+                    table_id: data.table_id,
+                    user_id: data.user_id
+                }
+            });
+        }
+    })
+
 });
-
-
-//Api
-app.use('/api/department', departmentRouter)
-app.use('/api/employee', employeeRouter)
-app.use('/api/timekeep', timekeepRouter)
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

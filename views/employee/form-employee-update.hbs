@@ -10,42 +10,43 @@
         <div class="card mb-4">
           <h5 class="card-header">Thông tin hồ sơ nhân viên</h5>
           <!-- Account -->
-          <div class="card-body">
-            <div class="d-flex align-items-start align-items-sm-center gap-4">
-              <img src="/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100"
-                id="uploadedAvatar" />
-              <div class="button-wrapper">
-                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                  <span class="d-none d-sm-block">Upload new photo</span>
-                  <i class="bx bx-upload d-block d-sm-none"></i>
-                  <input type="file" id="upload" class="account-file-input" accept="image/png, image/jpeg" hidden />
-                </label>
-                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-                  <i class="bx bx-reset d-block d-sm-none"></i>
-                  <span class="d-none d-sm-block">Reset</span>
-                </button>
+          <form action="/api/employee/updateEmployee/{{employee._id}}" id="formAccountSettings"
+            enctype="multipart/form-data" method="POST">
+            <div class="card-body">
+              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                <img src="/assets/img/avatars/{{employee.avatar}}" alt="user-avatar" class="d-block rounded"
+                  height="320" width="300" id="uploadedAvatar" />
+                <div class="button-wrapper">
+                  <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                    <span class="d-none d-sm-block">Upload new photo</span>
+                    <i class="bx bx-upload d-block d-sm-none"></i>
+                    <input type="file" id="upload" class="account-file-input" name="avatar" hidden autocomplete="off" />
+                  </label>
+                  <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                    <i class="bx bx-reset d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Reset</span>
+                  </button>
 
-                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                  <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                </div>
               </div>
             </div>
-          </div>
-          <hr class="my-0" />
-          <div class="card-body">
-            <form action="/api/employee/updateEmployee/{{employee._id}}" id="formAccountSettings" method="POST">
+            <hr class="my-0" />
+            <div class="card-body">
               <div class="row">
                 <div class="mb-3 col-md-6">
                   <label for="code" class="form-label">Mã nhân viên</label> (<span class="text-danger">*</span>)
                   <input class="form-control" type="text" id="code" name="code" placeholder="VD: B1805859"
-                    value="{{employee.code}}" autofocus />
+                    value="{{employee.code}}" autofocus autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="name" class="form-label">Họ tên</label> (<span class="text-danger">*</span>)
                   <input class="form-control" type="text" id="name" name="name" value="{{employee.name}}"
-                    placeholder="VD: Lê Văn Hiếu" />
+                    placeholder="VD: Lê Văn Hiếu" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="birthday" class="form-label">Ngày sinh</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="date" id="birthday" value="birthday" />
+                  <input class="form-control" type="date" id="birthday" value="birthday" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="gender" class="form-label">Giới tính</label> (<span class="text-danger">*</span>)
@@ -58,29 +59,34 @@
                   <label class="phone" for="phoneNumber">Số điện thoại</label>
                   <div class="input-group input-group-merge">
                     <span class="input-group-text">VN (+84)</span>
-                    <input type="text" id="phone" name="phone" class="form-control" value="{{employee.phone}}" />
+                    <input type="text" id="phone" name="phone" class="form-control" value="{{employee.phone}}"
+                      autocomplete="off" />
                   </div>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="email" class="form-label">E-mail</label>
                   <input class="form-control" type="text" id="email" name="email" value="{{employee.email}}"
-                    placeholder="john.doe@example.com" />
+                    placeholder="john.doe@example.com" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="address" class="form-label">Địa chỉ</label> (<span class="text-danger">*</span>)
-                  <input type="text" class="form-control" id="address" name="address" />
+                  <input type="text" class="form-control" id="address" name="address" value="{{employee.address}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="cccd_no" class="form-label">CMND/CCCD</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="cccd_no" name="cccd_no" value="{{employee.cccd_no}}" />
+                  <input class="form-control" type="text" id="cccd_no" name="cccd_no" value="{{employee.cccd_no}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="nation" class="form-label">Dân tộc</label> (<span class="text-danger">*</span>)
-                  <input type="text" class="form-control" id="nation" name="nation" value="{{employee.nation}}" />
+                  <input type="text" class="form-control" id="nation" name="nation" value="{{employee.nation}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="religion" class="form-label">Tôn giáo</label>
-                  <input type="text" class="form-control" id="religion" name="religion" value="{{employee.religion}}" />
+                  <input type="text" class="form-control" id="religion" name="religion" value="{{employee.religion}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label class="form-label" for="country">Quốc tịch</label> (<span class="text-danger">*</span>)
@@ -117,7 +123,7 @@
                   <label for="bank_no" class="form-label">Tài khoản ngân hàng</label> (<span
                     class="text-danger">*</span>)
                   <input class="form-control" type="text" id="bank_no" name="bank_no"
-                    placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" />
+                    placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
@@ -130,27 +136,27 @@
                 <div class="mb-3 col-md-6">
                   <label for="personal_tax_no" class="form-label">Mã số thuế</label>
                   <input type="text" class="form-control" id="personal_tax_no" name="personal_tax_no"
-                    value="{{employee.personal_tax_no}}" />
+                    value="{{employee.personal_tax_no}}" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhxh_no" class="form-label">Số BHXH</label>
-                  <input type="text" class="form-control" id="bhxh_no" name="bhxh_no" value="{{employee.bhxh_no}}" />
+                  <input type="text" class="form-control" id="bhxh_no" name="bhxh_no" value="{{employee.bhxh_no}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_no" class="form-label">Số BHYT</label>
-                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" value="{{employee.bhyt_no}}" />
+                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" value="{{employee.bhyt_no}}"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_hospital" class="form-label">Nơi đăng ký khám bệnh</label>
                   <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital"
-                    value="{{employee.bhyt_hospital}}" />
+                    value="{{employee.bhyt_hospital}}" autocomplete="off" />
                 </div>
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary">
-                  <a href="" class="text-white">
-                    Lưu
-                  </a>
+                  Lưu
                 </button>
                 <button type="reset" class="btn btn-secondary">
                   <a href="/api/employee/getEmployeeInformation/{{employee._id}}" class="text-white">
@@ -158,8 +164,8 @@
                   </a>
                 </button>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
           <!-- /Account -->
         </div>
       </div>

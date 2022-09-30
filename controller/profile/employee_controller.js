@@ -18,7 +18,7 @@ class Employee {
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
-
+            console.log("employee: ", employee)
             res.render("employee/form-employee-information", {
                 user: sigleToObject(user),
                 employee: sigleToObject(employee)
@@ -32,11 +32,10 @@ class Employee {
 
     //Thêm nhân viên
     createEmployee = async (req, res, next) => {
-        const { avatar, code, name, gender, phone, email, address, cccd_no, nation, religion, country, bank_no, type,
-            personal_tax_no, bhxh_no, bhyt_hospital, birthday } = req.body
+        const { code } = req.body
         const { filename } = req.file
         try {
-
+            console.log("req.body", req.body)
             //Kiểm tra mã nhân viên đã tồn tại
             const nameEmployee = await EmployeeProfile.find({ code })
 
@@ -49,8 +48,8 @@ class Employee {
                 status: 'working',
                 avatar: String(filename).trim(),
             }
-            let stringGroup = ["avatar", "code", "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
-                "personal_tax_no", "bhxh_no", "bhyt_hospital"]
+            let stringGroup = ["code", "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
+                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no"]
 
             for (const element of stringGroup) {
                 if (typeof req.body[element] === 'string') {
@@ -83,24 +82,24 @@ class Employee {
     //Cập nhật thông tin phòng ban
     updateEmployee = async (req, res, next) => {
         const { id } = req.params
-        const { code, name, phone, email, cccd_no, nation, religion, country, bank_no, personal_tax_no, bhxh_no, bhyt_no, bhyt_hospital } = req.body
+        const { code } = req.body
+        // const { filename } = req.file
         try {
 
-            const employee = await this.browse(req)
+            const employee = await EmployeeProfile.findOne({ _id: id })
 
             //Kiểm tra mã nhân viên đã tồn tại
-            const nameEmployee = await EmployeeProfile.find({ code })
-
-            if (nameEmployee.length > 0) {
-                return res.status(401).send('Mã nhân viên đã tồn tại.');
-            }
+            const nameEmployee = await EmployeeProfile.findOne({ code })
+            if (nameEmployee)
+                return res.status(401).send('Mã nhân viên đã tồn tại')
 
 
             //Tạo json để tạo
-            let result = {}
-            let stringGroup = ["name", "avatar", "code", "email", "phone", "gender", "birth_place", "cccd_no",
-                "cccd_issued_place", "bank_no", "religion", "office_address", "home_address", "nation", "degree", "archive",
-                "personal_tax_no", "bhxh_no", "bhyt_no", "bhyt_hospital", "khen_thuong", "ky_luat"]
+            let result = {
+                // avatar: String(filename).trim()
+            }
+            let stringGroup = ["code", "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
+                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no"]
 
             for (const element of stringGroup) {
                 if (typeof req.body[`${element}`] === 'string' && req.body[`${element}`] != employee[`${element}`]) {
@@ -109,7 +108,7 @@ class Employee {
             }
 
 
-            let dateGroup = ["birthday", "cccd_issued_on", "start_date", "date_off"]
+            let dateGroup = ["birthday"]
             for (const element of dateGroup) {
                 if (typeof req.body[element] === 'Date') {
                     result = { ...result, [`${element}`]: req.body[`${element}`] }
@@ -165,7 +164,6 @@ class Employee {
     //Lưu trữ hồ sơ nhân viên
     storeEmployee = async (req, res, next) => {
         const { user } = req
-
         const { id } = req.params
         try {
             if (!req.params.hasOwnProperty('id')) {
@@ -176,7 +174,7 @@ class Employee {
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
-            const res = await EmployeeProfile.updateOne({ _id: id }, { status: 'demit' });
+            await EmployeeProfile.updateOne({ _id: id }, { status: 'demit' });
 
             res.render("employee/form-employee-information", { user: sigleToObject(user), employee: sigleToObject(employee) })
         } catch (error) {
@@ -191,8 +189,10 @@ class Employee {
     searchCode = async (req, res, next) => {
         const { code } = req.params
         try {
-
+            console.log("1")
+            console.log("code", code)
             const employee = await EmployeeProfile.findOne({ code: { $regex: code } })
+            console.log("employee", employee)
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
@@ -208,7 +208,6 @@ class Employee {
     dropdown = async (req, res, next) => {
         const { code } = req.params
         try {
-            console.log("code", code)
             const employee = await EmployeeProfile.find({ code: { $regex: code } }).limit(8)
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
