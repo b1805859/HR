@@ -25,7 +25,6 @@ class TimekeepAcupuncture {
             var second = now.getSeconds();
 
             const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day })
-            console.log("acupunctureCheck", acupunctureCheck)
             if (acupunctureCheck)
                 return res.json({ message: "Đã chấm công" })
 

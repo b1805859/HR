@@ -86,7 +86,6 @@ class Auth {
     //Đổi mật khẩu
     setPassword = async (req, res, next) => {
         const { account } = req
-        console.log("account", account)
         const passwordold = req.body.passwordold
         const passwordnew = req.body.passwordnew
         const isPasswordValid = bcrypt.compareSync(passwordold, account.password);

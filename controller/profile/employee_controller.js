@@ -18,7 +18,6 @@ class Employee {
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
-            console.log("employee: ", employee)
             res.render("employee/form-employee-information", {
                 user: sigleToObject(user),
                 employee: sigleToObject(employee)
@@ -35,7 +34,6 @@ class Employee {
         const { code } = req.body
         const { filename } = req.file
         try {
-            console.log("req.body", req.body)
             //Kiểm tra mã nhân viên đã tồn tại
             const nameEmployee = await EmployeeProfile.find({ code })
 
@@ -189,10 +187,7 @@ class Employee {
     searchCode = async (req, res, next) => {
         const { code } = req.params
         try {
-            console.log("1")
-            console.log("code", code)
             const employee = await EmployeeProfile.findOne({ code: { $regex: code } })
-            console.log("employee", employee)
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }

@@ -143,14 +143,11 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
         // console.log("report", JSON.stringify(report));
         const { employee, month, table } = report[0]
         const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
-        let employeeReport = {
-            ...employee[0],
-            acupunctures: acupunctures
-
-        }
         res.render('user/user-acupuncture', {
             table_id: table[0]._id,
-            employeeReport: employeeReport,
+            employee: employee[0],
+            month: JSON.stringify(month[0]),
+            acupunctures: JSON.stringify(acupunctures),
             user: sigleToObject(user),
             layout: 'user'
         });

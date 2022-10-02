@@ -17,51 +17,13 @@
       <div class="table-responsive text-nowrap">
         <table class="table">
           <thead>
-            <tr class="text-nowrap">
-              <th>Mã nhân viên</th>
-              <th>Tên nhân viên</th>
-              <th>1</th>
-              <th>2</th>
-              <th>3</th>
-              <th>4</th>
-              <th>5</th>
-              <th>6</th>
-              <th>7</th>
-              <th>8</th>
-              <th>9</th>
-              <th>10</th>
-              <th>11</th>
-              <th>12</th>
-              <th>13</th>
-              <th>14</th>
-              <th>15</th>
-              <th>16</th>
-              <th>17</th>
-              <th>18</th>
-              <th>19</th>
-              <th>20</th>
-              <th>21</th>
-              <th>22</th>
-              <th>23</th>
-              <th>24</th>
-              <th>25</th>
-              <th>26</th>
-              <th>27</th>
-              <th>28</th>
-              <th>29</th>
-              <th>30</th>
-              <th>31</th>
+            <tr id="title_month" class="text-nowrap">
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{{employeeReport.code}}</td>
-              <td>{{employeeReport.name}}</td>
-              {{#with employeeReport.acupunctures as | report |}}
-              {{#each report}}
-              <td>1</td>
-              {{/each}}
-              {{/with}}
+            <tr id="acupuncture_user">
+              <td>{{employee.code}}</td>
+              <td>{{employee.name}}</td>
             </tr>
           </tbody>
         </table>
@@ -84,6 +46,37 @@
 </div>
 <!-- Content wrapper -->
 <script>
+
+  var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+  var acupuncture = "";
+  var month_encode = "{{ month }}"
+  var acupunctures_encode = "{{ acupunctures }}"
+  var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
+  var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
+  for (let i = 1; i <= month.total; i++) {
+    html += `<td>${i}</td>`
+    let check = 0
+    for (let j = 0; j < acupunctures.length; j++) {
+      const { date } = acupunctures[j];
+      if (date == String(i)) {
+        acupuncture += `<td>1</td>`
+        break;
+      }
+      if (check == acupunctures.length) {
+        acupuncture += `<td></td>`
+      }
+      check++;
+    }
+  }
+
+
+  console.log("acupuncture", acupuncture)
+  $("#title_month").html(html)
+  $("#acupuncture_user").append(acupuncture)
+
+
+
+
   $('#acupuncture').click(function () {
 
     if (navigator.geolocation) {

@@ -44,8 +44,9 @@ class TimekeepReport {
                 //handle error case also
             });
 
-
+            const count = reports.length;
             const employeeReport = []
+            const { months } = reports[0]
             for (const report of reports) {
                 const { employees, months } = report
                 const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
@@ -57,12 +58,12 @@ class TimekeepReport {
                 employeeReport.push(result)
             }
 
-            //console.log("employeeArray", employeeArray)
-            // console.log("monthArray", monthArray)
-            console.log("employeeReport", JSON.stringify(employeeReport))
             res.render('timekeep/timekeep-report', {
                 user: sigleToObject(user),
-                employeeReports: employeeReport
+                employeeReports: JSON.stringify(employeeReport),
+                month: JSON.stringify(months[0]),
+                current: page, // page hiện tại
+                pages: Math.ceil(count / perPage) // tổng số các page
             });
         } catch (error) {
             console.log(error)
