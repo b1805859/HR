@@ -44,13 +44,13 @@ router.get('/profile', Auth.isAuth, async (req, res) => {
 //Xem báo cáo chấm công
 router.get('/report', Auth.isAuth, async (req, res) => {
     const { user } = req
-
     try {
 
-        const reports = await timekeepTable.aggregate([
+        const report = await timekeepTable.aggregate([
             {
                 $match: {
-                    month_id: new ObjectId("63208b9f9eb7c641a238cee4")
+                    open: true,
+                    employee_id: user._id
                 }
             },
             {
@@ -58,7 +58,7 @@ router.get('/report', Auth.isAuth, async (req, res) => {
                     from: "employeeprofiles", // collection to join
                     localField: "employee_id",//field from the input documents
                     foreignField: "_id",//field from the documents of the "from" collection
-                    as: "employees"// output array field
+                    as: "employee"// output array field
                 }
             },
             {
@@ -66,31 +66,31 @@ router.get('/report', Auth.isAuth, async (req, res) => {
                     from: "timekeepmonths", // collection to join
                     localField: "month_id",//field from the input documents
                     foreignField: "_id",//field from the documents of the "from" collection
-                    as: "months"// output array field
+                    as: "month"// output array field
+                }
+            },
+            {
+                $lookup: {
+                    from: "timekeeptables", // collection to join
+                    localField: "employee_id",//field from the input documents
+                    foreignField: "employee_id",//field from the documents of the "from" collection
+                    as: "table"// output array field
                 }
             },
         ], function (error, data) {
-            // return res.json(data);
-            //handle error case also
+
         });
 
-
-        const employeeReport = []
-        for (const report of reports) {
-            const { employees, months } = report
-            const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
-
-            let result = {
-                acupuncture: acupuncture,
-                ...employees[0],
-            }
-            employeeReport.push(result)
-        }
-
-
+        // console.log("report", JSON.stringify(report));
+        const { employee, month, table } = report[0]
+        const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
         res.render('user/user-report', {
+            table_id: table[0]._id,
+            employee: employee[0],
+            month: JSON.stringify(month[0]),
+            acupunctures: JSON.stringify(acupunctures),
             user: sigleToObject(user),
-            employeeReports: employeeReport
+            layout: 'user'
         });
     } catch (error) {
         console.log(error)

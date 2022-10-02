@@ -11,29 +11,28 @@
           <h5 class="card-header">Tạo bảng chấm công cho nhân viên</h5>
           <!-- Account -->
           <form action="/api/timekeep/table" method="POST">
-            <div class="card-body">
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label class="form-label" for="country">Tháng chấm công</label>
-                  <select id="thang" name="thang" class="select2 form-select" required>
-                    <option value="">--Chọn tháng--</option>
-                    {{#each months}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{/each}}
-                  </select>
-                </div>
-                <div class="mb-3 col-md-12">
-                  <label for="name" class="form-label"></label>
-                </div>
-                <div class="mt-2">
-                  <button type="submit" class="btn btn-primary me-2">Tạo bảng chấm công</button>
-                  <button type="reset" class="btn btn-secondary">
-                    <a href="/api/employee/fetchEmployeeList" class="text-white">
-                      Quay lại
-                    </a>
-                  </button>
-                </div>
+            <div class="row">
+              <div class="mb-3 col-md-6">
+                <label class="form-label" for="country">Tháng chấm công</label>
+                <select id="thang" name="thang" class="select2 form-select" required>
+                  <option value="">--Chọn tháng--</option>
+                  {{#each months}}
+                  <option value="{{this._id}}">{{this.name}}</option>
+                  {{/each}}
+                </select>
               </div>
+              <div class="mb-3 col-md-12">
+                <label for="name" class="form-label"></label>
+              </div>
+              <div class="mt-2">
+                <button type="submit" class="btn btn-primary me-2">Tạo bảng chấm công</button>
+                <button type="reset" class="btn btn-secondary">
+                  <a href="/api/employee/fetchEmployeeList" class="text-white">
+                    Quay lại
+                  </a>
+                </button>
+              </div>
+            </div>
           </form>
           <!-- /Account -->
         </div>
