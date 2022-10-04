@@ -10,7 +10,7 @@ const map = new mapboxgl.Map({
 
 
 
-const size = 150;
+const size = 200;
 
 // This implements `StyleImageInterface`
 // to draw a pulsing dot icon on the map.
@@ -139,21 +139,6 @@ function loadMap(stores) {
 getStores();
 
 
-//Create a draggable Marker
-const marker = new mapboxgl.Marker({
-    draggable: true
-})
-    .setLngLat([106.660172, 10.762622])
-    .addTo(map);
-
-function onDragEnd() {
-    const lngLat = marker.getLngLat();
-    coordinates.style.display = 'block';
-    coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
-}
-
-marker.on('dragend', onDragEnd);
-
 
 
 map.on('style.load', () => {
@@ -172,3 +157,23 @@ map.addControl(
         showUserHeading: true
     })
 );
+
+
+
+const maker = new mapboxgl.Marker()
+
+
+
+map.on('click', (e) => {
+    document.getElementById('info').innerHTML =
+        // `e.point` is the x, y coordinates of the `mousemove` event
+        // relative to the top-left corner of the map.
+        JSON.stringify(e.point) +
+        '<br />' +
+        // `e.lngLat` is the longitude, latitude geographical position of the event.
+        JSON.stringify(e.lngLat.wrap());
+
+    const { lng, lat } = e.lngLat
+    maker.setLngLat([lng, lat])
+        .addTo(map);
+});

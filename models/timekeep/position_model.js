@@ -33,12 +33,10 @@ const TimekeepPosition = new Schema({
 // Geocode & create location
 TimekeepPosition.pre('save', async function (next) {
     // const loc = await geocoder.geocode(this.address);
-    const res = await geocoder.reverse({ lat: this.latitude, lon: this.longitude });
-    console.log("res", res)
     this.location = {
         type: 'Point',
-        coordinates: [res[0].longitude, res[0].latitude],
-        formattedAddress: res[0].formattedAddress
+        coordinates: [this.longitude, this.latitude],
+        formattedAddress: this.formattedAddress
     };
     next();
 });

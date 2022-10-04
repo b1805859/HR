@@ -14,8 +14,8 @@
             method="POST">
             <div class="card-body">
               <div class="d-flex align-items-start align-items-sm-center gap-4">
-                <img src="/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="320" width="300"
-                  id="uploadedAvatar" />
+                <img src="/assets/img/avatars/1.png" id="avatar_img" alt="user-avatar" class="d-block rounded"
+                  height="320" width="300" id="uploadedAvatar" />
                 <div class="button-wrapper">
                   <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                     <span class="d-none d-sm-block">Upload new photo</span>
@@ -169,3 +169,11 @@
   <div class="content-backdrop fade"></div>
 </div>
 <!-- Content wrapper -->
+
+<script>
+  $('#upload').change(function (event) {
+    var tmppath = URL.createObjectURL(event.target.files[0]);
+    $("#avatar_img").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+    //socket.emit('user-change-avatar', filePath);
+  })
+</script>

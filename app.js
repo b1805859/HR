@@ -7,6 +7,7 @@ var connect = require('./config/connect');
 const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const fs = require('fs');
 require('dotenv').config()
 
 
@@ -96,6 +97,7 @@ io.on('connection', (socket) => {
             socket.emit("server-send-result", { msg: "Vị trí chấm công không đúng" })
         }
     })
+
 
 });
 

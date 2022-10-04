@@ -53,19 +53,20 @@
   var acupunctures_encode = "{{ acupunctures }}"
   var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
   var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
+  console.log("acupuncture", acupunctures)
   for (let i = 1; i <= month.total; i++) {
     html += `<td>${i}</td>`
     let check = 0
     for (let j = 0; j < acupunctures.length; j++) {
       const { date } = acupunctures[j];
-      if (date == String(i)) {
+      if (String(date) === String(i)) {
         acupuncture += `<td>1</td>`
         break;
       }
+      check++;
       if (check == acupunctures.length) {
         acupuncture += `<td></td>`
       }
-      check++;
     }
   }
 
