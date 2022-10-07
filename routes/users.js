@@ -28,7 +28,7 @@ router.get('/profile', Auth.isAuth, async (req, res) => {
             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
         }
         if (String(account.role) == "nhan_su") {
-            res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee) })
+            res.render("user/admin-information", { user: sigleToObject(user), employee: sigleToObject(employee) })
         }
         else {
             res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee), layout: 'user' })

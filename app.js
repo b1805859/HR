@@ -18,6 +18,7 @@ var userRouter = require('./routes/users');
 var employeeRouter = require('./routes/employee');
 var departmentRouter = require('./routes/department')
 var timekeepRouter = require('./routes/timekeep')
+var ktklRouter = require('./routes/ktkl')
 var app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -42,6 +43,7 @@ connect();
 //Api
 app.use('/api/department', departmentRouter)
 app.use('/api/employee', employeeRouter)
+app.use('/api/ktkl', ktklRouter)
 app.use('/api/timekeep', timekeepRouter)
 app.use('/auth', authRouter);
 app.use('/user', userRouter);

@@ -1,0 +1,85 @@
+<!-- Content wrapper -->
+<div class="content-wrapper">
+  <!-- Content -->
+
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">
+        Khen thưởng kỷ luật /</span>
+      Danh sách</h4>
+
+    <nav class="navbar bg-light mb-2">
+      <div class="container-fluid">
+        <form class="d-flex" role="search">
+          <input
+            id="input-code"
+            type="text"
+            list="search-employee"
+            class="form-control me-2"
+            placeholder="Nhập mã nhân viên"
+            autocomplete="off"
+          />
+          <datalist id="search-employee">
+          </datalist>
+          <button id="btn-search-code" type="button" class="btn btn-danger"><i
+              class="bx bx-search bx-rotate-90"
+            ></i></button>
+        </form>
+        <button class="btn btn-success mt-3 mt-md-0" type="button">
+          <i class="bx bxs-user-plus"></i>
+          <a href="/api/ktkl/formCreateKTKL" class="text-white">
+            Thêm khen thưởng, kỷ luật
+          </a>
+        </button>
+      </div>
+    </nav>
+    <!-- Borderless Table -->
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th>MÃ NHÂN VIÊN</th>
+              <th>HỌ TÊN</th>
+              <th>CHỨC VỤ</th>
+              <th>THỜI GIAN</th>
+              <th>MÔ TẢ</th>
+            </tr>
+          </thead>
+          <tbody id="ktklLine">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--/ Borderless Table -->
+
+
+    </div>
+    <!--/ Basic Pagination -->
+  </div>
+  <!-- / Content -->
+
+  <div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->
+<script>
+  const ktklLine = `{{ktklLine}}`
+  const ktklLines = JSON.parse(ktklLine.replace(/&quot;/g,'"'));
+  console.log(ktklLines);
+  for( const line of ktklLines)
+  { 
+    const {employee, ktkl} = line
+    const {code , name, position} = employee
+    const {_id, day, description} = ktkl
+    let html =''
+    html += "<tr>"
+    html += `<td><a href= '/api/ktkl/information/${_id}'>` + code + "</a></td>"
+    html += `<td><a href= '/api/ktkl/information/${_id}'>` + name + "</a></td>"
+    html += "<td>"+ position +"</td>"
+    html += "<td>" + day + "</td>"
+    html += "<td>" + description + "</td>"
+    html += "</tr>"
+    
+    $('#ktklLine').append(html)
+  }
+</script>

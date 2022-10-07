@@ -1,0 +1,105 @@
+<!-- Content wrapper -->
+<div class="content-wrapper">
+  <!-- Content -->
+
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span>
+      Cập nhật thông tin khen thưởng - kỷ luật</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-5">
+          <!-- Account -->
+          <form
+            action="/api/ktkl/updateKTKL/{{ktkl._id}}"
+            id="formAccountSettings"
+            method="POST"
+          >
+            <h5 class="card-header">Nhập thông tin khen thưởng, kỷ luật</h5>
+            <div class="card-body">
+              <div class="mb-3 row">
+                <label for="input-code" class="col-md-2 col-form-label">Mã nhân
+                  viên</label>
+                <div class="col-md-10">
+                  <input
+                    id="input-code"
+                    type="text"
+                    list="search-employee"
+                    name="employee_code"
+                    class="form-control me-2"
+                    placeholder="Nhập mã nhân viên"
+                    autocomplete="off"
+                    value="{{ktkl.employee_code}}"
+                  />
+                  <datalist id="search-employee">
+                  </datalist>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label
+                  for="exampleFormControlSelect2"
+                  class="col-md-2 col-form-label"
+                >Loại</label>
+                <div class="col-md-10">
+                  <select
+                    class="form-select"
+                    id="exampleFormControlSelect2"
+                    aria-label="Multiple select example"
+                    name="type"
+                    value="{{ktkl.type}}"
+                  >
+                    <option value="khen_thuong">Khen thưởng</option>
+                    <option value="ky_luat">Kỷ luật</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label
+                  for="html5-datetime-local-input"
+                  class="col-md-2 col-form-label"
+                >Thời gian</label>
+                <div class="col-md-10">
+                  <input
+                    class="form-control"
+                    type="date"
+                    name="day"
+                    id="html5-datetime-local-input"
+                    value="{{ktkl.day}}"
+                  />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label
+                  for="Example textarea"
+                  class="col-md-2 col-form-label"
+                >Example textarea</label>
+                <div class="col-md-10">
+                  <textarea
+                    class="form-control"
+                    id="Example textarea"
+                    rows="6"
+                    name="description"
+                  >{{ktkl.description}}</textarea>
+                </div>
+              </div>
+              <div class="mt-5">
+                <button type="submit" class="btn btn-primary me-2">Lưu</button>
+                <button type="reset" class="btn btn-secondary">
+                  <a href="/" class="text-white">
+                    Quay lại
+                  </a>
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- /Account -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- / Content -->
+
+  <div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->
+
