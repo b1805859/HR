@@ -7,7 +7,7 @@
 
     <nav class="navbar bg-light mb-2">
       <div class="container-fluid">
-        <form class="d-flex" role="search">
+        <form class="d-flex mb-0" role="search">
           <input id="input-code" type="text" list="search-employee" class="form-control me-2"
             placeholder="Nhập mã nhân viên" autocomplete="off">
           <datalist id="search-employee">
@@ -29,23 +29,23 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Mã nhân viên</th>
-              <th>Tên nhân viên</th>
-              <th>Giới tính</th>
-              <th>Phòng ban</th>
-              <th>Chức vụ</th>
-              <th>Trạng thái hồ sơ</th>
+              <th class="text-center">Mã nhân viên</th>
+              <th class="text-center">Tên nhân viên</th>
+              <th class="text-center">Giới tính</th>
+              <th class="text-center">Phòng ban</th>
+              <th class="text-center">Chức vụ</th>
+              <th class="text-center">Trạng thái hồ sơ</th>
             </tr>
           </thead>
           <tbody id="table-employee" class="table-border-bottom-0">
             {{#each employees}}
             <tr>
-              <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.code}}</a></td>
-              <td><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.name}}</a></td>
-              <td>{{this.gender}}</td>
-              <td></td>
-              <td>{{this.job}}</td>
-              <td><span class="badge bg-label-primary me-1">Active</span></td>
+              <td class="text-left"><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.code}}</a></td>
+              <td class="text-left"><a href="/api/employee/getEmployeeInformation/{{this._id}}">{{this.name}}</a></td>
+              <td class="text-center">{{this.gender}}</td>
+              <td class="text-left"></td>
+              <td class="text-left">{{this.job}}</td>
+              <td class="text-center"><span class="badge bg-label-primary me-1">Active</span></td>
             </tr>
             {{/each}}
           </tbody>

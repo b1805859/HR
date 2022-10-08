@@ -45,7 +45,7 @@ class Auth {
 
 
         // Set cookie
-        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 900000, httpOnly: true });
+        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 9000000000000000, httpOnly: true });//900000
         if (String(user.role) == 'nhan_su') {
 
             res.redirect('/')

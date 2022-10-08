@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
         const { position } = response.data
         console.log("position", position)
         if (position.length > 0) {
-            const acupuncture = await axios({
+            await axios({
                 method: 'post',
                 url: `http://localhost:3000/api/timekeep/acupuncture`,
                 data: {
@@ -98,6 +98,17 @@ io.on('connection', (socket) => {
         else {
             socket.emit("server-send-result", { msg: "Vị trí chấm công không đúng" })
         }
+
+        const acupunctureLine = await axios({
+            method: 'post',
+            url: `http://localhost:3000/user/acupunctureData`,
+            data: {
+                //table_id: data.table_id,
+                user_id: data.user_id
+            }
+        });
+        socket.emit("server-send-acupuncture-data", { ...acupunctureLine.data });
+
     })
 
 
