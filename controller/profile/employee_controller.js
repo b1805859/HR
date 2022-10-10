@@ -25,7 +25,8 @@ class Employee {
             }
             res.render("employee/form-employee-information", {
                 user: sigleToObject(user),
-                employee: sigleToObject(employee)
+                employee: sigleToObject(employee),
+                department: sigleToObject(department)
             })
         } catch (error) {
             console.log(error)
@@ -63,18 +64,10 @@ class Employee {
 
 
             let stringGroup = ["code", "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
-                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no", "job"]
+                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no", "job" ,"birthday"]
 
             for (const element of stringGroup) {
                 if (typeof req.body[element] === 'string') {
-                    result = { ...result, [`${element}`]: req.body[`${element}`] }
-                }
-            }
-
-
-            let dateGroup = ["birthday"]
-            for (const element of dateGroup) {
-                if (typeof req.body[element] === 'Date') {
                     result = { ...result, [`${element}`]: req.body[`${element}`] }
                 }
             }

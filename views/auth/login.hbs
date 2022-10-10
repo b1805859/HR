@@ -40,13 +40,17 @@
                 <div class="form-group first">
                   <label for="username">Username</label>
                   <input type="text" class="form-control" id="username" name="username" autocomplete="off">
-
                 </div>
+                {{#if errorUser}}
+                <div class="alert alert-danger">{{errorUser}}</div>
+                {{/if}}
                 <div class="form-group last mb-4">
                   <label for="password">Password</label>
                   <input type="password" class="form-control" id="password" name="password">
                 </div>
-
+                {{#if errorPass}}
+                <div class="alert alert-danger">{{errorPass}}</div>
+                {{/if}}
                 <div class="d-flex mb-5 align-items-center">
                   <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                     <input type="checkbox" checked="checked" />
@@ -57,10 +61,10 @@
 
                 <input type="submit" value="Log In" class="btn btn-block btn-primary">
 
-                <span class="d-block text-left my-4 text-muted"> 
+                <span class="d-block text-left my-4 text-muted">
                   <a href="/auth/register" class="google">
-                      Sign Up
-                  </a> 
+                    Sign Up
+                  </a>
                 </span>
               </form>
             </div>

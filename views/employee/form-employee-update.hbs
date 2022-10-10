@@ -46,7 +46,8 @@
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="birthday" class="form-label">Ngày sinh</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="date" id="birthday" value="birthday" autocomplete="off" />
+                  <input class="form-control" type="date" id="birthday" value="{{employee.birthday}}" name=" birthday"
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="gender" class="form-label">Giới tính</label> (<span class="text-danger">*</span>)
@@ -89,65 +90,30 @@
                     autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label class="form-label" for="country">Quốc tịch</label> (<span class="text-danger">*</span>)
-                  <select id="country" name="country" class="select2 form-select">
-                    <option value="">{{employee.country}}</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="Belarus">Belarus</option>
-                    <option value="Brazil">Brazil</option>
-                    <option value="Canada">Canada</option>
-                    <option value="China">China</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="India">India</option>
-                    <option value="Indonesia">Indonesia</option>
-                    <option value="Israel">Israel</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Japan">Japan</option>
-                    <option value="Korea">Korea, Republic of</option>
-                    <option value="Mexico">Mexico</option>
-                    <option value="Philippines">Philippines</option>
-                    <option value="Russia">Russian Federation</option>
-                    <option value="South Africa">South Africa</option>
-                    <option value="Thailand">Thailand</option>
-                    <option value="Turkey">Turkey</option>
-                    <option value="Ukraine">Ukraine</option>
-                    <option value="United Arab Emirates">United Arab Emirates</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="United States">United States</option>
-                    <option value="Viet Nam">Việt Nam</option>
-                  </select>
-                </div>
-                <div class="mb-3 col-md-6">
                   <label for="bank_no" class="form-label">Tài khoản ngân hàng</label> (<span
                     class="text-danger">*</span>)
                   <input class="form-control" type="text" id="bank_no" name="bank_no"
                     placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label class="form-label" for="department-select">Phòng ban</label> (<span class="text-danger">*</span>)
-                  <select id="department-select" name="department-select" class="select2 form-select" required>
-                    <option value="">{{employee.department}}</option>
+                  <label for="department" class="form-label">Phòng ban</label>
+                  (<span class="text-danger">*</span>)
+                  <select id="department" name="department-select" class="select2 form-select">
+                    {{#each departmentList}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
                   </select>
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="job" class="form-label">Chức vụ</label> (<span
-                    class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="job" name="job"
-                    required autocomplete="off" />
+                  <label for="job" class="form-label">Chức vụ</label>
+                  (<span class="text-danger">*</span>)
+                  <input class="form-control" type="text" id="job" name="job" value="{{employee.job}}" required
+                    autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
-                  <select id="type" name="type" class="select2 form-select">
-                    <option value="thoi_vu">Thời vụ</option>
-                    <option value="chinh_thuc">Chính thức</option>
-                    <option value="thu_viec">Thử việc</option>
-                  </select>
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
-                  <select id="type" name="type" class="select2 form-select">
+                  <label for="type" class="form-label">Loại nhân viên</label>
+                  (<span class="text-danger">*</span>)
+                  <select id="type" name="type" class="select2 form-select" value="{{employee.type}}">
                     <option value="thoi_vu">Thời vụ</option>
                     <option value="chinh_thuc">Chính thức</option>
                     <option value="thu_viec">Thử việc</option>

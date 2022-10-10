@@ -12,7 +12,7 @@ const EmployeeProfile = new Schema({
     department_id: { type: Schema.Types.ObjectId, ref: 'DepartmentDepartment' },
     job: { type: 'string', string: 'Chức vụ' },
 
-    birthday: { type: 'Date', string: 'Ngày sinh' },
+    birthday: { type: 'string', string: 'Ngày sinh' },
     status: { type: 'string', enum: ['draff', 'demit', 'working', 'probationry', 'maternity_leave'], string: "Trạng thái" },//nháp, thử vc, đang làm , nghỉ việc, thai sản
     cccd_no: { type: 'string', string: 'CMND/CCCD' },
     bank_no: { type: 'string', string: 'Ngân hàng' },
@@ -22,7 +22,6 @@ const EmployeeProfile = new Schema({
     address: { type: 'string', string: 'Nơi cư trú' },
     nation: { type: 'string', string: 'Dân tộc' },
     degree: { type: 'string', string: 'Bằng cấp' },
-    country: { type: 'string', string: 'Quốc tịch' },
     personal_tax_no: { type: 'string', string: 'Mã số thuế' },
     bhxh_no: { type: 'string', string: 'Số BHXH' },
     bhyt_no: { type: 'string', string: 'Số thẻ BHYT' },

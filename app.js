@@ -114,16 +114,6 @@ io.on('connection', (socket) => {
         socket.emit("server-send-acupuncture-data", { ...acupunctureLine.data });
     })
 
-    socket.on("user-selected-employee-type", async () => {
-        await axios.get(`http://localhost:3000/api/department/getDepartmentList`)
-            .then(function (response) {
-                socket.emit("server-send-department-list", response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    })
-
 });
 
 // catch 404 and forward to error handler

@@ -64,17 +64,6 @@ for (let i = 1; i <= monthPrase.total; i++) {
 
 
 
-socket.on('server-send-department-list',data =>{
-  console.log("data",data)
-  for( const element of data)
-  { const {_id,name} = element
-    $('#department-select').append($('<option>', {
-      value: _id,
-      text: name
-  }));
-  }
-})
-
 
 $(document).ready(function () {
     $("#btn-search-code").click(function () {

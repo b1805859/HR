@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const employeeController = require('../controller/profile/employee_controller');
 const EmployeeProfile = require('../models/employee_model')
+const DepartmentDepartment = require('../models/department_model')
 const { sigleToObject, multipleToObject } = require("../utils/to_Object")
 const path = require('path')
 const multer = require('multer')
@@ -24,9 +25,14 @@ router.get('/getEmployeeInformation/:id', Auth.isAuth, employeeController.browse
 //Thêm hồ sơ nhân viên
 router.post('/createEmployee', upload.single('avatar'), Auth.isAuth, employeeController.createEmployee)
 //render form tạo hồ sơ nhân viên
-router.get('/formCreateEmployee', Auth.isAuth, (req, res, next) => {
+router.get('/formCreateEmployee', Auth.isAuth, async (req, res, next) => {
     const { user } = req
-    res.render("employee/form-employee-create", { user: sigleToObject(user) })
+    const list =  await DepartmentDepartment.find()
+    res.render("employee/form-employee-create", 
+    { 
+        user: sigleToObject(user) ,
+        departmentList: multipleToObject(list)
+    })
 })
 
 //Cập nhật thông tin phòng ban
@@ -45,7 +51,15 @@ router.get('/formUpdateEmployee/:id', Auth.isAuth, Auth.checkRole, async (req, r
             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
         }
 
-        res.render("employee/form-employee-update", { employee: sigleToObject(employee), user: sigleToObject(user) })
+        const list =  await DepartmentDepartment.find()
+            if (!list) {
+                return res.status(401).send('Không tìm thấy phòng ban.');
+            }
+
+        res.render("employee/form-employee-update", { 
+            employee: sigleToObject(employee),
+            user: sigleToObject(user),
+            departmentList: multipleToObject(list) })
     } catch (error) {
         console.log(error)
         return error

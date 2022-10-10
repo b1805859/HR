@@ -165,16 +165,7 @@ class Department {
         }
     }
 
-     //Lấy danh sách hồ sơ nhân viên có phân trang
-     getDepartmentList = async (req, res, next) => {
-        try {
-            const list =  await DepartmentDepartment.find()
-            return res.json(list)
-        } catch (error) {
-
-            return error
-        }
-    }
+    
 }
 
 
