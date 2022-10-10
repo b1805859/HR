@@ -40,8 +40,6 @@ socket.on("server-send-acupuncture-data", data => {
     var acupuncture = `<td>${employee.code}</td><td>${employee.name}</td>`;
     var monthPrase = JSON.parse(month.replace(/&quot;/ig, '"'));
     var acupuncturesParse = JSON.parse(acupunctures.replace(/&quot;/ig, '"'));
-    console.log("monthPrase",monthPrase)
-    console.log("acupuncturesParse",acupuncturesParse)
 for (let i = 1; i <= monthPrase.total; i++) {
     html += `<th>${i}</th>`
     let check = 0
@@ -65,9 +63,22 @@ for (let i = 1; i <= monthPrase.total; i++) {
 })
 
 
+
+socket.on('server-send-department-list',data =>{
+  console.log("data",data)
+  for( const element of data)
+  { const {_id,name} = element
+    $('#department-select').append($('<option>', {
+      value: _id,
+      text: name
+  }));
+  }
+})
+
+
 $(document).ready(function () {
     $("#btn-search-code").click(function () {
-        socket.emit("user-input-code", $("#input-code").val())
+        socket.emit("user-input-code-type",{code: $("#input-code").val(),type: $("#type").val()})
     })
 
     $("#input-code").keyup(function () {

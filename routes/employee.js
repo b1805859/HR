@@ -62,7 +62,7 @@ router.get('/fetchEmployeeList/:page', Auth.isAuth, Auth.checkRole, employeeCont
 router.get('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.storeEmployee)
 
 //search manv
-router.post('/searchCode/:code', employeeController.searchCode)
+router.post('/searchCode', employeeController.searchCode)
 
 //dropdown manv
 router.get('/dropdown/:code', employeeController.dropdown)

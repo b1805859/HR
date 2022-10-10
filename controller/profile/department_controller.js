@@ -165,62 +165,16 @@ class Department {
         }
     }
 
-    // //Lưu trữ hồ sơ nhân viên
-    // storeEmployee = async (req, res, next) => {
-    //     const { id } = req.params
-    //     try {
-    //         if (!req.params.hasOwnProperty('id')) {
-    //             return res.status(401).send('Thiếu id hồ sơ nhân viên.');
-    //         }
+     //Lấy danh sách hồ sơ nhân viên có phân trang
+     getDepartmentList = async (req, res, next) => {
+        try {
+            const list =  await DepartmentDepartment.find()
+            return res.json(list)
+        } catch (error) {
 
-    //         const employee = await DepartmentDepartment.findOne({ _id: id })
-    //         if (!employee) {
-    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-    //         }
-    //         const res = await DepartmentDepartment.updateOne({ _id: id }, { status: 'demit' });
-
-    //         res.render("employee/form-employee-information", { employee: sigleToObject(employee) })
-    //     } catch (error) {
-
-    //         return error
-    //     }
-    // }
-
-
-
-    // //search manv
-    // searchCode = async (req, res, next) => {
-    //     const { code } = req.params
-    //     try {
-
-    //         const employee = await DepartmentDepartment.findOne({ code: { $regex: code } })
-    //         if (!employee) {
-    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-    //         }
-
-    //         res.json(employee)
-    //     } catch (error) {
-
-    //         return error
-    //     }
-    // }
-
-    // //search manv
-    // dropdown = async (req, res, next) => {
-    //     const { code } = req.params
-    //     try {
-    //         // { code: { $regex: code } }
-    //         const employee = await DepartmentDepartment.find({ code: { $regex: code } }).limit(8)
-    //         if (!employee) {
-    //             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-    //         }
-
-    //         res.json(employee)
-    //     } catch (error) {
-
-    //         return error
-    //     }
-    // }
+            return error
+        }
+    }
 }
 
 

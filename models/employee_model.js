@@ -17,12 +17,11 @@ const EmployeeProfile = new Schema({
     cccd_no: { type: 'string', string: 'CMND/CCCD' },
     bank_no: { type: 'string', string: 'Ngân hàng' },
 
-    type: { type: 'string', enum: ['thoi_vu', 'chinh_thuc', 'thu_viec'] },
+    type: { type: 'string', enum: ['thoi_vu', 'chinh_thuc', 'thu_viec','thai_san','nghi_viec'] },
     religion: { type: 'string', string: 'Tôn giáo' },
     address: { type: 'string', string: 'Nơi cư trú' },
     nation: { type: 'string', string: 'Dân tộc' },
     degree: { type: 'string', string: 'Bằng cấp' },
-    archive: { type: 'Boolean', default: false, string: 'Lưu trữ' },
     country: { type: 'string', string: 'Quốc tịch' },
     personal_tax_no: { type: 'string', string: 'Mã số thuế' },
     bhxh_no: { type: 'string', string: 'Số BHXH' },

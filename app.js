@@ -54,14 +54,18 @@ app.use('/', indexRouter);
 io.on('connection', (socket) => {
     console.log('connected');
 
-    socket.on("user-input-code", data => {
-        axios.post(`http://localhost:3000/api/employee/searchCode/${data}`)
-            .then(function (response) {
-                socket.emit("server-send-client-employee", response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
+    socket.on("user-input-code-type", async ( data) => {
+            const response = await axios({
+                method: 'post',
+                url: `http://localhost:3000/api/employee/searchCode`,
+                headers: {},
+                data: {
+                    code: data.code,
+                    type: data.type
+                }
             });
+            console.log( response.data)
+            socket.emit("server-send-client-employee", response.data);
     })
     socket.on("search-code", data => {
         axios.get(`http://localhost:3000/api/employee/dropdown/${data}`)
@@ -108,9 +112,17 @@ io.on('connection', (socket) => {
             }
         });
         socket.emit("server-send-acupuncture-data", { ...acupunctureLine.data });
-
     })
 
+    socket.on("user-selected-employee-type", async () => {
+        await axios.get(`http://localhost:3000/api/department/getDepartmentList`)
+            .then(function (response) {
+                socket.emit("server-send-department-list", response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    })
 
 });
 

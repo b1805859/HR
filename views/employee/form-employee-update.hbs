@@ -126,6 +126,26 @@
                     placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
+                  <label class="form-label" for="department-select">Phòng ban</label> (<span class="text-danger">*</span>)
+                  <select id="department-select" name="department-select" class="select2 form-select" required>
+                    <option value="">{{employee.department}}</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="job" class="form-label">Chức vụ</label> (<span
+                    class="text-danger">*</span>)
+                  <input class="form-control" type="text" id="job" name="job"
+                    required autocomplete="off" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
+                  <select id="type" name="type" class="select2 form-select">
+                    <option value="thoi_vu">Thời vụ</option>
+                    <option value="chinh_thuc">Chính thức</option>
+                    <option value="thu_viec">Thử việc</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-md-6">
                   <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
                   <select id="type" name="type" class="select2 form-select">
                     <option value="thoi_vu">Thời vụ</option>

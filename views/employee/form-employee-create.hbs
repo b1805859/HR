@@ -3,31 +3,58 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span> Thêm hồ sơ nhân viên</h4>
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span>
+      Thêm hồ sơ nhân viên</h4>
 
     <div class="row">
       <div class="col-md-12">
         <div class="card mb-4">
           <h5 class="card-header">Thông tin hồ sơ nhân viên</h5>
           <!-- Account -->
-          <form action="/api/employee/createEmployee" id="formAccountSettings" enctype="multipart/form-data"
-            method="POST">
+          <form
+            action="/api/employee/createEmployee"
+            id="formAccountSettings"
+            enctype="multipart/form-data"
+            method="POST"
+          >
             <div class="card-body">
               <div class="d-flex align-items-start align-items-sm-center gap-4">
-                <img src="/assets/img/avatars/1.png" id="avatar_img" alt="user-avatar" class="d-block rounded"
-                  height="320" width="300" id="uploadedAvatar" />
+                <img
+                  src="/assets/img/avatars/1.png"
+                  id="avatar_img"
+                  alt="user-avatar"
+                  class="d-block rounded"
+                  height="320"
+                  width="300"
+                  id="uploadedAvatar"
+                />
                 <div class="button-wrapper">
-                  <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                  <label
+                    for="upload"
+                    class="btn btn-primary me-2 mb-4"
+                    tabindex="0"
+                  >
                     <span class="d-none d-sm-block">Upload new photo</span>
                     <i class="bx bx-upload d-block d-sm-none"></i>
-                    <input type="file" id="upload" class="account-file-input" name="avatar" hidden autocomplete="off" />
+                    <input
+                      type="file"
+                      id="upload"
+                      class="account-file-input"
+                      name="avatar"
+                      hidden
+                      autocomplete="off"
+                    />
                   </label>
-                  <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary account-image-reset mb-4"
+                  >
                     <i class="bx bx-reset d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Reset</span>
                   </button>
 
-                  <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                  <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size
+                    of 800K</p>
                 </div>
               </div>
             </div>
@@ -35,22 +62,49 @@
             <div class="card-body">
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="code" class="form-label">Mã nhân viên</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="code" name="code" placeholder="VD: B1805859" required
-                    autocomplete="off" autofocus />
+                  <label for="code" class="form-label">Mã nhân viên</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="code"
+                    name="code"
+                    placeholder="VD: B1805859"
+                    required
+                    autocomplete="off"
+                    autofocus
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="name" class="form-label">Họ tên</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="name" name="name" value="" required autocomplete="off"
-                    placeholder="VD: Lê Văn Hiếu" />
+                  <label for="name" class="form-label">Họ tên</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="name"
+                    name="name"
+                    value=""
+                    required
+                    autocomplete="off"
+                    placeholder="VD: Lê Văn Hiếu"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="birthday" class="form-label">Ngày sinh</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="date" id="birthday" value="birthday" name="birthday" required
-                    autocomplete="off" />
+                  <label for="birthday" class="form-label">Ngày sinh</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    class="form-control"
+                    type="date"
+                    id="birthday"
+                    value="birthday"
+                    name="birthday"
+                    required
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="gender" class="form-label">Giới tính</label> (<span class="text-danger">*</span>)
+                  <label for="gender" class="form-label">Giới tính</label>
+                  (<span class="text-danger">*</span>)
                   <select id="gender" name="gender" class="select2 form-select">
                     <option value="male">Nam</option>
                     <option value="female">Nữ</option>
@@ -60,33 +114,83 @@
                   <label class="phone" for="phoneNumber">Số điện thoại</label>
                   <div class="input-group input-group-merge">
                     <span class="input-group-text">VN (+84)</span>
-                    <input type="text" id="phone" name="phone" class="form-control" required autocomplete="off" />
+                    <input
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      class="form-control"
+                      required
+                      autocomplete="off"
+                    />
                   </div>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="email" class="form-label">E-mail</label>
-                  <input class="form-control" type="text" id="email" name="email" value="" autocomplete="off"
-                    placeholder="john.doe@example.com" />
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="email"
+                    name="email"
+                    value=""
+                    autocomplete="off"
+                    placeholder="john.doe@example.com"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="address" class="form-label">Địa chỉ</label> (<span class="text-danger">*</span>)
-                  <input type="text" class="form-control" id="address" name="address" required autocomplete="off" />
+                  <label for="address" class="form-label">Địa chỉ</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="address"
+                    name="address"
+                    required
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="cccd_no" class="form-label">CMND/CCCD</label> (<span class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="cccd_no" name="cccd_no" required autocomplete="off" />
+                  <label for="cccd_no" class="form-label">CMND/CCCD</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="cccd_no"
+                    name="cccd_no"
+                    required
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="nation" class="form-label">Dân tộc</label> (<span class="text-danger">*</span>)
-                  <input type="text" class="form-control" id="nation" name="nation" required autocomplete="off" />
+                  <label for="nation" class="form-label">Dân tộc</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nation"
+                    name="nation"
+                    required
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="religion" class="form-label">Tôn giáo</label>
-                  <input type="text" class="form-control" id="religion" name="religion" autocomplete="off" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="religion"
+                    name="religion"
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label class="form-label" for="country">Quốc tịch</label> (<span class="text-danger">*</span>)
-                  <select id="country" name="country" class="select2 form-select" required>
+                  <label class="form-label" for="country">Quốc tịch</label>
+                  (<span class="text-danger">*</span>)
+                  <select
+                    id="country"
+                    name="country"
+                    class="select2 form-select"
+                    required
+                  >
                     <option value="">--Chọn--</option>
                     <option value="Australia">Australia</option>
                     <option value="Bangladesh">Bangladesh</option>
@@ -116,13 +220,45 @@
                   </select>
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="bank_no" class="form-label">Tài khoản ngân hàng</label> (<span
-                    class="text-danger">*</span>)
-                  <input class="form-control" type="text" id="bank_no" name="bank_no"
-                    placeholder="0111324857233 - Vietcombank" required autocomplete="off" />
+                  <label for="bank_no" class="form-label">Tài khoản ngân hàng</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="bank_no"
+                    name="bank_no"
+                    placeholder="0111324857233 - Vietcombank"
+                    required
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="type" class="form-label">Loại nhân viên</label> (<span class="text-danger">*</span>)
+                  <label class="form-label" for="department-select">Phòng ban</label>
+                  (<span class="text-danger">*</span>)
+                  <select
+                    id="department-select"
+                    name="department-select"
+                    class="select2 form-select"
+                    required
+                  >
+                    <option value="">--Chọn--</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="job" class="form-label">Chức vụ</label>
+                  (<span class="text-danger">*</span>)
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="job"
+                    name="job"
+                    required
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="type" class="form-label">Loại nhân viên</label>
+                  (<span class="text-danger">*</span>)
                   <select id="type" name="type" class="select2 form-select">
                     <option value="thoi_vu">Thời vụ</option>
                     <option value="chinh_thuc">Chính thức</option>
@@ -131,20 +267,44 @@
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="personal_tax_no" class="form-label">Mã số thuế</label>
-                  <input type="text" class="form-control" id="personal_tax_no" name="personal_tax_no"
-                    autocomplete="off" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="personal_tax_no"
+                    name="personal_tax_no"
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhxh_no" class="form-label">Số BHXH</label>
-                  <input type="text" class="form-control" id="bhxh_no" name="bhxh_no" autocomplete="off" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="bhxh_no"
+                    name="bhxh_no"
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_no" class="form-label">Số BHYT</label>
-                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" autocomplete="off" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="bhyt_no"
+                    name="bhyt_no"
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="bhyt_hospital" class="form-label">Nơi đăng ký khám bệnh</label>
-                  <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital" autocomplete="off" />
+                  <label for="bhyt_hospital" class="form-label">Nơi đăng ký khám
+                    bệnh</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="bhyt_hospital"
+                    name="bhyt_hospital"
+                    autocomplete="off"
+                  />
                 </div>
               </div>
               <div class="mt-2">
@@ -164,16 +324,16 @@
   </div>
   <!-- / Content -->
 
-
-
   <div class="content-backdrop fade"></div>
 </div>
 <!-- Content wrapper -->
 
 <script>
-  $('#upload').change(function (event) {
-    var tmppath = URL.createObjectURL(event.target.files[0]);
-    $("#avatar_img").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
-    //socket.emit('user-change-avatar', filePath);
-  })
+  $('#upload').change(function (event) { var tmppath =
+  URL.createObjectURL(event.target.files[0]);
+  $("#avatar_img").fadeIn("fast").attr('src',
+  URL.createObjectURL(event.target.files[0]));
+  //socket.emit('user-change-avatar', filePath); })
+  $('#department-select').click(function () {
+  socket.emit("user-selected-employee-type") });
 </script>
