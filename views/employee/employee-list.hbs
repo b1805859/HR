@@ -3,7 +3,7 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
+    <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
 
     <nav class="navbar bg-light mb-2">
       <div class="container-fluid">
@@ -12,14 +12,6 @@
             placeholder="Nhập mã nhân viên" autocomplete="off">
           <datalist id="search-employee">
           </datalist>
-          <select id="employee-type" name="employee-type" class="select2 form-select me-2">
-            <option value='tat_ca'>Tất cả</option>
-            <option value="chinh_thuc">Chính thức</option>
-            <option value="thu_viec">Thử việc</option>
-            <option value="thoi_vu">Thời vụ</option>
-            <option value="thoi_vu">Thai sản</option>
-            <option value="nghi_viec">Nghỉ việc</option>
-          </select>
           <button id="btn-search-code" type="button" class="btn btn-danger"><i
               class='bx bx-search bx-rotate-90'></i></button>
         </form>
@@ -34,15 +26,16 @@
     <!-- Basic Bootstrap Table -->
     <div class="card">
       <div class="table-responsive text-nowrap">
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th class="text-center">Mã nhân viên</th>
-              <th class="text-center">Tên nhân viên</th>
-              <th class="text-center">Giới tính</th>
-              <th class="text-center">Phòng ban</th>
-              <th class="text-center">Chức vụ</th>
-              <th class="text-center">Trạng thái hồ sơ</th>
+              <th class="text-center" style=" background:#a7e0fa"></th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Mã nhân viên</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Tên nhân viên</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Giới tính</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Phòng ban</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Chức vụ</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Trạng thái hồ sơ</th>
             </tr>
           </thead>
           <tbody id="table-employee" class="table-border-bottom-0">
@@ -62,10 +55,16 @@
       var table_html = ""
       const table_employee = `{{employees}}`
       const table = JSON.parse(table_employee.replace(/&quot;/g, '"'));
-      console.log(table)
       for (const element of table) {
         const { employee, department } = element
         table_html += "<tr>"
+        table_html += `<td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
+                    width: 65px;
+                    height: 65px;
+                    background-size: cover;
+                    background-position: top center;
+                    border-radius: 50%;
+                    margin: 0 auto;"></div></td>`
         table_html += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
         table_html += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
         table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
