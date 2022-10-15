@@ -8,10 +8,7 @@
     <nav class="navbar bg-light mb-2">
       <div class="container-fluid">
         <form class="d-flex mb-0" role="search">
-          <input id="input-code" type="text" list="search-employee" class="form-control me-2"
-            placeholder="Nhập mã nhân viên" autocomplete="off">
-          <datalist id="search-employee">
-          </datalist>
+
           <button id="btn-search-code" type="button" class="btn btn-danger"><i
               class='bx bx-search bx-rotate-90'></i></button>
         </form>
@@ -45,9 +42,8 @@
     </div>
     <!--/ Basic Bootstrap Table -->
 
-    <hr class="my-4" />
 
-    <div id="pagination" class="row">
+    <div id="pagination" class="row mt-4">
 
     </div>
 
@@ -55,6 +51,45 @@
       var table_html = ""
       const table_employee = `{{employees}}`
       const table = JSON.parse(table_employee.replace(/&quot;/g, '"'));
+
+      //Select
+      table_html += "<tr>"
+      table_html += `<td></td>`
+      table_html += `<td> 
+                        <input id="input-code" type="text" list="search-employee" class="form-control me-2"
+                        placeholder="Nhập mã nhân viên" autocomplete="off">
+                        <datalist id="search-employee">
+                        </datalist>
+                      </td>`
+      table_html += `<td>
+                        <input id="input-name" type="text" list="input-name" class="form-control me-2"
+                        placeholder="Nhập tên nhân viên" autocomplete="off">
+                        <datalist id="input-name">
+                        </datalist>
+                      </td>`
+      table_html += `<td>
+                        <select id="search-gender" name="search-gender" class="select2 form-select" required>
+                          <option value="">--Chọn--</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </select>
+                      </td>`
+      table_html += `<td><select id="select-department" name="select-department" class="select2 form-select">
+                          <option value=''>-- Chọn --</option>
+                        </select>
+                      </td>`
+      table_html += `<td>
+                      </td>`
+      table_html += `<td><select id="select-status" name="select-status" class="select2 form-select" required>
+                          <option value= ''>--Chọn--</option>
+                          <option value= 'working'>Working</option>
+                          <option value= 'probationry'>Probationry</option>
+                          <option value= 'demit'>Demit</option>
+                          <option value= 'maternity_leave'>Maternity</option>
+                        </select>
+                      </td>`
+      table_html += "</tr>"
+
       for (const element of table) {
         const { employee, department } = element
         table_html += "<tr>"
@@ -159,6 +194,38 @@
 
       $("#pagination").html(html)
 
+
+
+
+      $('#select-department').on('click change', function (e) {
+        socket.emit("/api/department/getListDepartment")
+      });
+
+
+
+      //event-search-manv
+      //$('select').on('change', '', function (e) {
+
+      //});
+      //event-search-tennv
+      //$('select').on('change', '', function (e) {
+
+      //});
+      //event-search-gender
+      //$('#search-gender').on('change', '', function (e) {
+        //let valueSelected = this.value;
+        //socket.emit("search-select", { type: 'search-gender', value: valueSelected })
+      //});
+      //event-search-department
+      //$('#select-department').on('change', '', function (e) {
+        //let valueSelected = this.value;
+        //socket.emit("search-select", { type: 'select-department', value: valueSelected })
+      //});
+      //event-search-status
+      //$('#select-status').on('change', '', function (e) {
+        //let valueSelected = this.value;
+        //socket.emit("search-select", { type: 'select-status', value: valueSelected })
+      //});
 
     </script>
 

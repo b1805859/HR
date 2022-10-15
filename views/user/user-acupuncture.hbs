@@ -64,7 +64,7 @@
   var acupunctures_encode = "{{ acupunctures }}"
   var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
   var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-  var h1 = `<h1 class="text-center mt-5 mb-4">${month.name}</h1>`
+  var h1 = `<h1 class="text-center mt-4 mb-2">${month.name}</h1>`
   for (let i = 1; i <= month.total; i++) {
     html += `<th>${i}</th>`
     let check = 0

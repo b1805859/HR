@@ -47,6 +47,10 @@ router.get('/formUpdateDepartment/:id', Auth.isAuth, Auth.checkRole, async (req,
 router.get('/fetchDepartmentList/:page', Auth.isAuth, Auth.checkRole, departmentController.fetchListPage)
 
 
+//Lấy danh sách phòng ban
+router.get('/getListDepartment', departmentController.getListDepartment)
+
+
 //Lưu trữ hồ sơ nhân viên
 // router.post('/storeDepartment/:id', departmentController.browse)
 

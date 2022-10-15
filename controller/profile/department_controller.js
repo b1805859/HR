@@ -31,7 +31,7 @@ class Department {
 
     //Tạo phòng ban
     createDepartment = async (req, res, next) => {
-        const { name, phone, employee_code } = req.body
+        const { name, phone, employee_code, status } = req.body
 
         try {
 
@@ -47,7 +47,7 @@ class Department {
             let result = {
                 name: String(name).trim(),
                 phone: String(phone).trim(),
-                status: 'inactive',
+                status: status,
 
             }
 
@@ -152,7 +152,7 @@ class Department {
                         if (err) return next(err);
                         res.render('department/department-list', {
                             user: sigleToObject(user),
-                            departments: multipleToObject(departments), // sản phẩm trên một page
+                            departments: JSON.stringify(departments), // sản phẩm trên một page
                             current: page, // page hiện tại
                             pages: Math.ceil(count / perPage) // tổng số các page
                         });
@@ -165,7 +165,16 @@ class Department {
         }
     }
 
-    
+    //Lấy danh sách tháng trong năm
+    getListDepartment = async (req, res, next) => {
+        try {
+            const departments = await DepartmentDepartment.find().sort({ datefield: -1 })
+            return res.json(departments)
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
 }
 
 

@@ -114,6 +114,8 @@ io.on('connection', (socket) => {
     })
 
 
+
+    //Lấy danh sách tháng
     socket.on("/api/timekeep/month", async () => {
         const response = await axios({
             method: 'get',
@@ -125,6 +127,41 @@ io.on('connection', (socket) => {
         });
         socket.emit("server/api/timekeep/timekeep-table",response.data)
     })
+
+
+    //Lấy danh sách phòng ban
+    socket.on("/api/department/getListDepartment", async () => {
+        const response = await axios({
+            method: 'get',
+            url: `http://localhost:3000/api/department/getListDepartment`,
+            headers: {},
+            data: {
+                
+            }
+        });
+        socket.emit("server/api/department/getListDepartment",response.data)
+    })
+
+    // socket.on("search-select", async data =>{
+    //     const {type, value} = data
+    //     let search ={
+    //             method: 'get',
+    //             headers: {},
+    //             data: {
+    //             }
+    //     }
+
+    //     if(type === "search-gender" || type === "select-status"){
+    //         result = {...result, url:`http://localhost:3000/api/employee/${data.type}/${data.value}/:1`}
+    //     }
+    //     if(type === "select-department"){
+    //         result = {...result, url:"http://localhost:3000/api/employee/getemplpyeeDepartment"}
+    //     }
+
+
+    //     const response = await axios(result);
+    //     //socket.emit("server/api/department/getListDepartment",response.data)
+    // })
 
 });
 

@@ -97,6 +97,18 @@ socket.on("server/api/timekeep/timekeep-table", data=>{
 })
 
 
+
+socket.on("server/api/department/getListDepartment", data=>{
+  var html 
+  for(const month of data)
+  {
+    const {_id ,name} = month
+      html += `<option value="${_id}">${name}</option>`
+  }
+  $("#select-department").html(html)
+})
+
+
 $(document).ready(function () {
     $("#btn-search-code").click(function () {
         socket.emit("user-input-code-type",{code: $("#input-code").val(),type: $("#type").val()})

@@ -72,6 +72,9 @@ router.get('/formUpdateEmployee/:id', Auth.isAuth, Auth.checkRole, async (req, r
 router.get('/fetchEmployeeList/:page', Auth.isAuth, Auth.checkRole, employeeController.fetchListPage)
 
 
+//Lấy danh sách phòng ban có phân trang (trang có đối số)
+router.get('/fetchEmployeeList/:type/:key/:page', Auth.isAuth, Auth.checkRole, employeeController.fetchListKeyPage)
+
 //Lưu trữ hồ sơ nhân viên
 router.get('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.storeEmployee)
 

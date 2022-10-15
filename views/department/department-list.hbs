@@ -17,24 +17,18 @@
     <!-- Basic Bootstrap Table -->
     <div class="card">
       <div class="table-responsive text-nowrap">
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th>Tên phòng ban</th>
-              <th>Số điện thoại liên hệ</th>
-              <th>Trạng thái</th>
-              <th>Trưởng phòng</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Tên phòng ban</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Số điện thoại liên hệ
+              </th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Trạng thái</th>
+              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Trưởng phòng</th>
             </tr>
           </thead>
           <tbody id="table-department" class="table-border-bottom-0">
-            {{#each departments}}
-            <tr>
-              <td><a href="/api/department/getDepartmentInformation/{{this._id}}">{{name}}</a></td>
-              <td>{{phone}}</td>
-              <td>{{status}}</td>
-              <td>{{name_lead}}</td>
-            </tr>
-            {{/each}}
+
           </tbody>
         </table>
       </div>
@@ -42,7 +36,39 @@
     <!--/ Basic Bootstrap Table -->
 
     <hr class="my-4" />
+    <script>
+      var table_html = ""
+      const table_departments = `{{departments}}`
+      const table = JSON.parse(table_departments.replace(/&quot;/g, '"'));
+      console.log("table", table)
+      for (const department of table) {
+        const { _id,
+          name,
+          phone,
+          status,
+          name_lead } = department
+        table_html += "<tr>"
+        table_html += ` <td class="text-center" > <a style='color: #697a8d;'
+            href="/api/department/getDepartmentInformation/${this._id}">${name}</a></td>`
+        table_html += `  <td class="text-center" > <a style='color: #697a8d;'
+            href="/api/department/getDepartmentInformation/${this._id}">${phone}</a></td>`
 
+        if (status == 'active') {
+          table_html += `  <td class="text-center"><span class="badge bg-label-success me-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hoạt động</font></font></span>
+              </td>`
+        }
+        if (status == 'inactive') {
+          table_html += `  <td class="text-center"><span class="badge bg-label-danger me-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Không hoạt động</font></font></span>
+              </td>`
+        }
+        table_html += `  <td class="text-center"><a style='color: #697a8d;'
+                  href="/api/department/getDepartmentInformation/${this._id}">${name_lead}</a>
+              </td>`
+        table_html += "</tr>"
+      }
+
+      $('#table-department').html(table_html)
+    </script>
 
   </div>
   <!-- / Content -->
