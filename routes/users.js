@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
+const DepartmentDepartment = require('../models/department_model.js')
 const timekeepTable = require('../models/timekeep/table_model')
 const timekeepPosition = require('../models/timekeep/position_model')
 const timekeepAcupuncture = require('../models/timekeep/acupuncture_model')
 var ObjectId = require('mongodb').ObjectId; 
 const EmployeeProfile = require('../models/employee_model')
 const Auth = require('../middlewares/auth_middlewares')
+var mongoose = require('mongoose');
 const { sigleToObject, multipleToObject } = require('../utils/to_Object')
 
 
@@ -27,11 +28,17 @@ router.get('/profile', Auth.isAuth, async (req, res) => {
         if (!employee) {
             return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
         }
+
+        const department = await DepartmentDepartment.findOne({ _id: employee.department_id })
+            if (!department) {
+                return res.status(401).send('Không tìm thấy phòng ban.');
+            }
+
         if (String(account.role) == "nhan_su") {
-            res.render("user/admin-information", { user: sigleToObject(user), employee: sigleToObject(employee) })
+            res.render("user/admin-information", { user: sigleToObject(user), employee: sigleToObject(employee) ,department: sigleToObject(department)})
         }
         else {
-            res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee), layout: 'user' })
+            res.render("user/user-information", { user: sigleToObject(user), employee: sigleToObject(employee),department: sigleToObject(department), layout: 'user' })
         }
 
     } catch (error) {
@@ -44,58 +51,63 @@ router.get('/profile', Auth.isAuth, async (req, res) => {
 //Xem báo cáo chấm công
 router.get('/report', Auth.isAuth, async (req, res) => {
     const { user } = req
-    try {
-
-        const report = await timekeepTable.aggregate([
-            {
-                $match: {
-                    open: true,
-                    employee_id: user._id
-                }
-            },
-            {
-                $lookup: {
-                    from: "employeeprofiles", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "employee"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeepmonths", // collection to join
-                    localField: "month_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "month"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeeptables", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "employee_id",//field from the documents of the "from" collection
-                    as: "table"// output array field
-                }
-            },
-        ], function (error, data) {
-
-        });
-
-        // console.log("report", JSON.stringify(report));
-        const { employee, month, table } = report[0]
-        const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
-        res.render('user/user-report', {
-            table_id: table[0]._id,
-            employee: employee[0],
-            month:  sigleToObject(month[0]),
-            acupunctures: JSON.stringify(acupunctures),
+        return res.render("misc/pages-misc-under-maintenance",
+        {
+            layout: 'user',
             user: sigleToObject(user),
-            layout: 'user'
-        });
-    } catch (error) {
-        console.log(error)
-        return error
-    }
+        })
+    // try {
+
+    //     const report = await timekeepTable.aggregate([
+    //         {
+    //             $match: {
+    //                 open: true,
+    //                 employee_id: ObjectId(user._id)
+    //             }
+    //         },
+    //         {
+    //             $lookup: {
+    //                 from: "employeeprofiles", // collection to join
+    //                 localField: "employee_id",//field from the input documents
+    //                 foreignField: "_id",//field from the documents of the "from" collection
+    //                 as: "employee"// output array field
+    //             }
+    //         },
+    //         {
+    //             $lookup: {
+    //                 from: "timekeepmonths", // collection to join
+    //                 localField: "month_id",//field from the input documents
+    //                 foreignField: "_id",//field from the documents of the "from" collection
+    //                 as: "month"// output array field
+    //             }
+    //         },
+    //         {
+    //             $lookup: {
+    //                 from: "timekeeptables", // collection to join
+    //                 localField: "employee_id",//field from the input documents
+    //                 foreignField: "employee_id",//field from the documents of the "from" collection
+    //                 as: "table"// output array field
+    //             }
+    //         },
+    //     ], function (error, data) {
+
+    //     });
+
+    //     // console.log("report", JSON.stringify(report));
+    //     const { employee, month, table } = report[0]
+    //     const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
+    //     res.render('user/user-report', {
+    //         table_id: table[0]._id,
+    //         employee: employee[0],
+    //         month:  sigleToObject(month[0]),
+    //         acupunctures: JSON.stringify(acupunctures),
+    //         user: sigleToObject(user),
+    //         layout: 'user'
+    //     });
+    // } catch (error) {
+    //     console.log(error)
+    //     return error
+    // }
 });
 
 
@@ -104,12 +116,11 @@ router.get('/report', Auth.isAuth, async (req, res) => {
 router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
     const { user } = req
     try {
-
         const report = await timekeepTable.aggregate([
             {
                 $match: {
                     open: true,
-                    employee_id: user._id
+                    employee_id: mongoose.Types.ObjectId(user._id)
                 }
             },
             {
@@ -140,7 +151,6 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
 
         });
 
-        // console.log("report", JSON.stringify(report));
         const { employee, month, table } = report[0]
         const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
         res.render('user/user-acupuncture', {

@@ -66,12 +66,12 @@
       for (const element of table) {
         const { employee, department } = element
         table_html += "<tr>"
-        table_html += `<td class="text-left"><a href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
-        table_html += `<td class="text-left"><a href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
-        table_html += `<td class="text-center">${employee.gender}</td>`
-        table_html += `<td class="text-center">${department}</td>`
-        table_html += `<td class="text-center">${employee.job}</td>`
-        table_html += `<td class="text-center"><span class="badge bg-label-primary me-1">${employee.status}</span></td>`
+        table_html += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+        table_html += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-label-primary me-1">${employee.status}</span></a></td>`
         table_html += "</tr>"
       }
 

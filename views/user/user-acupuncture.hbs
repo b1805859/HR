@@ -15,7 +15,7 @@
     <!-- Responsive Table -->
     <div id="card" class="card">
       <div class="table-responsive text-nowrap">
-        <table  class="table">
+        <table class="table">
           <thead>
             <tr id="title_month" class="text-nowrap">
             </tr>
@@ -31,29 +31,29 @@
     </div>
     <!--/ Responsive Table -->
 
-  <!--/ Basic Pagination -->
+    <!--/ Basic Pagination -->
   </div>
   <!-- / Content -->
 
   <!-- Modal HTML -->
-<div id="myModal" class="modal fade">
+  <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-confirm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="icon-box">
-                    <i class='bx bx-check'></i>
-                </div>
-                <h4 class="modal-title w-100">Đã chấm công</h4>
-            </div>
-            <div class="modal-body">
-                <p class="text-center"></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success btn-block" id="data-dismiss">OK</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="icon-box">
+            <i class='bx bx-check'></i>
+          </div>
+          <h4 class="modal-title w-100">Đã chấm công</h4>
         </div>
+        <div class="modal-body">
+          <p class="text-center"></p>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button class="btn btn-success btn-block" id="data-dismiss">Đóng</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 <!-- Content wrapper -->
 <script>
@@ -64,7 +64,7 @@
   var acupunctures_encode = "{{ acupunctures }}"
   var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
   var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-  var h1 =`<h1 class="text-center mt-5 mb-4">${month.name}</h1>`
+  var h1 = `<h1 class="text-center mt-5 mb-4">${month.name}</h1>`
   for (let i = 1; i <= month.total; i++) {
     html += `<th>${i}</th>`
     let check = 0

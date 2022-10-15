@@ -165,15 +165,14 @@ const maker = new mapboxgl.Marker()
 
 
 map.on('click', (e) => {
+    const { lng, lat } = e.lngLat
     document.getElementById('info').innerHTML =
         // `e.point` is the x, y coordinates of the `mousemove` event
         // relative to the top-left corner of the map.
-        JSON.stringify(e.point) +
-        '<br />' +
         // `e.lngLat` is the longitude, latitude geographical position of the event.
-        JSON.stringify(e.lngLat.wrap());
 
-    const { lng, lat } = e.lngLat
+        `LATITUDE: ${lat} </br>LONGITUDE: ${lng}`
+
     maker.setLngLat([lng, lat])
         .addTo(map);
 });

@@ -45,6 +45,8 @@ router.get('/fetchReportList/1', Auth.isAuth, Auth.checkRole, timekeepReportCont
 
 //Month
 router.post('/month', Auth.isAuth, Auth.checkRole, timekeepMonthController.createMonth)
+//
+router.get('/month', timekeepMonthController.getMonth)
 
 
 //Chấm công

@@ -15,7 +15,6 @@ class TimekeepAcupuncture {
             if (!table)
                 res.json({ message: "Bảng không tồn tại" })
 
-
             var now = new Date();
             var year = now.getFullYear();
             var month = now.getMonth() + 1;

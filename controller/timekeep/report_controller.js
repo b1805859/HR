@@ -13,14 +13,14 @@ class TimekeepReport {
     //Lấy danh sách hồ sơ nhân viên có phân trang
     fetchReport = async (req, res, next) => {
         const { user } = req
+
         let perPage = 8;
         let page = req.params.page || 1
         try {
-
             const reports = await timekeepTable.aggregate([
                 {
                     $match: {
-                        month_id: new ObjectId("63208b9f9eb7c641a238cee4")
+                        open: true       
                     }
                 },
                 {
@@ -39,16 +39,23 @@ class TimekeepReport {
                         as: "months"// output array field
                     }
                 },
+                {
+                    $lookup: {
+                        from: "timekeeptables", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "employee_id",//field from the documents of the "from" collection
+                        as: "table"// output array field
+                    }
+                },
             ], function (error, data) {
-                // return res.json(data);
-                //handle error case also
+    
             });
 
             const count = reports.length;
             const employeeReport = []
             const { months } = reports[0]
             for (const report of reports) {
-                const { employees, months } = report
+                const { employees,} = report
                 const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
 
                 let result = {

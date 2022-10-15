@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
                 }
             });
             console.log( response.data)
-            socket.emit("server-send-client-employee", response.data);
+           return socket.emit("server-send-client-employee", response.data);
     })
     socket.on("search-code", data => {
         axios.get(`http://localhost:3000/api/employee/dropdown/${data}`)
@@ -88,7 +88,6 @@ io.on('connection', (socket) => {
             }
         });
         const { position } = response.data
-        console.log("position", position)
         if (position.length > 0) {
             await axios({
                 method: 'post',
@@ -100,7 +99,7 @@ io.on('connection', (socket) => {
             });
         }
         else {
-            socket.emit("server-send-result", { msg: "Vị trí chấm công không đúng" })
+           return socket.emit("server-send-result", { msg: "Vị trí chấm công không đúng" })
         }
 
         const acupunctureLine = await axios({
@@ -111,7 +110,20 @@ io.on('connection', (socket) => {
                 user_id: data.user_id
             }
         });
-        socket.emit("server-send-acupuncture-data", { ...acupunctureLine.data });
+           return socket.emit("server-send-acupuncture-data", { ...acupunctureLine.data });
+    })
+
+
+    socket.on("/api/timekeep/month", async () => {
+        const response = await axios({
+            method: 'get',
+            url: `http://localhost:3000/api/timekeep/month`,
+            headers: {},
+            data: {
+                
+            }
+        });
+        socket.emit("server/api/timekeep/timekeep-table",response.data)
     })
 
 });

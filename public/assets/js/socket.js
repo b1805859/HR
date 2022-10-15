@@ -27,7 +27,29 @@ socket.on("server-send-client-employee", employee => {
 
 
 socket.on("server-send-result", data => {
-    alert(data.msg)
+    html = `<div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="icon-box-err">
+                <i class='bx bx-x' style='vertical-align: middle;
+                font-size: 4.15rem;
+                line-height: 1;'></i>
+            </div>
+            <h4 class="modal-title w-100">${data.msg}</h4>
+        </div>
+        <div class="modal-body">
+            <p class="text-center"></p>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-success btn-block" id="data-dismiss">Đóng</button>
+        </div>
+      </div>
+    </div>`
+    $("#myModal").html(html);
+    $("#myModal").modal("toggle");
+    $("#data-dismiss").click(function(){
+      $("#myModal").modal("hide");
+    });
 })
 
 
@@ -63,6 +85,16 @@ for (let i = 1; i <= monthPrase.total; i++) {
 })
 
 
+
+socket.on("server/api/timekeep/timekeep-table", data=>{
+  var html 
+  for(const month of data)
+  {
+    const {_id ,name} = month
+      html += `<option value="${_id}">${name}</option>`
+  }
+  $("#thang").html(html)
+})
 
 
 $(document).ready(function () {

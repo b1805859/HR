@@ -18,7 +18,7 @@
       </div>
     </nav>
     <!-- Responsive Table -->
-    <div class="card">
+    <div id="card" class="card">
       <div class="table-responsive text-nowrap">
         <table class="table">
           <thead>
@@ -45,7 +45,7 @@
       var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
       var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
       var acupuncture_html = ""
-      console.log("employeeReports", employeeReports)
+      var h1 = `<h1 class="text-center mt-5 mb-4">${month.name}</h1>`
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
@@ -74,7 +74,7 @@
       }
       $("#title_month").html(title_month)
       $("#acupuncture_user").html(acupuncture_html)
-
+      $('#card').prepend(h1)
 
       var html = "";
       var pages = {{ pages }}

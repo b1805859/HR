@@ -72,6 +72,23 @@
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
+.modal-confirm .icon-box-err {
+    color: #fff;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -70px;
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    z-index: 9;
+    background: #c81717;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
 .modal-confirm .icon-box i {
     font-size: 58px;
     position: relative;
