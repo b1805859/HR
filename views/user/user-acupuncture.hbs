@@ -66,17 +66,26 @@
   var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
   var h1 = `<h1 class="text-center mt-4 mb-2">${month.name}</h1>`
   for (let i = 1; i <= month.total; i++) {
-    html += `<th>${i}</th>`
+    html += `<th class="text-center">${i}</th>`
     let check = 0
     for (let j = 0; j < acupunctures.length; j++) {
       const { date } = acupunctures[j];
       if (String(date) === String(i)) {
-        acupuncture += `<td>1</td>`
+        acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
         break;
       }
       check++;
       if (check == acupunctures.length) {
-        acupuncture += `<td></td>`
+
+        if (i >= acupunctures[acupunctures.length - 1].date) {
+          console.log("1", i)
+          acupuncture += `<td></td>`
+
+        }
+        else {
+          console.log("2", i)
+          acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+        }
       }
     }
   }

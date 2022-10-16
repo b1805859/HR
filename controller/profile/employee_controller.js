@@ -248,45 +248,45 @@ class Employee {
 
 
 
-    fetchListKeyPage= async (req, res, next) => {
-        const { user } = req
-        const {type, key} =req.params
-        let perPage = 8;
-        let page = req.params.page || 1
-        try {
-            let search ={
-                [`${type}`]: key
-            }
-            await EmployeeProfile
-                .find(search)
-                .sort({ date: 1 })
-                .skip((perPage * page) - perPage)
-                .limit(perPage)
-                .exec(async (err, employees) => {
-                    const employeeList = []
-                    for(const employee of employees) {
-                        let result ={}
-                        const { department_id } = employee
-                        const department = await DepartmentDepartment.findOne({ _id: department_id })
-                        result ={ employee ,department: department.name}
-                        employeeList.push(result)
-                    }
-                    EmployeeProfile.countDocuments((err, count) => {
-                        if (err) return next(err);
-                        res.render('employee/employee-list', {
-                            user: sigleToObject(user),
-                            employees: JSON.stringify(employeeList), // sản phẩm trên một page
-                            current: page, // page hiện tại
-                            pages: Math.ceil(count / perPage) // tổng số các page
-                        });
-                    })
-                })
+    // fetchListKeyPage= async (req, res, next) => {
+    //     const { user } = req
+    //     const {type, value} =req.params
+    //     let perPage = 8;
+    //     let page = req.params.page || 1
+    //     try {
+    //         let search ={
+    //             [`${type}`]: value
+    //         }
+    //         await EmployeeProfile
+    //             .find(search)
+    //             .sort({ date: 1 })
+    //             .skip((perPage * page) - perPage)
+    //             .limit(perPage)
+    //             .exec(async (err, employees) => {
+    //                 const employeeList = []
+    //                 for(const employee of employees) {
+    //                     let result ={}
+    //                     const { department_id } = employee
+    //                     const department = await DepartmentDepartment.findOne({ _id: department_id })
+    //                     result ={ employee ,department: department.name}
+    //                     employeeList.push(result)
+    //                 }
+    //                 EmployeeProfile.countDocuments((err, count) => {
+    //                     if (err) return next(err);
+    //                     res.render('employee/employee-list', {
+    //                         user: sigleToObject(user),
+    //                         employees: JSON.stringify(employeeList), // sản phẩm trên một page
+    //                         current: page, // page hiện tại
+    //                         pages: Math.ceil(count / perPage) // tổng số các page
+    //                     });
+    //                 })
+    //             })
 
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
 }
 
 

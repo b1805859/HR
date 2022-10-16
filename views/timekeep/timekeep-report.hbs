@@ -61,12 +61,21 @@
           for (let j = 0; j < acupuncture.length; j++) {
             const { date } = acupuncture[j];
             if (date == String(i)) {
-              acupuncture_html += `<td>1</td>`
+              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
               break;
             }
             check++;
             if (check == acupuncture.length) {
-              acupuncture_html += `<td></td>`
+
+              if (i >= acupuncture[acupuncture.length - 1].date) {
+                console.log("1", i)
+                acupuncture_html += `<td></td>`
+
+              }
+              else {
+                console.log("2", i)
+                acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+              }
             }
           }
         }
@@ -75,7 +84,7 @@
 
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {
-        title_month += `<td>${i}</td>`
+        title_month += `<th class="text-center">${i}</th>`
       }
       $("#title_month").html(title_month)
       $("#acupuncture_user").html(acupuncture_html)

@@ -68,12 +68,20 @@ for (let i = 1; i <= monthPrase.total; i++) {
     for (let j = 0; j < acupuncturesParse.length; j++) {
       const { date } = acupuncturesParse[j];
       if (String(date) === String(i)) {
-        acupuncture += `<td>1</td>`
+        acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
         break;
       }
       check++;
       if (check == acupuncturesParse.length) {
-        acupuncture += `<td></td>`
+        if (i >= acupuncturesParse[acupuncturesParse.length - 1].date) {
+          console.log("1", i)
+          acupuncture += `<td></td>`
+
+        }
+        else {
+          console.log("2", i)
+          acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+        }
       }
     }
   }

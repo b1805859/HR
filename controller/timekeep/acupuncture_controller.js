@@ -2,7 +2,8 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 const timekeepAcupuncture = require("../../models/timekeep/acupuncture_model")
 const timekeepTable = require("../../models/timekeep/table_model")
-
+const timekeepMonth = require("../../models/timekeep/month_model")
+var mongoose = require('mongoose');
 class TimekeepAcupuncture {
 
     //Chấm công
@@ -11,9 +12,13 @@ class TimekeepAcupuncture {
         const { table_id, user_id } = req.body
         try {
             const table = await timekeepTable.find({ _id: table_id })
-
             if (!table)
                 res.json({ message: "Bảng không tồn tại" })
+
+            if(table[0].open == false)
+            {
+                res.json({ message: "Bảng công không mở" })
+            }
 
             var now = new Date();
             var year = now.getFullYear();
@@ -24,8 +29,9 @@ class TimekeepAcupuncture {
             var second = now.getSeconds();
 
             const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day })
-            if (acupunctureCheck)
-                return res.json({ message: "Đã chấm công" })
+            //Kiểm tra đã chấm công hay chưa
+            // if (acupunctureCheck)
+            //     return res.json({ message: "Đã chấm công cho hôm nay" })
 
             result = {
                 date: day,
@@ -33,8 +39,15 @@ class TimekeepAcupuncture {
                 table_id,
             }
             let newAcupuncture = new timekeepAcupuncture(result)
-
             await newAcupuncture.save()
+
+            //Kiểm tra cuối tháng
+            const monthTable = await timekeepMonth.findOne({ _id: table[0].month_id })
+            if(result.date == monthTable.total)
+            {
+                console.log("1")
+                await timekeepTable.updateOne({ _id: table_id },{open: false})
+            }
             return res.json({ data: newAcupuncture })
         } catch (error) {
             console.log(error)
