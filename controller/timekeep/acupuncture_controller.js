@@ -1,5 +1,6 @@
 var ObjectId = require('mongoose').Types.ObjectId;
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
+const EmplopyeeProfile = require("../../models/employee_model")
 const timekeepAcupuncture = require("../../models/timekeep/acupuncture_model")
 const timekeepTable = require("../../models/timekeep/table_model")
 const timekeepMonth = require("../../models/timekeep/month_model")
@@ -28,26 +29,32 @@ class TimekeepAcupuncture {
             var minute = now.getMinutes();
             var second = now.getSeconds();
 
-            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day })
             //Kiểm tra đã chấm công hay chưa
-            // if (acupunctureCheck)
-            //     return res.json({ message: "Đã chấm công cho hôm nay" })
+            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: 31 })
+            if (acupunctureCheck)
+                return res.json({ message: "Đã chấm công cho hôm nay" })
 
-            result = {
-                date: day,
-                employee_id: user_id,
-                table_id,
-            }
-            let newAcupuncture = new timekeepAcupuncture(result)
-            await newAcupuncture.save()
+
 
             //Kiểm tra cuối tháng
             const monthTable = await timekeepMonth.findOne({ _id: table[0].month_id })
-            if(result.date == monthTable.total)
+            if(31 == monthTable.total)
             {
-                console.log("1")
                 await timekeepTable.updateOne({ _id: table_id },{open: false})
+                await EmplopyeeProfile.updateOne({ _id: user_id },{bang_cong: false})
             }
+
+
+
+
+                result = {
+                    date: 31,
+                    employee_id: user_id,
+                    table_id,
+                }
+                let newAcupuncture = new timekeepAcupuncture(result)
+                await newAcupuncture.save()
+
             return res.json({ data: newAcupuncture })
         } catch (error) {
             console.log(error)

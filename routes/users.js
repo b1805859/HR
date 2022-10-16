@@ -119,7 +119,6 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
         const report = await timekeepTable.aggregate([
             {
                 $match: {
-                    open: true,
                     employee_id: mongoose.Types.ObjectId(user._id)
                 }
             },
@@ -151,6 +150,15 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
 
         });
 
+        if(!report[0])
+        {   
+            res.render('user/user-acupuncture', {
+                msg: "Không có bảng chấm công",
+                user: sigleToObject(user),
+                layout: 'user'
+            });
+        }
+
         const { employee, month, table } = report[0]
         const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
         res.render('user/user-acupuncture', {
@@ -177,7 +185,6 @@ router.post('/acupunctureData', async (req, res, next) => {
         const report = await timekeepTable.aggregate([
             {
                 $match: {
-                    open: true,
                     employee_id: ObjectId(user_id)
                 }
             },

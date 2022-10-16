@@ -20,7 +20,7 @@ class TimekeepReport {
             const reports = await timekeepTable.aggregate([
                 {
                     $match: {
-                        open: true       
+                              
                     }
                 },
                 {

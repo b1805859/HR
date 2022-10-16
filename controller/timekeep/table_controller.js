@@ -8,8 +8,9 @@ class TimekeepTable {
     renderFormCreateTable = async (req, res, next) => {
         const { user } = req
         try {
-
+            const months = await timekeepMonth.find().sort({ datefield: -1 })
             return res.render("timekeep/timekeep-table", {
+                months: multipleToObject(months),
                 user: sigleToObject(user),
             })
         }
@@ -24,7 +25,6 @@ class TimekeepTable {
         try {
             const { thang } = req.body
             const employeeList = await EmployeeProfile.find({ bang_cong: false })
-            console
             for (let employee of employeeList) {
                 const { _id } = employee
                 const checkExit = await timekeepTable.findOne({ employee_id: _id, month_id: thang })

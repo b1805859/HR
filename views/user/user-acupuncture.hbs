@@ -5,7 +5,7 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Báo cáo chấm công</h4>
 
-    <nav class="navbar bg-light mb-2">
+    <nav id="navbar-acupuncture" class="navbar bg-light mb-2">
       <div class="container-fluid">
         <input type="hidden" id="table_id" name="table_id" value={{table_id}} />
         <input type="hidden" id="user_id" name="user_id" value={{user._id}} />
@@ -57,60 +57,71 @@
 </div>
 <!-- Content wrapper -->
 <script>
+  var msg = "{{ msg }}"
+  console.log(msg)
+  if (msg) {
+    var h1 = `<h3 class="text-center mt-5 p-5">${msg}</h3>`
+    $('#card').prepend(h1)
+    $('#acupuncture_user').html('')
+    $('#navbar-acupuncture').hide()
+  }
+  else {
 
-  var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
-  var acupuncture = "";
-  var month_encode = "{{ month }}"
-  var acupunctures_encode = "{{ acupunctures }}"
-  var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
-  var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-  var h1 = `<h1 class="text-center mt-4 mb-2">${month.name}</h1>`
-  for (let i = 1; i <= month.total; i++) {
-    html += `<th class="text-center">${i}</th>`
-    let check = 0
-    for (let j = 0; j < acupunctures.length; j++) {
-      const { date } = acupunctures[j];
-      if (String(date) === String(i)) {
-        acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
-        break;
-      }
-      check++;
-      if (check == acupunctures.length) {
-
-        if (i >= acupunctures[acupunctures.length - 1].date) {
-          console.log("1", i)
-          acupuncture += `<td></td>`
-
+    var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+    var acupuncture = "";
+    var month_encode = "{{ month }}"
+    var acupunctures_encode = "{{ acupunctures }}"
+    var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
+    var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
+    var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
+    for (let i = 1; i <= month.total; i++) {
+      html += `<th class="text-center">${i}</th>`
+      let check = 0
+      for (let j = 0; j < acupunctures.length; j++) {
+        const { date } = acupunctures[j];
+        if (String(date) === String(i)) {
+          acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+          break;
         }
-        else {
-          console.log("2", i)
-          acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+        check++;
+        if (check == acupunctures.length) {
+
+          if (i >= acupunctures[acupunctures.length - 1].date) {
+            console.log("1", i)
+            acupuncture += `<td></td>`
+
+          }
+          else {
+            console.log("2", i)
+            acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+          }
         }
       }
     }
+
+    $("#title_month").html(html)
+    $("#acupuncture_user").append(acupuncture)
+    $('#card').prepend(h1)
+
+
+
+    $('#acupuncture').click(function () {
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const { coords } = position
+          const { latitude, longitude } = coords
+          socket.emit("user-acupuncture", {
+            latitude: latitude,
+            longitude: longitude,
+            table_id: $('#table_id').val(),
+            user_id: $('#user_id').val()
+          })
+        });
+
+      }
+
+    });
   }
 
-  $("#title_month").html(html)
-  $("#acupuncture_user").append(acupuncture)
-  $('#card').prepend(h1)
-
-
-
-  $('#acupuncture').click(function () {
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const { coords } = position
-        const { latitude, longitude } = coords
-        socket.emit("user-acupuncture", {
-          latitude: latitude,
-          longitude: longitude,
-          table_id: $('#table_id').val(),
-          user_id: $('#user_id').val()
-        })
-      });
-
-    }
-
-  });
 </script>

@@ -50,7 +50,7 @@
       var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
       var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
       var acupuncture_html = ""
-      var h1 = `<h1 class="text-center mt-4 mb-2">${month.name}</h1>`
+      var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
