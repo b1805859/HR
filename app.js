@@ -115,18 +115,6 @@ io.on('connection', (socket) => {
 
 
 
-    //Lấy danh sách tháng
-    socket.on("/api/timekeep/month", async () => {
-        const response = await axios({
-            method: 'get',
-            url: `http://localhost:3000/api/timekeep/month`,
-            headers: {},
-            data: {
-                
-            }
-        });
-        socket.emit("server/api/timekeep/timekeep-table",response.data)
-    })
 
 
     //Lấy danh sách phòng ban
@@ -162,6 +150,39 @@ io.on('connection', (socket) => {
     //     const response = await axios(result);
     //     //socket.emit("server/api/department/getListDepartment",response.data)
     // })
+
+
+
+    socket.on("user-report", async (data) => {
+        console.log("data",data)
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:3000/user/report`,
+            headers: {},
+            data: {
+                user: data.user,
+                month_id: data.value
+            }
+        });
+        console.log("response.data",response.data)
+        socket.emit("server-send-report-user",response.data)
+    })
+
+
+
+    socket.on("employee-report", async (data) => {
+        console.log("data",data)
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:3000/api/timekeep/report`,
+            headers: {},
+            data: {
+                month_id: data.value
+            }
+        });
+        console.log(response.data)
+        socket.emit("server-send-report-employee",response.data)
+    })
 
 });
 

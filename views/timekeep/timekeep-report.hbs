@@ -3,29 +3,24 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Chấm công /</span> Báo cáo chấm công</h4>
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Báo cáo chấm công</h4>
 
-    <nav class="navbar bg-light">
-      <div class="container-fluid">
-        <div class="mb-3 col-md-5">
-          <h5 class="mt-3">Phòng ban</h5>
-          <select id="select-department" name="select-department" class="select2 form-select">
-            <option value=''>-- Chọn --</option>
-          </select>
-        </div>
-        <div class="mb-3 col-md-5">
-          <h5 class="mt-3">Tháng</h5>
-          <select id="thang" name="thang" class="select2 form-select" required>
-            <option value="">--Chọn tháng--</option>
-
-          </select>
-        </div>
+    <nav id="navbar-acupuncture" class="navbar bg-light mb-2" style="
+    align-items: center;
+    justify-content: unset;
+    ">
+      <div class=" col-md-5" style="margin-left: 20px;">
+        <select id="months" name="months" class="select2 form-select">
+          {{#each months}}
+          <option value={{this._id}}>Tháng {{this.name}}</option>
+          {{/each}}
+        </select>
       </div>
     </nav>
     <!-- Responsive Table -->
     <div id="card" class="card">
       <div class="table-responsive text-nowrap">
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
             <tr id="title_month" class="text-nowrap">
             </tr>
@@ -37,157 +32,16 @@
     </div>
     <!--/ Responsive Table -->
 
-    <hr class="my-4" />
-    <div id="pagination" class="row">
-
-    </div>
-
-    <script>
-
-      var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
-      var employeeReports_encode = "{{ employeeReports }}"
-      var month_encode = "{{ month }}"
-      var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
-      var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
-      var acupuncture_html = ""
-      var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
-      for (const employeeReport of employeeReports) {
-        const { name, code, acupuncture } = employeeReport;
-        acupuncture_html += `<tr>`
-        acupuncture_html += `<td>${code}</td>`
-        acupuncture_html += `<td>${name}</td>`
-        for (let i = 1; i <= month.total; i++) {
-          let check = 0
-          for (let j = 0; j < acupuncture.length; j++) {
-            const { date } = acupuncture[j];
-            if (date == String(i)) {
-              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
-              break;
-            }
-            check++;
-            if (check == acupuncture.length) {
-
-              if (i >= acupuncture[acupuncture.length - 1].date) {
-                console.log("1", i)
-                acupuncture_html += `<td></td>`
-
-              }
-              else {
-                console.log("2", i)
-                acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
-              }
-            }
-          }
-        }
-        acupuncture_html += `</tr>`
-      }
-
-      //Hiển thị tháng
-      for (let i = 1; i <= month.total; i++) {
-        title_month += `<th class="text-center">${i}</th>`
-      }
-      $("#title_month").html(title_month)
-      $("#acupuncture_user").html(acupuncture_html)
-      $('#card').prepend(h1)
-
-      var html = "";
-      var pages = {{ pages }}
-      var current = {{ current }}
-
-      if (pages > 0) {
-        html += "<nav class='mx-auto'>"
-        html += "<ul class='pagination mt-1'>"
-
-        //FIRST ITEM 
-        if (current == 1) {
-          // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled
-          html += "<li class='page-item disabled'>"
-          html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
-          html += "</li>"
-        } else {
-          // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled
-          html += "<li class='page-item'>"
-          html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
-          html += "</li>"
-        }
-
-        // ITEMS
-        var i = (Number(current) > 3 ? Number(current) - 2 : 1)
-        // Toán tử điều kiện 3 ngôi syntax: < điều_kiện ? giá_trị_1 : giá_trị_2 >
-        // Nếu điều_kiện trả về true, toán tử có giá trị giá_trị_1. Ngược lại toán tử có giá trị giá_trị_2.
-        if (i !== 1) {
-          html += "<li class='page-item disabled'>"
-          html += "<a class='page-link' href='#'>...</a>"
-          html += "</li>"
-        }
-
-        for (; i <= (Number(current) + 2) && i <= pages; i++) {
-          // Sử dụng vòng lặp để lặp qua từng trang và tăng số trang 
-          // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi
-          if (i == current) {
-            html += "<li class='page-item active'>"
-            html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
-            html += i
-            html += "</a>"
-            html += "</li>"
-          } else {
-            html += "<li class='page-item'>"
-            html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${i}'>`
-            html += i
-            html += "</a>"
-            html += "</li>"
-          }
-
-          if (i == Number(current) + 2 && i < pages) {
-            html += "<li class='page-item disabled'>"
-            html += "<a class='page-link' href='#''>...</a>"
-            html += "</li>"
-          }
-        }
-
-        // LAST ITEM
-        if (current == pages) {
-          // Nếu số current( chỉ số phân trang ) là 6 và tổng số page là 6 thì Last bị disabled
-          html += "<li class='page-item disabled'>"
-          html += "<a class='page-link' href='#''>"
-          html += "Last"
-          html += "</a>"
-          html += "</li>"
-        } else {
-          // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6
-          html += "<li class='page-item'>"
-          html += `<a class='page-link' href='/api/employee/fetchEmployeeList/${pages}'>`
-          html += "Last"
-          html += "</a>"
-          html += "</li>"
-        }
-        html += "</ul>"
-        html += "</nav>"
-      }
-      html += "</div>"
-
-
-
-      $("#pagination").html(html)
-
-
-
-      $('#select-department').on('click change', function (e) {
-        socket.emit("/api/department/getListDepartment")
-      });
-
-
-      $('#thang').on('click change', function (e) {
-        socket.emit("/api/timekeep/month")
-      });
-    </script>
-
     <!--/ Basic Pagination -->
   </div>
   <!-- / Content -->
 
-
-
-  <div class="content-backdrop fade"></div>
 </div>
 <!-- Content wrapper -->
+<script>
+
+  $('#months').on('change', function () {
+    socket.emit("employee-report", { value: this.value })
+  });
+
+</script>

@@ -30,7 +30,7 @@ class TimekeepAcupuncture {
             var second = now.getSeconds();
 
             //Kiểm tra đã chấm công hay chưa
-            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: 31 })
+            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day })
             if (acupunctureCheck)
                 return res.json({ message: "Đã chấm công cho hôm nay" })
 
@@ -38,17 +38,15 @@ class TimekeepAcupuncture {
 
             //Kiểm tra cuối tháng
             const monthTable = await timekeepMonth.findOne({ _id: table[0].month_id })
-            if(31 == monthTable.total)
+            if(day == monthTable.total)
             {
                 await timekeepTable.updateOne({ _id: table_id },{open: false})
                 await EmplopyeeProfile.updateOne({ _id: user_id },{bang_cong: false})
             }
 
 
-
-
                 result = {
-                    date: 31,
+                    date: day,
                     employee_id: user_id,
                     table_id,
                 }

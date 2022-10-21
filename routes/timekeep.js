@@ -41,7 +41,7 @@ router.post('/table', Auth.isAuth, Auth.checkRole, timekeepTableController.creat
 
 //Report
 router.get('/fetchReportList/1', Auth.isAuth, Auth.checkRole, timekeepReportController.fetchReport)
-
+router.post('/report',  timekeepReportController.report)
 
 //Month
 router.post('/month', Auth.isAuth, Auth.checkRole, timekeepMonthController.createMonth)

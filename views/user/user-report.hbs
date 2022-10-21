@@ -3,20 +3,20 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-1 mb-3">Báo cáo chấm công</h4>
+    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Lịch sử chấm công</h4>
 
-    <div class="col-md-6 mb-3">
-      <select id="gender" name="gender" class="select2 form-select">
-        <option value="">--Chọn tháng--</option>
-      </select>
-    </div>
-
-
-
+    <nav id="navbar-acupuncture" class="navbar bg-light mb-2">
+      <div class=" col-md-5 p-3">
+        <label for="months" class="form-label">Tháng</label>
+        <select id="months" name="months" class="select2 form-select">
+          <option value="">--Chọn--</option>
+        </select>
+      </div>
+    </nav>
     <!-- Responsive Table -->
-    <div class="card">
+    <div id="card" class="card">
       <div class="table-responsive text-nowrap">
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
             <tr id="title_month" class="text-nowrap">
             </tr>
@@ -32,68 +32,73 @@
     </div>
     <!--/ Responsive Table -->
 
-    <hr class="my-4" />
-
-    <div id="pagination" class="row">
-
-    </div>
-
-
     <!--/ Basic Pagination -->
   </div>
   <!-- / Content -->
 
-  <div class="content-backdrop fade"></div>
-</div>
-<!-- Content wrapper -->
-<script>
-
-  var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
-  var acupuncture = "";
-  var month_encode = "{{ month }}"
-  var acupunctures_encode = "{{ acupunctures }}"
-  var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
-  var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-  console.log("acupuncture", acupunctures)
-  for (let i = 1; i <= month.total; i++) {
-    html += `<td>${i}</td>`
-    let check = 0
-    for (let j = 0; j < acupunctures.length; j++) {
-      const { date } = acupunctures[j];
-      if (String(date) === String(i)) {
-        acupuncture += `<td>1</td>`
-        break;
-      }
-      check++;
-      if (check == acupunctures.length) {
-        acupuncture += `<td></td>`
-      }
+  <!-- Modal HTML -->
+  <!-- Content wrapper -->
+  <script>
+    var msg = "{{ msgError }}"
+    if (msg) {
+      var h1 = `<h3 class="text-center mt-5 p-5">${msg}</h3>`
+      $('#card').prepend(h1)
+      $('#acupuncture_user').html('')
+      $('#navbar-acupuncture').hide()
     }
-  }
+    else {
+
+      var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+      var acupuncture = "";
+      var month_encode = "{{ month }}"
+      var months_encode = "{{ months }}"
+      var acupunctures_encode = "{{ acupunctures }}"
+      var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
+      var months = JSON.parse(months_encode.replace(/&quot;/ig, '"'));
+      var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
+      var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
+      for (let i = 1; i <= month.total; i++) {
+        html += `<th class="text-center">${i}</th>`
+        let check = 0
+        for (let j = 0; j < acupunctures.length; j++) {
+          const { date } = acupunctures[j];
+          if (String(date) === String(i)) {
+            acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+            break;
+          }
+          check++;
+          if (check == acupunctures.length) {
+
+            if (i >= acupunctures[acupunctures.length - 1].date) {
+              acupuncture += `<td></td>`
+            }
+            else {
+              acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+            }
+          }
+        }
+      }
 
 
-  console.log("acupuncture", acupuncture)
-  $("#title_month").html(html)
-  $("#acupuncture_user").append(acupuncture)
+      //Hiển thị danh sách tháng trên select
+      var monthsHTML = ''
+      for (const month of months) {
+        monthsHTML += `<option value =${month._id}>Tháng ${month.name}</option>`
+      }
+
+      $('#months').html(monthsHTML)
+      $("#title_month").html(html)
+      $("#acupuncture_user").append(acupuncture)
+      $('#card').prepend(h1)
 
 
 
-
-  $('#acupuncture').click(function () {
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const { coords } = position
-        const { latitude, longitude } = coords
-        socket.emit("user-acupuncture", {
-          latitude: latitude,
-          longitude: longitude,
-          table_id: $('#table_id').val(),
-          user_id: $('#user_id').val()
-        })
+      //event change select
+      var user_encode = `{{ users }}`
+      var user = JSON.parse(user_encode.replace(/&quot;/ig, '"'));
+      $('#months').on('change', function () {
+        socket.emit("user-report", { user: user, value: this.value })
       });
-
     }
 
-  });
-</script>
+  </script>

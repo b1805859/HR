@@ -74,12 +74,10 @@ for (let i = 1; i <= monthPrase.total; i++) {
       check++;
       if (check == acupuncturesParse.length) {
         if (i >= acupuncturesParse[acupuncturesParse.length - 1].date) {
-          console.log("1", i)
           acupuncture += `<td></td>`
 
         }
         else {
-          console.log("2", i)
           acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
         }
       }
@@ -93,19 +91,6 @@ for (let i = 1; i <= monthPrase.total; i++) {
 })
 
 
-
-socket.on("server/api/timekeep/timekeep-table", data=>{
-  var html 
-  for(const month of data)
-  {
-    const {_id ,name} = month
-      html += `<option value="${_id}">${name}</option>`
-  }
-  $("#thang").html(html)
-})
-
-
-
 socket.on("server/api/department/getListDepartment", data=>{
   var html 
   for(const month of data)
@@ -114,6 +99,117 @@ socket.on("server/api/department/getListDepartment", data=>{
       html += `<option value="${_id}">${name}</option>`
   }
   $("#select-department").html(html)
+})
+
+
+
+socket.on("server-send-report-user", data=>{
+ 
+  if (data.msgError) {
+    var h1 = `<h3 class="text-center mt-5 p-5">${data.msgError}</h3>`
+    $('h1:first').text('Không có bảng chấm công')
+    $("#title_month").html('')
+    $('#acupuncture_user').html('')
+  }
+  else {
+
+    //reset
+    var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+    var acupuncture = `<td>${data.employee.code}</td><td>${data.employee.name}</td>`;
+    var month_encode = data.month
+    var acupunctures_encode = data.acupunctures
+    var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
+    var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
+    var h1 = `Tháng ${month.name}`
+    for (let i = 1; i <= month.total; i++) {
+      html += `<th class="text-center">${i}</th>`
+      let check = 0
+      for (let j = 0; j < acupunctures.length; j++) {
+        const { date } = acupunctures[j];
+        if (String(date) === String(i)) {
+          acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+          break;
+        }
+        check++;
+        if (check == acupunctures.length) {
+
+          if (i >= acupunctures[acupunctures.length - 1].date) {
+            acupuncture += `<td></td>`
+          }
+          else {
+            acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+          }
+        }
+      }
+    }
+
+    $('h1:first').text(h1)
+    $("#title_month").html(html)
+    $("#acupuncture_user").html(acupuncture)
+  }
+})
+
+
+
+
+
+socket.on("server-send-report-employee", data=>{
+ 
+  if (data.msgError) {
+    var h1 = `<h3 class="text-center mt-5 p-5">${data.msgError}</h3>`
+    $('h1:first').text('Không có bảng chấm công')
+    $("#title_month").html('')
+    $('#acupuncture_user').html('')
+  }
+  else {
+    var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+      var employeeReports_encode =  data.employeeReports
+      var month_encode = data.month
+      var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
+      var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
+      var acupuncture_html = ""
+      var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
+      for (const employeeReport of employeeReports) {
+        const { name, code, acupuncture } = employeeReport;
+        console.log("employeeReport",employeeReport)
+        acupuncture_html += `<tr>`
+        acupuncture_html += `<td>${code}</td>`
+        acupuncture_html += `<td>${name}</td>`
+        for (let i = 1; i <= month.total; i++) {
+          if(acupuncture.length ==0)
+          {
+            acupuncture_html += `<td></td>`
+            continue;
+          }
+          let check = 0
+          for (let j = 0; j < acupuncture.length; j++) {
+            const { date } = acupuncture[j];
+            if (date == String(i)) {
+              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              break;
+            }
+            check++;
+            if (check == acupuncture.length) {
+              if (i >= acupuncture[acupuncture.length - 1].date) {
+                acupuncture_html += `<td></td>`
+              }
+              else {
+                acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+              }
+            }
+          }
+        }
+        acupuncture_html += `</tr>`
+      }
+      
+      //Hiển thị tháng
+      for (let i = 1; i <= month.total; i++) {
+        title_month += `<th class="text-center">${i}</th>`
+      }
+      $("#title_month").html(title_month)
+      $("#acupuncture_user").html(acupuncture_html)
+      $('#card').prepend(h1)
+  }
 })
 
 

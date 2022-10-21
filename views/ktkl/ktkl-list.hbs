@@ -28,7 +28,7 @@
     <!-- Borderless Table -->
     <div class="card">
       <div class="table-responsive text-nowrap">
-        <table class="table table-borderless">
+        <table class="table table-hover table-bordered">
           <thead>
             <tr>
               <th>MÃ NHÂN VIÊN</th>
@@ -65,11 +65,11 @@
     const { _id, day, description } = ktkl
     let html = ''
     html += "<tr>"
-    html += `<td><a href= '/api/ktkl/information/${_id}'>` + code + "</a></td>"
-    html += `<td><a href= '/api/ktkl/information/${_id}'>` + name + "</a></td>"
-    html += "<td>" + position + "</td>"
-    html += "<td>" + day + "</td>"
-    html += "<td>" + description + "</td>"
+    html += `<td><a style='color: #697a8d;' href= '/api/ktkl/information/${_id}'>` + code + "</a></td>"
+    html += `<td><a style='color: #697a8d;' href= '/api/ktkl/information/${_id}'>` + name + "</a></td>"
+    html += `<td><a style='color: #697a8d;' href= '/api/ktkl/information/${_id}'>` + job + "</a></td>"
+    html += `<td><a style='color: #697a8d;' href= '/api/ktkl/information/${_id}'>` + day + "</a></td>"
+    html += `<td><a style='color: #697a8d;' href= '/api/ktkl/information/${_id}'>` + description + "</a></td>"
     html += "</tr>"
 
     $('#ktklLine').append(html)
