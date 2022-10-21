@@ -23,13 +23,17 @@ class TimekeepTable {
     createTable = async (req, res, next) => {
         const { user } = req
         try {
+            const months = await timekeepMonth.find().sort({ datefield: -1 })
             const { thang } = req.body
             const employeeList = await EmployeeProfile.find({ bang_cong: false })
             for (let employee of employeeList) {
                 const { _id } = employee
                 const checkExit = await timekeepTable.findOne({ employee_id: _id, month_id: thang })
                 if (checkExit) {
-                    return res.render("timekeep/timekeep-table", {error:'Bảng đã tồn tại' });
+                    return res.render("timekeep/timekeep-table",
+                     {error:'Bảng đã tồn tại' ,
+                     months: multipleToObject(months),
+                      user: sigleToObject(user)});
                 }
                 let result = {
                     employee_id: _id,
@@ -38,7 +42,11 @@ class TimekeepTable {
                 const doc = new timekeepTable(result);
                 if(!doc)
                 {
-                    return res.render("timekeep/timekeep-table", {error:'Có lỗi xảy ra khi lưu dữ liệu' });
+                    return res.render("timekeep/timekeep-table", 
+                    {
+                        error:'Có lỗi xảy ra khi lưu dữ liệu',
+                        months: multipleToObject(months),
+                        user: sigleToObject(user) });
                 }
                 await doc.save()
                 await EmployeeProfile.updateOne({ _id }, { bang_cong: true });
@@ -46,6 +54,7 @@ class TimekeepTable {
             }
             return res.render("timekeep/timekeep-table", {
                 user: sigleToObject(user),
+                months: multipleToObject(months),
                 success: "Tạo bảng thành công"
             })
         }

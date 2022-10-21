@@ -156,7 +156,7 @@ class Employee {
     fetchListPage = async (req, res, next) => {
         const { user } = req
 
-        let perPage = 8;
+        let perPage = 7;
         let page = req.params.page || 1
         try {
             await EmployeeProfile

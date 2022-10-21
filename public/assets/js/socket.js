@@ -120,7 +120,7 @@ socket.on("server-send-report-user", data=>{
     var acupunctures_encode = data.acupunctures
     var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
     var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-    var h1 = `Tháng ${month.name}`
+    var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
     for (let i = 1; i <= month.total; i++) {
       html += `<th class="text-center">${i}</th>`
       let check = 0
@@ -143,7 +143,7 @@ socket.on("server-send-report-user", data=>{
       }
     }
 
-    $('h1:first').text(h1)
+    $('h1:first').html(h1)
     $("#title_month").html(html)
     $("#acupuncture_user").html(acupuncture)
   }
@@ -168,10 +168,9 @@ socket.on("server-send-report-employee", data=>{
       var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
       var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
       var acupuncture_html = ""
-      var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
+      var h1 = `Tháng ${month.name}`
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
-        console.log("employeeReport",employeeReport)
         acupuncture_html += `<tr>`
         acupuncture_html += `<td>${code}</td>`
         acupuncture_html += `<td>${name}</td>`
@@ -206,9 +205,9 @@ socket.on("server-send-report-employee", data=>{
       for (let i = 1; i <= month.total; i++) {
         title_month += `<th class="text-center">${i}</th>`
       }
-      $("#title_month").html(title_month)
-      $("#acupuncture_user").html(acupuncture_html)
-      $('#card').prepend(h1)
+      $('h1:first').text(h1)
+    $("#title_month").html(title_month)
+    $("#acupuncture_user").html(acupuncture_html)
   }
 })
 

@@ -8,7 +8,7 @@ const Auth = require('../middlewares/auth_middlewares')
 router.get('/', Auth.isAuth, Auth.checkRole, async (req, res, next) => {
   const { user } = req
 
-        let perPage = 8;
+        let perPage = 7;
         let page = req.params.page || 1
         try {
             await EmployeeProfile
