@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const EmployeeProfile = require('../../models/employee_model')
 const DepartmentDepartment = require('../../models/department_model')
+const UserAccount = require('../../models/users_models')
 var ObjectId = require('mongoose').Types.ObjectId;
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 class Employee {
 
     //Lấy thông tin chi tiết hồ sơ nhân viên
@@ -47,10 +49,13 @@ class Employee {
                 return res.status(401).send('Mã nhân viên đã tồn tại.');
             }
 
+
+            //Khởi tạo thông tin hồ sơ nhân viên
             let result = {
                 status: 'working',
                 department_id: req.body[`department-select`]
             }
+
 
             if(req.hasOwnProperty('file'))
             {
@@ -72,11 +77,27 @@ class Employee {
                 }
             }
 
+
             const newEmployee = new EmployeeProfile(result)
             if (!newEmployee) {
                 res.status(401).send('Không thể tạo hồ sơ nhân viên');
             }
             await newEmployee.save()
+
+            //Khởi tạo tài khoản nhân viên
+            const hashPassword = bcrypt.hashSync(String(req.body.code).trim(), saltRounds);
+            const resultAccount = {
+                username: String(req.body.code).trim(),
+                password: hashPassword
+            };
+            const createUser = new UserAccount(resultAccount);
+
+            if (!createUser) {
+                return res
+                    .status(400)
+                    .send('Có lỗi trong quá trình tạo tài khoản, vui lòng thử lại.');
+            }
+            await createUser.save()
             return this.fetchListPage(req, res)
         } catch (error) {
             console.log(error)
@@ -86,24 +107,15 @@ class Employee {
     }
 
 
-    //Cập nhật thông tin phòng ban
+    //Cập nhật thông tin nhân viên
     updateEmployee = async (req, res, next) => {
         const { id } = req.params
-        const { code } = req.body
         // const { filename } = req.file
         try {
-
+            console.log("req.body",req.body)
             const employee = await EmployeeProfile.findOne({ _id: id })
-
-            //Kiểm tra mã nhân viên đã tồn tại
-            const nameEmployee = await EmployeeProfile.findOne({ code })
-            if (nameEmployee)
-                return res.status(401).send('Mã nhân viên đã tồn tại')
-
-
             //Tạo json để tạo
             let result = {
-                status: 'working',
                 department: req.body[`department-select`]
             }
 
@@ -112,13 +124,9 @@ class Employee {
                 const { filename } = req.file
                 result = {...result, avatar: String(filename).trim()}
             }
-            else
-            {
-                result = {...result, avatar: '1.png'}
-            }
 
-            let stringGroup = ["code", "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
-                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no", "job"]
+            let stringGroup = [ "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
+                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no", "job", "birthday"]
 
             for (const element of stringGroup) {
                 if (typeof req.body[`${element}`] === 'string' && req.body[`${element}`] != employee[`${element}`]) {
@@ -126,13 +134,7 @@ class Employee {
                 }
             }
 
-
-            let dateGroup = ["birthday"]
-            for (const element of dateGroup) {
-                if (typeof req.body[element] === 'Date') {
-                    result = { ...result, [`${element}`]: req.body[`${element}`] }
-                }
-            }
+            console.log("result", result)
 
 
             const updatedEmployee = await EmployeeProfile.updateOne({ _id: id }, result)

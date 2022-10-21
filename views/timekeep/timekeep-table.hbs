@@ -16,9 +16,8 @@
                 <div class="mb-3 col-md-6">
                   <label class="form-label" for="country">Tháng chấm công</label>
                   <select id="thang" name="thang" class="select2 form-select" required>
-                    <option value="">--Chọn tháng--</option>
                     {{#each months}}
-                    <option value="{{this._id}}">{{this.name}}</option>
+                    <option value="{{this._id}}">Tháng {{this.name}}</option>
                     {{/each}}
                   </select>
                 </div>
