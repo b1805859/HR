@@ -18,7 +18,7 @@
         <button class="btn btn-success mt-3 mt-md-0" type="button">
           <i class='bx bxs-user-plus'></i>
           <a href="/api/employee/formCreateEmployee" class="text-white">
-            Thêm nhân viên
+            Nhân viên
           </a>
         </button>
       </div>
@@ -105,7 +105,15 @@
         table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
         table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
         table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
-        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-label-primary me-1">${employee.status}</span></a></td>`
+        if (employee.status == "draft") {
+          table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+        }
+        else if (employee.status == 'demit') {
+          table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+        }
+        else if (employee.status == 'working') {
+          table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+        }
         table_html += "</tr>"
       }
 

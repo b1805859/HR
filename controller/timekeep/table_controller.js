@@ -2,6 +2,7 @@ const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 const timekeepTable = require("../../models/timekeep/table_model")
 const timekeepMonth = require("../../models/timekeep/month_model")
 const EmployeeProfile = require("../../models/employee_model")
+var mongoose = require('mongoose');
 class TimekeepTable {
 
 
@@ -22,36 +23,42 @@ class TimekeepTable {
 
     createTable = async (req, res, next) => {
         const { user } = req
+        const {month, year} = req.body
+        const result = {
+            month_id: mongoose.Types.ObjectId(month),
+            year: year
+        }
         try {
+           
+            //Lấy danh sách tháng để hiển thị
             const months = await timekeepMonth.find().sort({ datefield: -1 })
-            const { thang } = req.body
-            const employeeList = await EmployeeProfile.find({ bang_cong: false })
-            for (let employee of employeeList) {
-                const { _id } = employee
-                const checkExit = await timekeepTable.findOne({ employee_id: _id, month_id: thang })
-                if (checkExit) {
-                    return res.render("timekeep/timekeep-table",
-                     {error:'Bảng đã tồn tại' ,
-                     months: multipleToObject(months),
-                      user: sigleToObject(user)});
-                }
-                let result = {
-                    employee_id: _id,
-                    month_id: String(thang).trim()
-                }
-                const doc = new timekeepTable(result);
-                if(!doc)
-                {
-                    return res.render("timekeep/timekeep-table", 
-                    {
-                        error:'Có lỗi xảy ra khi lưu dữ liệu',
-                        months: multipleToObject(months),
-                        user: sigleToObject(user) });
-                }
-                await doc.save()
-                await EmployeeProfile.updateOne({ _id }, { bang_cong: true });
 
+
+            //Kiểm tra đã tồn tại
+            const checkExit = await timekeepTable.findOne(result)
+            if(checkExit)
+            {
+                return res.render("timekeep/timekeep-table", {
+                    user: sigleToObject(user),
+                    months: multipleToObject(months),
+                    error: "Bảng chấm công đã tồn tại"
+                })
             }
+            console.log("2")
+            //Lấy danh sách toàn bộ nhân viên đang làm việc trong công ty để tạo bảng chấm công
+            const employeeList = await EmployeeProfile.find({status:'working'})
+            for(const employee of employeeList)
+            {
+                let employeeTable = {
+                    ...result,
+                    employee_id: employee._id
+                }
+                let table = new timekeepTable(employeeTable)
+                await table.save()
+            }
+
+            
+
             return res.render("timekeep/timekeep-table", {
                 user: sigleToObject(user),
                 months: multipleToObject(months),

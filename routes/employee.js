@@ -75,8 +75,6 @@ router.get('/fetchEmployeeList/:page', Auth.isAuth, Auth.checkRole, employeeCont
 //Lấy danh sách phòng ban có phân trang (trang có đối số)
 //router.get('/fetchEmployeeList/:type/:value/:page', Auth.isAuth, Auth.checkRole, employeeController.fetchListKeyPage)
 
-//Lưu trữ hồ sơ nhân viên
-router.get('/storeEmployee/:id', Auth.isAuth, Auth.checkRole, employeeController.storeEmployee)
 
 //search manv
 router.post('/searchCode', employeeController.searchCode)

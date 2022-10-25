@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
 const EmployeeProfile = require('../../models/employee_model')
 const DepartmentDepartment = require('../../models/department_model')
 const UserAccount = require('../../models/users_models')
-var ObjectId = require('mongoose').Types.ObjectId;
+var mongoose = require('mongoose');
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -52,7 +51,7 @@ class Employee {
 
             //Khởi tạo thông tin hồ sơ nhân viên
             let result = {
-                status: 'working',
+                status: 'draft',
                 department_id: req.body[`department-select`]
             }
 
@@ -126,7 +125,7 @@ class Employee {
             }
 
             let stringGroup = [ "name", "gender", "phone", "email", "address", "cccd_no", "nation", "religion", "country", "bank_no", "type",
-                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no", "job", "birthday"]
+                "personal_tax_no", "bhxh_no", "bhyt_hospital", "bhyt_no", "job", "birthday", "status"]
 
             for (const element of stringGroup) {
                 if (typeof req.body[`${element}`] === 'string' && req.body[`${element}`] != employee[`${element}`]) {
@@ -134,7 +133,6 @@ class Employee {
                 }
             }
 
-            console.log("result", result)
 
 
             const updatedEmployee = await EmployeeProfile.updateOne({ _id: id }, result)
@@ -160,7 +158,7 @@ class Employee {
         let page = req.params.page || 1
         try {
             await EmployeeProfile
-                .find({ status: "working" })
+                .find()
                 .sort({ date: 1 })
                 .skip((perPage * page) - perPage)
                 .limit(perPage)
@@ -190,40 +188,31 @@ class Employee {
         }
     }
 
-    //Lưu trữ hồ sơ nhân viên
-    storeEmployee = async (req, res, next) => {
-        const { user } = req
-        const { id } = req.params
-        try {
-            if (!req.params.hasOwnProperty('id')) {
-                return res.status(401).send('Thiếu id hồ sơ nhân viên.');
-            }
-
-            const employee = await EmployeeProfile.findOne({ _id: id })
-            if (!employee) {
-                return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-            }
-            await EmployeeProfile.updateOne({ _id: id }, { status: 'demit' });
-
-            return res.redirect('/api/employee/fetchEmployeeList/1')
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
-
-
 
     //search manv
     searchCode = async (req, res, next) => {
         const { code } = req.body
         try {
-            const employee = await EmployeeProfile.findOne({ code: { $regex: code } })
+            let employee = await EmployeeProfile.findOne({ code: { $regex: code } })
             if (!employee) {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
+            let result = {
+                employee: employee
+            }
 
-            res.json(employee)
+            if(employee.hasOwnProperty('department_id') && mongoose.Types.ObjectId(employee.department_id))
+            {
+                const { department_id } = employee
+                const department = await DepartmentDepartment.findOne({ _id: department_id })
+                result ={...result, department: department.name}
+            }
+            else
+            {
+                result ={...result, department: ""}
+            }
+            console.log(result)
+            res.json(result)
         } catch (error) {
             console.log(error)
             return error
@@ -250,45 +239,6 @@ class Employee {
 
 
 
-    // fetchListKeyPage= async (req, res, next) => {
-    //     const { user } = req
-    //     const {type, value} =req.params
-    //     let perPage = 8;
-    //     let page = req.params.page || 1
-    //     try {
-    //         let search ={
-    //             [`${type}`]: value
-    //         }
-    //         await EmployeeProfile
-    //             .find(search)
-    //             .sort({ date: 1 })
-    //             .skip((perPage * page) - perPage)
-    //             .limit(perPage)
-    //             .exec(async (err, employees) => {
-    //                 const employeeList = []
-    //                 for(const employee of employees) {
-    //                     let result ={}
-    //                     const { department_id } = employee
-    //                     const department = await DepartmentDepartment.findOne({ _id: department_id })
-    //                     result ={ employee ,department: department.name}
-    //                     employeeList.push(result)
-    //                 }
-    //                 EmployeeProfile.countDocuments((err, count) => {
-    //                     if (err) return next(err);
-    //                     res.render('employee/employee-list', {
-    //                         user: sigleToObject(user),
-    //                         employees: JSON.stringify(employeeList), // sản phẩm trên một page
-    //                         current: page, // page hiện tại
-    //                         pages: Math.ceil(count / perPage) // tổng số các page
-    //                     });
-    //                 })
-    //             })
-
-    //     } catch (error) {
-    //         console.log(error)
-    //         return error
-    //     }
-    // }
 }
 
 

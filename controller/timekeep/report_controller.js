@@ -38,9 +38,9 @@ class TimekeepReport {
         
             //Khởi tạo truy vấn
             let result = {
-                month_id: mongoose.Types.ObjectId(req.body.month_id)
+                month_id: mongoose.Types.ObjectId(req.body.month_id),
+                year: req.body.year
             }
-    
             const reports = await timekeepTable.aggregate([
                 {
                     $match: {
@@ -74,7 +74,8 @@ class TimekeepReport {
             ], function (error, data) {
     
             });
-    
+            console.log("reports",reports)
+
             if(reports.length == 0)
             {   
                 return res.json({

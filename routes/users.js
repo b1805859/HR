@@ -323,19 +323,4 @@ router.post('/acupunctureData', async (req, res, next) => {
 
 
 
-
-
-
-
-//Vị trí chấm công
-router.get('/position', Auth.isAuth, async (req, res, next) => {
-    const { user } = req
-    try {
-        const positions = await timekeepPosition.find();
-        res.render('user/timekeep-position-list', { layout: 'user', positions, user: sigleToObject(user) })
-    } catch (err) {
-
-    }
-})
-
 module.exports = router;

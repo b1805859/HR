@@ -139,15 +139,18 @@
                   <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital"
                     value="{{employee.bhyt_hospital}}" autocomplete="off" />
                 </div>
+                <div class="mb-3 col-md-6">
+                  <label for="status" class="form-label">Trạng thái hồ sơ</label> (<span class="text-danger">*</span>)
+                  <select id="status" name="status" class="select2 form-select">
+                    <option value="draft">Nháp</option>
+                    <option value="demit">Lưu trữ</option>
+                    <option value="working">Đang làm việc</option>
+                  </select>
+                </div>
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary">
                   Lưu
-                </button>
-                <button type="reset" class="btn btn-secondary">
-                  <a href="/api/employee/getEmployeeInformation/{{employee._id}}" class="text-white">
-                    Quay lại
-                  </a>
                 </button>
               </div>
             </div>

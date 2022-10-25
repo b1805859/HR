@@ -119,21 +119,31 @@
                 <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital"
                   value="{{employee.bhyt_hospital}}" readonly />
               </div>
+              <div class="mb-3 col-md-6">
+                <label for="status" class="form-label">Trạng thái hồ sơ</label> (<span class="text-danger">*</span>)
+                <select id="status" name="status" class="select2 form-select" disabled>
+                  <script>
+                    const status = `{{employee.status}}`
+                    let statusHTML = ''
+                    if (status == "draft") {
+                      statusHTML += `<option>Nháp</option>`
+                    }
+                    else if (status == 'demit') {
+                      statusHTML += `<option>Lưu trữ</option>`
+                    }
+                    else if (status == 'working') {
+                      statusHTML += `<option>Đang làm việc</option>`
+                    }
+
+                    $('#status').append(statusHTML)
+                  </script>
+                </select>
+              </div>
             </div>
             <div class="mt-2">
               <button class="btn btn-primary">
                 <a href="/api/employee/formUpdateEmployee/{{employee._id}}" class="text-white">
                   Cập nhật
-                </a>
-              </button>
-              <button type="submit" class="btn btn-primary">
-                <a href="/api/employee/storeEmployee/{{employee._id}}" class="text-white">
-                  Lưu trữ
-                </a>
-              </button>
-              <button type="reset" class="btn btn-secondary">
-                <a href="/" class="text-white">
-                  Quay lại
                 </a>
               </button>
             </div>

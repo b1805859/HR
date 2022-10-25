@@ -13,11 +13,11 @@ const EmployeeProfile = new Schema({
     job: { type: 'string', string: 'Chức vụ' },
 
     birthday: { type: 'string', string: 'Ngày sinh' },
-    status: { type: 'string', enum: ['draff', 'demit', 'working', 'probationry', 'maternity_leave'], string: "Trạng thái" },//nháp, thử vc, đang làm , nghỉ việc, thai sản
+    status: { type: 'string', enum: ['draff', 'demit', 'working'], string: "Trạng thái" },//nháp, thử vc, đang làm , nghỉ việc, thai sản
     cccd_no: { type: 'string', string: 'CMND/CCCD' },
     bank_no: { type: 'string', string: 'Ngân hàng' },
 
-    type: { type: 'string', enum: ['thoi_vu', 'chinh_thuc', 'thu_viec','thai_san','nghi_viec'] },
+    type: { type: 'string', enum: ['thoi_vu', 'chinh_thuc', 'thu_viec','thai_san'] },
     religion: { type: 'string', string: 'Tôn giáo' },
     address: { type: 'string', string: 'Nơi cư trú' },
     nation: { type: 'string', string: 'Dân tộc' },

@@ -10,16 +10,25 @@ socket.on("server-send-dropdown", employees => {
 
 })
 
-socket.on("server-send-client-employee", employee => {
+socket.on("server-send-client-employee", data => {
+  const {employee, department}= data
     $("#table-employee").html("")
     $("#table-employee").append(`
               <tr>
-                  <td><a href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>
-                  <td><a href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>
-                  <td>${employee.gender}</td>
-                  <td></td>
-                  <td>${employee.job}</td>
-                  <td><span class="badge bg-label-primary me-1">Active</span></td>
+              <td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
+                    width: 45px;
+                    height: 45px;
+                    background-size: cover;
+                    background-position: top center;
+                    border-radius: 50%;
+                    margin: 0 auto;"></div>
+                  </td>
+                  <td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>
+                  <td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>
+                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>
+                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>
+                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>
+                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-label-primary me-1">${employee.status}</span></a></td>
               </tr> 
           `)
 

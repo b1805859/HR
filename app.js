@@ -177,7 +177,8 @@ io.on('connection', (socket) => {
             url: `http://localhost:3000/api/timekeep/report`,
             headers: {},
             data: {
-                month_id: data.value
+                month_id: data.month_id,
+                year: data.year
             }
         });
         console.log(response.data)
