@@ -159,7 +159,7 @@ class Employee {
         try {
             await EmployeeProfile
                 .find()
-                .sort({ date: 1 })
+                .sort({code:1})
                 .skip((perPage * page) - perPage)
                 .limit(perPage)
                 .exec(async (err, employees) => {
@@ -190,45 +190,36 @@ class Employee {
 
 
     //search manv
-    searchCode = async (req, res, next) => {
-        const { code } = req.body
+    filter = async (req, res, next) => {
+        const {data} = req.body
+        let perPage = 10;
+        let page = req.params.page || 1
         try {
-            let employee = await EmployeeProfile.findOne({ code: { $regex: code } })
-            if (!employee) {
-                return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-            }
-            let result = {
-                employee: employee
-            }
+            await EmployeeProfile
+                .find(data)
+                .sort({code:1})
+                .skip((perPage * page) - perPage)
+                .limit(perPage)
+                .exec(async (err, employees) => {
+                    const employeeList = []
+                    for(const employee of employees) {
+                        let result ={}
+                        const { department_id } = employee
+                        const department = await DepartmentDepartment.findOne({ _id: department_id })
+                        result ={ employee ,department: department.name}
+                        employeeList.push(result)
+                    }
+                    EmployeeProfile.countDocuments((err, count) => {
+                        if (err) return next(err);
+                        console.log(employeeList)
+                        res.json( {
+                            employeeList: JSON.stringify(employeeList), // sản phẩm trên một page
+                            current: page, // page hiện tại
+                            pages: Math.ceil(count / perPage) // tổng số các page
+                        });
+                    })
+                })
 
-            if(employee.hasOwnProperty('department_id') && mongoose.Types.ObjectId(employee.department_id))
-            {
-                const { department_id } = employee
-                const department = await DepartmentDepartment.findOne({ _id: department_id })
-                result ={...result, department: department.name}
-            }
-            else
-            {
-                result ={...result, department: ""}
-            }
-            console.log(result)
-            res.json(result)
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
-
-    //search manv
-    dropdown = async (req, res, next) => {
-        const { code } = req.params
-        try {
-            const employee = await EmployeeProfile.find({ code: { $regex: code } }).limit(8)
-            if (!employee) {
-                return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
-            }
-
-            res.json(employee)
         } catch (error) {
             console.log(error)
             return error

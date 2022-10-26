@@ -54,27 +54,17 @@ app.use('/', indexRouter);
 io.on('connection', (socket) => {
     console.log('connected');
 
-    socket.on("user-input-code-type", async ( data) => {
+
+    socket.on("filter-type",async data => {
             const response = await axios({
                 method: 'post',
-                url: `http://localhost:3000/api/employee/searchCode`,
+                url: `http://localhost:3000/api/employee/filter`,
                 headers: {},
                 data: {
-                    code: data.code,
-                    type: data.type
+                    data
                 }
             });
-            console.log( response.data)
-           return socket.emit("server-send-client-employee", response.data);
-    })
-    socket.on("search-code", data => {
-        axios.get(`http://localhost:3000/api/employee/dropdown/${data}`)
-            .then(function (response) {
-                socket.emit("server-send-dropdown", response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            socket.emit("server-send-filter", response.data);
     })
 
     socket.on("user-acupuncture", async data => {

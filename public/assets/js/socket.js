@@ -1,38 +1,40 @@
 var socket = io("http://localhost:3000");
 
-socket.on("server-send-dropdown", employees => {
-    $("#search-employee").html("")
-    employees.map(employee => {
-        $("#search-employee").append(`
-                <option value="${employee.code}"></option>
-            `)
-    })
-
-})
-
-socket.on("server-send-client-employee", data => {
-  const {employee, department}= data
-    $("#table-employee").html("")
-    $("#table-employee").append(`
-              <tr>
-              <td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
+socket.on("server-send-filter", data => {
+  const {employeeList, current, pages} = data
+  const employeeListParse = JSON.parse(employeeList.replace(/&quot;/g, '"'));
+  $("#table-employee").html("")
+  var html_employee =''
+  for(const element of employeeListParse){ 
+    const {employee,department} = element
+    html_employee += "<tr> "
+        html_employee += `<td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
                     width: 45px;
                     height: 45px;
                     background-size: cover;
                     background-position: top center;
                     border-radius: 50%;
-                    margin: 0 auto;"></div>
-                  </td>
-                  <td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>
-                  <td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>
-                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>
-                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>
-                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>
-                  <td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-label-primary me-1">${employee.status}</span></a></td>
-              </tr> 
-          `)
+                    margin: 0 auto;"></div></td>`
+        html_employee += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+        html_employee += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+        html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+        html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+        html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+        if (employee.status == "draft") {
+          html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+        }
+        else if (employee.status == 'demit') {
+          html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+        }
+        else if (employee.status == 'working') {
+          html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+        }
+        html_employee += "</tr>"
+  }
+  $("#table-employee").html(html_employee)
 
 })
+
 
 
 socket.on("server-send-result", data => {
@@ -299,12 +301,13 @@ $(document).ready(function () {
         socket.emit("user-input-code-type",{code: $("#input-code").val(),type: $("#type").val()})
     })
 
-    $("#input-code").keyup(function () {
-        socket.emit("search-code", $("#input-code").val())
+    $("#input-code").on('input',function () {
+        socket.emit("filter-type",{code: { $regex: $("#input-code").val()}})
     })
 
-    // $("#acupuncture").click(function () {
-    //     socket.emit("user-acupuncture", $("#table_id").val())
-    // })
+
+    $('#select-status').on('change', function (e) {
+      socket.emit("filter-type", {status: this.value})
+    });
 
 })
