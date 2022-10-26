@@ -20,7 +20,6 @@ class TimekeepReport {
             const months = await timekeepMonth.find().sort({ datefield: -1 })
             res.render('timekeep/timekeep-report', {
                 months: multipleToObject(months),
-                departments: multipleToObject(departments),
                 user: sigleToObject(user),
                 users: JSON.stringify(user),
             });
@@ -100,6 +99,7 @@ class TimekeepReport {
                 employeeReports: JSON.stringify(employeeReport),
                 month: JSON.stringify(month[0]),
                 months: JSON.stringify(months),
+                year: JSON.stringify(req.body.year),
                 user: sigleToObject(user),
             });
         } catch (error) {

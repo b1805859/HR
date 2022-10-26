@@ -5,31 +5,48 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Báo cáo chấm công</h4>
 
-    <nav id="navbar-acupuncture" class="navbar bg-light mb-2">
-      <div class="container-fluid">
-        <input type="hidden" id="table_id" name="table_id" value={{table_id}} />
-        <input type="hidden" id="user_id" name="user_id" value={{user._id}} />
-        <button id="acupuncture" class="btn btn-danger">Chấm công</button>
+    <div id="div-btn" class="row">
+      <div class="col-md-12">
+        <div class="card mb-4">
+          <!-- Account -->
+          <hr class="my-0" />
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <input type="hidden" id="user_id" name="user_id" value={{user._id}} />
+                <button id="acupuncture" class="btn btn-danger">Chấm công</button>
+              </div>
+            </div>
+          </div>
+          <!-- /Account -->
+        </div>
       </div>
-    </nav>
+    </div>
+
     <!-- Responsive Table -->
     <div id="card" class="card">
+      <h1 class="text-center mt-4 mb-2"></h1>
       <div class="table-responsive text-nowrap">
         <table class="table table-bordered">
           <thead>
             <tr id="title_month" class="text-nowrap">
             </tr>
           </thead>
-          <tbody>
-            <tr id="acupuncture_user">
-              <td>{{employee.code}}</td>
-              <td>{{employee.name}}</td>
-            </tr>
+          <tbody id="acupuncture_user">
           </tbody>
         </table>
       </div>
     </div>
-    <!--/ Responsive Table -->
+
+    <div id="messageError" style="display: flex;flex-direction: column;align-items: center;">
+      <img src="/assets/img/illustrations/no-data.png" alt="" style="
+    width: 350px;
+    height: 350px;
+    max-width: 100%;
+    max-height: 100%;
+      ">
+      <h4>Nhân sự chưa tạo bảng chấm công cho tháng này!</h4>
+    </div>
 
     <!--/ Basic Pagination -->
   </div>
@@ -57,71 +74,92 @@
 </div>
 <!-- Content wrapper -->
 <script>
-  var msg = "{{ msg }}"
-  console.log(msg)
+  var msg = `{{msgError}}`
   if (msg) {
+    console.log("1")
     var h1 = `<h3 class="text-center mt-5 p-5">${msg}</h3>`
-    $('#card').prepend(h1)
+    $("#title_month").html('')
     $('#acupuncture_user').html('')
-    $('#navbar-acupuncture').hide()
+    $('#card').hide()
+    $('#div-btn').hide()
+    $("#messageError").css({ "display": "flex", "flex-direction": "column", "align-items": "center" });
   }
   else {
-
-    var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
-    var acupuncture = "";
-    var month_encode = "{{ month }}"
-    var acupunctures_encode = "{{ acupunctures }}"
+    var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+    var employeeReports_encode = `{{employeeReports}}`
+    var month_encode = `{{month}}`
+    var year_encode = `{{year}}`
+    var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
     var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
-    var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-    var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
-    for (let i = 1; i <= month.total; i++) {
-      html += `<th class="text-center">${i}</th>`
-      let check = 0
-      for (let j = 0; j < acupunctures.length; j++) {
-        const { date } = acupunctures[j];
-        if (String(date) === String(i)) {
-          acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
-          break;
+    var year = JSON.parse(year_encode.replace(/&quot;/ig, '"'));
+    var acupuncture_html = ""
+    var h1 = `Tháng ${month.name} - Năm ${year}`
+    for (const employeeReport of employeeReports) {
+      const { name, code, acupuncture } = employeeReport;
+      acupuncture_html += `<tr>`
+      acupuncture_html += `<td>${code}</td>`
+      acupuncture_html += `<td>${name}</td>`
+      for (let i = 1; i <= month.total; i++) {
+        if (acupuncture.length == 0) {
+          acupuncture_html += `<td></td>`
+          continue;
         }
-        check++;
-        if (check == acupunctures.length) {
-
-          if (i >= acupunctures[acupunctures.length - 1].date) {
-            console.log("1", i)
-            acupuncture += `<td></td>`
-
+        let check = 0
+        for (let j = 0; j < acupuncture.length; j++) {
+          const { date } = acupuncture[j];
+          if (date == String(i)) {
+            acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+            break;
           }
-          else {
-            console.log("2", i)
-            acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+          check++;
+          if (check == acupuncture.length) {
+            if (i >= acupuncture[acupuncture.length - 1].date) {
+              acupuncture_html += `<td></td>`
+            }
+            else {
+              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+            }
           }
         }
       }
+      acupuncture_html += `</tr>`
     }
 
-    $("#title_month").html(html)
-    $("#acupuncture_user").append(acupuncture)
-    $('#card').prepend(h1)
+    //Hiển thị tháng
+    for (let i = 1; i <= month.total; i++) {
+      title_month += `<th class="text-center">${i}</th>`
+    }
+    $('h1:first').text(h1)
+    $("#title_month").html(title_month)
+    $("#acupuncture_user").html(acupuncture_html)
+    $("#messageError").css({ "display": "none", "flex-direction": "column", "align-items": "center" });
+    $('#div-btn').show()
+    $('#card').show()
 
 
 
+    //get table_id
+    const table_id_encode = `{{table_id}}`
+    const table_id = JSON.parse(table_id_encode.replace(/&quot;/ig, '"'));
     $('#acupuncture').click(function () {
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          const { coords } = position
-          const { latitude, longitude } = coords
-          socket.emit("user-acupuncture", {
-            latitude: latitude,
-            longitude: longitude,
-            table_id: $('#table_id').val(),
-            user_id: $('#user_id').val()
-          })
-        });
-
-      }
+      //if (navigator.geolocation) {
+      // navigator.geolocation.getCurrentPosition(function (position) {
+      //  const { coords } = position
+      //  const { latitude, longitude } = coords
+      //  socket.emit("user-acupuncture", {
+      //    latitude: latitude,
+      //    longitude: longitude,
+      //    table_id: table_id,
+      //    user_id: $('#user_id').val()
+      //  })
+      //});
+      //}
 
     });
   }
+
+  $("#data-dismiss").click(function () {
+    $("#myModal").modal("hide");
+  });
 
 </script>

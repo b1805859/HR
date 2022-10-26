@@ -138,10 +138,23 @@
 
         <!-- timekeeping -->
         <li class="menu-item my-2">
-          <a href="/api/timekeep/table" class="menu-link">
-            <i class="text-white menu-icon tf-icons bx bxs-building"></i>
-            <div data-i18n="Timekeep" class="text-white">Bảng chấm công</div>
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="text-white menu-icon tf-icons bx bxs-check-square"></i>
+            <div data-i18n="Timekeep" class="text-white">Chấm công</div>
           </a>
+
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="/api/timekeep/position" class="menu-link">
+                <div data-i18n="Timekeep" class="text-white">Vị trí chấm công</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="/api/timekeep/table" class="menu-link">
+                <div data-i18n="Timekeep" class="text-white">Bảng chấm công</div>
+              </a>
+            </li>
+          </ul>
         </li>
 
 

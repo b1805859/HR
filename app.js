@@ -89,6 +89,7 @@ io.on('connection', (socket) => {
         });
         const { position } = response.data
         if (position.length > 0) {
+            console.log("0")
             await axios({
                 method: 'post',
                 url: `http://localhost:3000/api/timekeep/acupuncture`,
@@ -106,7 +107,7 @@ io.on('connection', (socket) => {
             method: 'post',
             url: `http://localhost:3000/user/acupunctureData`,
             data: {
-                //table_id: data.table_id,
+                table_id: data.table_id,
                 user_id: data.user_id
             }
         });
@@ -130,26 +131,6 @@ io.on('connection', (socket) => {
         socket.emit("server/api/department/getListDepartment",response.data)
     })
 
-    // socket.on("search-select", async data =>{
-    //     const {type, value} = data
-    //     let search ={
-    //             method: 'get',
-    //             headers: {},
-    //             data: {
-    //             }
-    //     }
-
-    //     if(type === "search-gender" || type === "select-status"){
-    //         result = {...result, url:`http://localhost:3000/api/employee/${data.type}/${data.value}/:1`}
-    //     }
-    //     if(type === "select-department"){
-    //         result = {...result, url:"http://localhost:3000/api/employee/getemplpyeeDepartment"}
-    //     }
-
-
-    //     const response = await axios(result);
-    //     //socket.emit("server/api/department/getListDepartment",response.data)
-    // })
 
 
 
@@ -161,7 +142,8 @@ io.on('connection', (socket) => {
             headers: {},
             data: {
                 user: data.user,
-                month_id: data.value
+                month_id: data.month_id,
+                year:data.year
             }
         });
         console.log("response.data",response.data)
@@ -169,7 +151,7 @@ io.on('connection', (socket) => {
     })
 
 
-
+    //Báo cáo chấm công của nhân viên
     socket.on("employee-report", async (data) => {
         console.log("data",data)
         const response = await axios({
@@ -181,8 +163,23 @@ io.on('connection', (socket) => {
                 year: data.year
             }
         });
-        console.log(response.data)
         socket.emit("server-send-report-employee",response.data)
+    })
+
+
+
+    socket.on("hr-create-table", async (data) => {
+        console.log("data",data)
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:3000/api/timekeep/table`,
+            headers: {},
+            data: {
+                month_id: data.month_id,
+                year: data.year
+            }
+        });
+        socket.emit("server-send-result-create-table",response.data)
     })
 
 });

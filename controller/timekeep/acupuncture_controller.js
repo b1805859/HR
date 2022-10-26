@@ -11,48 +11,38 @@ class TimekeepAcupuncture {
     acupuncture = async (req, res, next) => {
         let result = {}
         const { table_id, user_id } = req.body
-        try {
-            const table = await timekeepTable.find({ _id: table_id })
+        
+        try {  
+            const table = await timekeepTable.find({ _id: mongoose.Types.ObjectId(table_id) })
             if (!table)
                 res.json({ message: "Bảng không tồn tại" })
 
-            if(table[0].open == false)
-            {
-                res.json({ message: "Bảng công không mở" })
-            }
-
+            
             var now = new Date();
             var year = now.getFullYear();
-            var month = now.getMonth() + 1;
+            var mon = now.getMonth() + 1;
             var day = now.getDate();
             var hour = now.getHours();
             var minute = now.getMinutes();
             var second = now.getSeconds();
 
+            const monthObj = await timekeepMonth.findOne({name: mon})
+
             //Kiểm tra đã chấm công hay chưa
-            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day })
+            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day, month_id: mongoose.Types.ObjectId(monthObj._id), year: year})
             if (acupunctureCheck)
                 return res.json({ message: "Đã chấm công cho hôm nay" })
 
-
-
-            //Kiểm tra cuối tháng
-            const monthTable = await timekeepMonth.findOne({ _id: table[0].month_id })
-            if(day == monthTable.total)
-            {
-                await timekeepTable.updateOne({ _id: table_id },{open: false})
-                await EmplopyeeProfile.updateOne({ _id: user_id },{bang_cong: false})
+            result = {
+                date: day,
+                employee_id: user_id,
+                month_id:mongoose.Types.ObjectId(monthObj._id),
+                year: year,
+                table_id,
             }
-
-
-                result = {
-                    date: day,
-                    employee_id: user_id,
-                    table_id,
-                }
-                let newAcupuncture = new timekeepAcupuncture(result)
-                await newAcupuncture.save()
-
+            let newAcupuncture = new timekeepAcupuncture(result)
+            await newAcupuncture.save()
+                
             return res.json({ data: newAcupuncture })
         } catch (error) {
             console.log(error)

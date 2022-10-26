@@ -35,7 +35,7 @@ router.get('/fetchTimekeepList/:page', Auth.isAuth, Auth.checkRole, timekeepPosi
 //Table
 router.get('/table', Auth.isAuth, Auth.checkRole, timekeepTableController.renderFormCreateTable)
 //Tạo bảng chấm công cho tháng
-router.post('/table', Auth.isAuth, Auth.checkRole, timekeepTableController.createTable)
+router.post('/table', timekeepTableController.createTable)
 
 
 

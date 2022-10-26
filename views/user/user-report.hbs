@@ -5,32 +5,69 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Lịch sử chấm công</h4>
 
-    <nav id="navbar-acupuncture" class="navbar bg-light mb-2">
-      <div class=" col-md-5 p-3">
-        <label for="months" class="form-label">Tháng</label>
-        <select id="months" name="months" class="select2 form-select">
-          <option value="">--Chọn--</option>
-        </select>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-4">
+          <!-- Account -->
+          <hr class="my-0" />
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="mb-3 col-md-6">
+                <label class="form-label" for="months">Tháng</label>
+                <select id="months" name="months" class="select2 form-select" required>
+                  {{#each months}}
+                  <option value="{{this._id}}">Tháng {{this.name}}</option>
+                  {{/each}}
+                </select>
+              </div>
+              <div class="mb-3 col-md-4">
+                <label class="form-label" for="year">Năm</label>
+                <select id="year" name="year" class="select2 form-select" required>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                  <option value="2028">2028</option>
+                  <option value="2029">2029</option>
+                  <option value="2030">2030</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- /Account -->
+        </div>
       </div>
-    </nav>
+    </div>
     <!-- Responsive Table -->
     <div id="card" class="card">
+      <h1 class="text-center mt-4 mb-2"></h1>
       <div class="table-responsive text-nowrap">
         <table class="table table-bordered">
           <thead>
             <tr id="title_month" class="text-nowrap">
             </tr>
           </thead>
-          <tbody>
-            <tr id="acupuncture_user">
-              <td>{{employee.code}}</td>
-              <td>{{employee.name}}</td>
-            </tr>
+          <tbody id="acupuncture_user">
           </tbody>
         </table>
       </div>
     </div>
     <!--/ Responsive Table -->
+
+
+
+    <div id="messageError" style="display: flex;flex-direction: column;align-items: center;">
+      <img src="/assets/img/illustrations/no-data.png" alt="" style="
+    width: 350px;
+    height: 350px;
+    max-width: 100%;
+    max-height: 100%;
+      ">
+      <h4>Không tìm thấy dữ liệu!</h4>
+    </div>
 
     <!--/ Basic Pagination -->
   </div>
@@ -39,66 +76,19 @@
   <!-- Modal HTML -->
   <!-- Content wrapper -->
   <script>
-    var msg = "{{ msgError }}"
-    if (msg) {
-      var h1 = `<h3 class="text-center mt-5 p-5">${msg}</h3>`
-      $('#card').prepend(h1)
-      $('#acupuncture_user').html('')
-      $('#navbar-acupuncture').hide()
-    }
-    else {
 
-      var html = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
-      var acupuncture = "";
-      var month_encode = "{{ month }}"
-      var months_encode = "{{ months }}"
-      var acupunctures_encode = "{{ acupunctures }}"
-      var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
-      var months = JSON.parse(months_encode.replace(/&quot;/ig, '"'));
-      var acupunctures = JSON.parse(acupunctures_encode.replace(/&quot;/ig, '"'));
-      var h1 = `<h1 class="text-center mt-4 mb-2">Tháng ${month.name}</h1>`
-      for (let i = 1; i <= month.total; i++) {
-        html += `<th class="text-center">${i}</th>`
-        let check = 0
-        for (let j = 0; j < acupunctures.length; j++) {
-          const { date } = acupunctures[j];
-          if (String(date) === String(i)) {
-            acupuncture += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
-            break;
-          }
-          check++;
-          if (check == acupunctures.length) {
+    $("#card").hide()
+    $("#messageError").hide()
 
-            if (i >= acupunctures[acupunctures.length - 1].date) {
-              acupuncture += `<td></td>`
-            }
-            else {
-              acupuncture += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
-            }
-          }
-        }
-      }
+    //event change select
+    var user_encode = `{{ users }}`
+    var user = JSON.parse(user_encode.replace(/&quot;/ig, '"'));
+    $('#months').on('change', function () {
+      socket.emit("user-report", { user: user, month_id: this.value, year: $("#year").val() })
+    });
 
-
-      //Hiển thị danh sách tháng trên select
-      var monthsHTML = ''
-      for (const month of months) {
-        monthsHTML += `<option value =${month._id}>Tháng ${month.name}</option>`
-      }
-
-      $('#months').html(monthsHTML)
-      $("#title_month").html(html)
-      $("#acupuncture_user").append(acupuncture)
-      $('#card').prepend(h1)
-
-
-
-      //event change select
-      var user_encode = `{{ users }}`
-      var user = JSON.parse(user_encode.replace(/&quot;/ig, '"'));
-      $('#months').on('change', function () {
-        socket.emit("user-report", { user: user, value: this.value })
-      });
-    }
+    $('#year').on('change', function () {
+      socket.emit("user-report", { user: user, month_id: $('#months').val(), year: this.value })
+    });
 
   </script>

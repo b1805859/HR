@@ -9,7 +9,9 @@ var ObjectId = require('mongodb').ObjectId;
 const EmployeeProfile = require('../models/employee_model')
 const Auth = require('../middlewares/auth_middlewares')
 var mongoose = require('mongoose');
-const { sigleToObject, multipleToObject } = require('../utils/to_Object')
+const { sigleToObject, multipleToObject } = require('../utils/to_Object');
+const { findOne } = require('../models/employee_model');
+const { default: axios } = require('axios');
 
 
 
@@ -53,57 +55,9 @@ router.get('/profile', Auth.isAuth, async (req, res) => {
 router.get('/report', Auth.isAuth, async (req, res) => {
     const { user } = req
     try {
-        const report = await timekeepTable.aggregate([
-            {
-                $match: {
-                    employee_id: mongoose.Types.ObjectId(user._id),
-                }
-            },
-            {
-                $lookup: {
-                    from: "employeeprofiles", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "employee"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeepmonths", // collection to join
-                    localField: "month_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "month"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeeptables", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "employee_id",//field from the documents of the "from" collection
-                    as: "table"// output array field
-                }
-            },
-        ], function (error, data) {
-
-        });
-
-        if(!report[0])
-        {   
-            res.render('timekeep/timekeep-report', {
-                msg: "Không có bảng chấm công",
-                user: sigleToObject(user),
-                layout: 'user'
-            });
-        }
         const months = await timekeepMonth.find().sort({ datefield: -1 })
-        const { employee, month, table } = report[0]
-        const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
         res.render('user/user-report', {
-            table_id: table[0]._id,
-            employee: employee[0],
-            month: JSON.stringify(month[0]),
-            months: JSON.stringify(months),
-            acupunctures: JSON.stringify(acupunctures),
+            months: multipleToObject(months),
             user: sigleToObject(user),
             users: JSON.stringify(user),
             layout: 'user'
@@ -117,87 +71,76 @@ router.get('/report', Auth.isAuth, async (req, res) => {
 
 //Xem báo cáo chấm công qua các tháng
 router.post('/report', async (req, res) => {
-    const { user } = req
-    try {
-        console.log("req.body",req.body)
-        //Khởi tạo truy vấn
-        let result = {
-            employee_id: mongoose.Types.ObjectId(req.body.user._id)
-        }
-        console.log("1")
+    const { user } = req.body
+        try {
+        
+            //Khởi tạo truy vấn
+            let result = {
+                employee_id:mongoose.Types.ObjectId(user._id),
+                month_id: mongoose.Types.ObjectId(req.body.month_id),
+                year: req.body.year
+            }
+            const report = await timekeepTable.aggregate([
+                {
+                    $match: {
+                        ...result
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "employeeprofiles", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "_id",//field from the documents of the "from" collection
+                        as: "employee"// output array field
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "timekeepmonths", // collection to join
+                        localField: "month_id",//field from the input documents
+                        foreignField: "_id",//field from the documents of the "from" collection
+                        as: "month"// output array field
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "timekeeptables", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "employee_id",//field from the documents of the "from" collection
+                        as: "table"// output array field
+                    }
+                },
+            ], function (error, data) {
+    
+            });
+            console.log("report",report)
 
-        if(req.body.hasOwnProperty('month_id'))
-        {
-            result = {...result, month_id: mongoose.Types.ObjectId(req.body.month_id)}
-        }
-        else
-        {
-            let now = new Date();
-            let month = now.getMonth() + 1;
-            let monthNow = await timekeepMonth.findOne({name: month})
-            result = {...result, month_id: monthNow._id}
-        }
-
-        const report = await timekeepTable.aggregate([
-            {
-                $match: {
-                    ...result
+            if(report.length == 0)
+            {   
+                return res.json({
+                    msgError: "Không có bảng chấm công",
+                    })
+            }
+            const {month} = report[0]
+            const months = await timekeepMonth.find().sort({ datefield: -1 })
+            const employeeReport =[]
+                const { employee } = report[0]
+                const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
+                let data = {
+                    acupuncture: acupuncture,
+                    ...employee[0],
                 }
-            },
-            {
-                $lookup: {
-                    from: "employeeprofiles", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "employee"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeepmonths", // collection to join
-                    localField: "month_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "month"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeeptables", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "employee_id",//field from the documents of the "from" collection
-                    as: "table"// output array field
-                }
-            },
-        ], function (error, data) {
-
-        });
-
-        console.log("report",report.length)
-        if(report.length == 0)
-        {   
+                employeeReport.push(data)
             return res.json({
-                msgError: "Không có bảng chấm công",
-                user: sigleToObject(user),
-                layout: 'user'
-                })
+                employeeReports: JSON.stringify(employeeReport),
+                month: JSON.stringify(month[0]),
+                months: JSON.stringify(months),
+                year: JSON.stringify(req.body.year),
+            });
+        } catch (error) {
+            console.log(error)
+            return error
         }
-
-        const months = await timekeepMonth.find().sort({ datefield: -1 })
-        const { employee, month, table } = report[0]
-        const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
-        return res.json({
-            table_id: table[0]._id,
-            employee: employee[0],
-            month: JSON.stringify(month[0]),
-            months: JSON.stringify(months),
-            acupunctures: JSON.stringify(acupunctures),
-            user: sigleToObject(user),
-            layout: 'user'
-        });
-    } catch (error) {
-        console.log(error)
-        return error
-    }
 });
 
 
@@ -206,64 +149,90 @@ router.post('/report', async (req, res) => {
 //lấy danh sách phiên chấm công
 router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
     const { user } = req
-    try {
-        const report = await timekeepTable.aggregate([
-            {
-                $match: {
-                    employee_id: mongoose.Types.ObjectId(user._id)
-                }
-            },
-            {
-                $lookup: {
-                    from: "employeeprofiles", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "employee"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeepmonths", // collection to join
-                    localField: "month_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "month"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeeptables", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "employee_id",//field from the documents of the "from" collection
-                    as: "table"// output array field
-                }
-            },
-        ], function (error, data) {
+        try {
 
-        });
+            //Lấy đối tượng là tháng hiện tại
+            var now = new Date();
+            var year = now.getFullYear();
+            var mon = now.getMonth() + 1;
+            var day = now.getDate();
+            // var hour = now.getHours();
+            // var minute = now.getMinutes();
+            // var second = now.getSeconds();
 
-        if(!report[0])
-        {   
-            res.render('user/user-acupuncture', {
-                msg: "Không có bảng chấm công",
+            //Tìm tháng
+            const monthObj = await timekeepMonth.findOne({name: mon})
+
+            //Khởi tạo truy vấn
+            let result = {
+                employee_id:mongoose.Types.ObjectId(user._id),
+                month_id: mongoose.Types.ObjectId(monthObj._id),
+                year: String(year).trim()
+            }
+            const report = await timekeepTable.aggregate([
+                {
+                    $match: {
+                        ...result
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "employeeprofiles", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "_id",//field from the documents of the "from" collection
+                        as: "employee"// output array field
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "timekeepmonths", // collection to join
+                        localField: "month_id",//field from the input documents
+                        foreignField: "_id",//field from the documents of the "from" collection
+                        as: "month"// output array field
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "timekeeptables", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "employee_id",//field from the documents of the "from" collection
+                        as: "table"// output array field
+                    }
+                },
+            ], function (error, data) {
+    
+            });
+
+
+            if(report.length == 0)
+            {   
+                return res.render("user/user-acupuncture",{
+                    msgError: "Không có bảng chấm công",
+                    user: sigleToObject(user),
+                    layout: 'user'
+                    })
+            }
+            const { employee, month, table} = report[0]
+            const employeeReport =[]
+                const acupuncture = await timekeepAcupuncture.find({ table_id: mongoose.Types.ObjectId(table[0]._id) })
+                let data = {
+                    acupuncture: acupuncture,
+                    ...employee[0],
+                }
+                employeeReport.push(data)
+
+            return res.render("user/user-acupuncture",{
+                table_id:JSON.stringify(table[0]._id),
+                employeeReports: JSON.stringify(employeeReport),
+                month: JSON.stringify(month[0]),
+                year: JSON.stringify(year),
                 user: sigleToObject(user),
                 layout: 'user'
             });
+        } catch (error) {
+            console.log(error)
+            return error
         }
-
-        const { employee, month, table } = report[0]
-        const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
-        res.render('user/user-acupuncture', {
-            table_id: table[0]._id,
-            employee: employee[0],
-            month: JSON.stringify(month[0]),
-            acupunctures: JSON.stringify(acupunctures),
-            user: sigleToObject(user),
-            layout: 'user'
-        });
-    } catch (error) {
-        console.log(error)
-        return error
-    }
 });
 
 
@@ -272,48 +241,70 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
 router.post('/acupunctureData', async (req, res, next) => {
     const { table_id, user_id } = req.body
     try {
+        console.log("req.body",req.body)
 
-        const report = await timekeepTable.aggregate([
-            {
-                $match: {
-                    employee_id: ObjectId(user_id)
-                }
-            },
-            {
-                $lookup: {
-                    from: "employeeprofiles", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "employee"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeepmonths", // collection to join
-                    localField: "month_id",//field from the input documents
-                    foreignField: "_id",//field from the documents of the "from" collection
-                    as: "month"// output array field
-                }
-            },
-            {
-                $lookup: {
-                    from: "timekeeptables", // collection to join
-                    localField: "employee_id",//field from the input documents
-                    foreignField: "employee_id",//field from the documents of the "from" collection
-                    as: "table"// output array field
-                }
-            },
-        ], function (error, data) {
+            var now = new Date();
+            var year = now.getFullYear();
 
-        });
-        const { employee, month, table } = report[0]
-        const acupunctures = await timekeepAcupuncture.find({ employee_id: employee[0]._id, table_id: table[0]._id })
-        return res.json( {
-            table_id: table[0]._id,
-            employee: employee[0],
-            month: JSON.stringify(month[0]),
-            acupunctures: JSON.stringify(acupunctures),
-        });
+            //Khởi tạo truy vấn
+            let result = {
+                _id:mongoose.Types.ObjectId(table_id),
+                employee_id:mongoose.Types.ObjectId(user_id),
+            }
+            const report = await timekeepTable.aggregate([
+                {
+                    $match: {
+                        ...result
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "employeeprofiles", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "_id",//field from the documents of the "from" collection
+                        as: "employee"// output array field
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "timekeepmonths", // collection to join
+                        localField: "month_id",//field from the input documents
+                        foreignField: "_id",//field from the documents of the "from" collection
+                        as: "month"// output array field
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "timekeeptables", // collection to join
+                        localField: "employee_id",//field from the input documents
+                        foreignField: "employee_id",//field from the documents of the "from" collection
+                        as: "table"// output array field
+                    }
+                },
+            ], function (error, data) {
+    
+            });
+            console.log("report",report)
+
+            if(report.length == 0)
+            {   
+                return res.json({msgError: "Không có bảng chấm công"})
+            }
+            const { employee, month, table} = report[0]
+            const employeeReport =[]
+                const acupuncture = await timekeepAcupuncture.find({ table_id: mongoose.Types.ObjectId(table[0]._id) })
+                let data = {
+                    acupuncture: acupuncture,
+                    ...employee[0],
+                }
+                employeeReport.push(data)
+
+            return res.json({
+                table_id: table[0]._id,
+                employeeReports: JSON.stringify(employeeReport),
+                month: JSON.stringify(month[0]),
+                year: JSON.stringify(year),
+            });
     } catch (error) {
         console.log(error)
         return error
