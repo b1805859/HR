@@ -5,12 +5,33 @@
   <div class="container-fluid flex-grow-1 container-p-y">
     <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Chấm công /</span> Vị trí chấm công</h4>
     <!-- Layout Demo -->
-    <div class="container my-3">
-      <a href="/api/timekeep/formCreatePosition" class="btn btn-success mb-4">Thêm mới địa chỉ GPS</a>
-      <div id="map" style="width: 100%; height: 500px;border-radius: 5px;"></div>
-      {{!--
-      <pre id="coordinates" class="coordinates"></pre> --}}
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center" style=" background:#a7e0fa">Vị trí chấm công</th>
+                </th>
+                <th class="text-center" style=" background:#a7e0fa">Hoạt động</th>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="timekeep-position" class="table-border-bottom-0">
+
+            </tbody>
+          </table>
+        </div>
+        <a href="/api/timekeep/formCreatePosition" class="btn btn-success mt-5">Thêm mới địa chỉ GPS</a>
+      </div>
+      <div class="col-md-6">
+
+        <div id="map" style="width: 100%; height: 600px;border-radius: 5px;"></div>
+        {{!--
+        <pre id="coordinates" class="coordinates"></pre> --}}
+      </div>
     </div>
+
 
     <!--/ Layout Demo -->
   </div>
@@ -21,3 +42,27 @@
 </div>
 <!-- Content wrapper -->
 <script src="/assets/js/map_no.js"></script>
+
+<script>
+  var positions_encode = `{{ positions }}`
+  var positions = JSON.parse(positions_encode.replace(/&quot;/ig, '"'));
+  var positions_html = ''
+  for (const position of positions) {
+    positions_html += `<tr>`
+    positions_html += `<td>${position.name}</td>`
+    positions_html += `<td class="text-center">
+                              <a href='/api/timekeep/position/${position._id}' class='text-danger'>
+                                <button type="button" class="btn btn-outline-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                                </svg>
+                                </button>
+                              </a>
+                        </td>`
+    positions_html += `</tr>`
+  }
+
+  $('#timekeep-position').html(positions_html)
+
+</script>

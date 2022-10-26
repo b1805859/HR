@@ -10,6 +10,8 @@ const Auth = require('../middlewares/auth_middlewares')
 
 //Position
 router.get('/position', Auth.isAuth, timekeepPositionController.getPosition)
+router.post('/position', timekeepPositionController.storePosition)
+router.get('/position/:id', timekeepPositionController.deletePosition)
 
 
 router.get('/positionMap', Auth.isAuth, timekeepPositionController.getPositionMap)
@@ -19,16 +21,10 @@ router.get('/formCreatePosition', Auth.isAuth, Auth.checkRole, (req, res, next) 
     res.render("timekeep/form-timekeep-create-position", { user: sigleToObject(user) })
 })
 
-router.post('/position', timekeepPositionController.storePosition)
 
 
 //Tìm kiếm vị trí gần
 router.post('/findPosition', timekeepPositionController.findPosition)
-
-//Lấy danh sách hồ sơ nhân viên chưa có bảng công có phân trang (trang có đối số)
-router.get('/fetchTimekeepList/:page', Auth.isAuth, Auth.checkRole, timekeepPositionController.fetchListPage)
-
-
 
 
 

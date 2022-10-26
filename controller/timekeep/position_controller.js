@@ -10,10 +10,10 @@ class TimekeepPosition {
         try {
             const positions = await timekeepPosition.find();
             if (String(account.role) == 'nhan_su') {
-                res.render("timekeep/timekeep-position-list", { user: sigleToObject(user), positions })
+                res.render("timekeep/timekeep-position-list", { user: sigleToObject(user), positions:JSON.stringify(positions) })
             }
             else if (String(account.role) == 'nhan_vien') {
-                res.render("timekeep/timekeep-position-list", { user: sigleToObject(user), positions, layout: "user" })
+                res.render("timekeep/timekeep-position-list", { user: sigleToObject(user), positions:JSON.stringify(positions), layout: "user" })
             }
         } catch (err) {
 
@@ -52,35 +52,6 @@ class TimekeepPosition {
     }
 
 
-    //Lấy danh sách hồ sơ nhân viên chưa tạo bảng công có phân trang
-    fetchListPage = async (req, res, next) => {
-        const { user } = req
-        let perPage = 8;
-        let page = req.params.page || 1
-        try {
-            await EmployeeProfile
-                .find({ status: "working" })
-                .sort({ date: 1 })
-                .skip((perPage * page) - perPage)
-                .limit(perPage)
-                .exec((err, employees) => {
-                    EmployeeProfile.countDocuments((err, count) => {
-                        if (err) return next(err);
-                        res.render('timekeep/timekeep-table', {
-                            user: sigleToObject(user),
-                            employees: multipleToObject(employees), // sản phẩm trên một page
-                            current: page, // page hiện tại
-                            pages: Math.ceil(count / perPage) // tổng số các page
-                        });
-                    })
-                })
-
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
-
 
     findPosition = async (req, res, next) => {
         const { latitude, longitude } = req.body
@@ -103,6 +74,28 @@ class TimekeepPosition {
             return res.json({ position: position_data, user: sigleToObject(user) });
         } catch (err) {
             res.status(400).send({ success: false, msg: err.message });
+        }
+    }
+
+
+
+
+    //Lấy danh sách hồ sơ nhân viên có phân trang
+    deletePosition = async (req, res, next) => {
+        const {id} = req.params
+        try {
+            const resultDelete = await timekeepPosition.deleteOne({_id: mongoose.Types.ObjectId(id)})
+            if(!resultDelete)
+            {
+                return res.json({msgError: "Có lỗi xảy ra"})
+            }
+            return res.redirect("/api/timekeep/position")
+        } catch (err) {
+            console.error(err);
+            if (err.code === 11000) {
+                return res.status(400).json({ error: 'This store already exists' });
+            }
+            res.status(500).json({ error: 'Server error' });
         }
     }
 }

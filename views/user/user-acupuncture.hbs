@@ -142,18 +142,18 @@
     const table_id_encode = `{{table_id}}`
     const table_id = JSON.parse(table_id_encode.replace(/&quot;/ig, '"'));
     $('#acupuncture').click(function () {
-      //if (navigator.geolocation) {
-      // navigator.geolocation.getCurrentPosition(function (position) {
-      //  const { coords } = position
-      //  const { latitude, longitude } = coords
-      //  socket.emit("user-acupuncture", {
-      //    latitude: latitude,
-      //    longitude: longitude,
-      //    table_id: table_id,
-      //    user_id: $('#user_id').val()
-      //  })
-      //});
-      //}
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const { coords } = position
+          const { latitude, longitude } = coords
+          socket.emit("user-acupuncture", {
+            latitude: latitude,
+            longitude: longitude,
+            table_id: table_id,
+            user_id: $('#user_id').val()
+          })
+        });
+      }
 
     });
   }
