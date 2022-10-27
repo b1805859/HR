@@ -3,7 +3,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    zoom: 10, // starting zoom
+    zoom: 5, // starting zoom
     center: [106.660172, 10.762622] // starting position [lng, lat]
 });
 

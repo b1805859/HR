@@ -34,11 +34,13 @@ class TimekeepPosition {
     //Lấy danh sách hồ sơ nhân viên có phân trang
     storePosition = async (req, res, next) => {
         try {
-            const { name, longitude, latitude } = req.body
+            const { name, longitude, latitude, address, scope } = req.body
             let result = {
                 name,
                 longitude,
-                latitude
+                latitude,
+                address,
+                scope
             }
             await timekeepPosition.create(result);
             return res.redirect("/api/timekeep/position")
