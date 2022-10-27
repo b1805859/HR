@@ -43,7 +43,6 @@
               <td>
               </td>
               <td><select id="select-department" name="select-department" class="select2 form-select">
-                  <option value=''>-- Chọn --</option>
                 </select>
               </td>
               <td>
@@ -70,6 +69,18 @@
     </div>
 
     <script>
+      //filter
+      $('#select-department').html()
+      var departments_encode = `{{departments}}`
+      const departments = JSON.parse(departments_encode.replace(/&quot;/g, '"'));
+      $('#select-department').append(`<option value=''>--Tất cả--</option>`)
+      for (const department of departments) {
+        $('#select-department').append(`<option value='${department._id}'>${department.name}</option>`)
+      }
+
+
+
+
       var table_html = ""
       const table_employee = `{{employees}}`
       const table = JSON.parse(table_employee.replace(/&quot;/g, '"'));
@@ -125,7 +136,7 @@
         } else {
           // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled
           html += "<li class='page-item'>"
-          html += "<a class='page-link' href='/api/employee/fetchEmployeeList/1'>First</a>"
+          html += "<a class='page-link' href='http://localhost:3000/api/employee/filter/:1'>First</a>"
           html += "</li>"
         }
 
@@ -188,9 +199,8 @@
 
       $("#pagination").html(html)
 
-      $('#select-department').on('click change', function (e) {
-        socket.emit("/api/department/getListDepartment")
-      });
+
+
 
     </script>
 

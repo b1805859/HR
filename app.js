@@ -106,24 +106,6 @@ io.on('connection', (socket) => {
 
 
 
-
-
-    //Lấy danh sách phòng ban
-    socket.on("/api/department/getListDepartment", async () => {
-        const response = await axios({
-            method: 'get',
-            url: `http://localhost:3000/api/department/getListDepartment`,
-            headers: {},
-            data: {
-                
-            }
-        });
-        socket.emit("server/api/department/getListDepartment",response.data)
-    })
-
-
-
-
     socket.on("user-report", async (data) => {
         console.log("data",data)
         const response = await axios({

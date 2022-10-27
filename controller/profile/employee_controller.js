@@ -1,5 +1,6 @@
 const EmployeeProfile = require('../../models/employee_model')
 const DepartmentDepartment = require('../../models/department_model')
+const department_controller = require('../../controller/profile/department_controller')
 const UserAccount = require('../../models/users_models')
 var mongoose = require('mongoose');
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
@@ -163,6 +164,7 @@ class Employee {
                 .skip((perPage * page) - perPage)
                 .limit(perPage)
                 .exec(async (err, employees) => {
+                    let departments = await DepartmentDepartment.find()
                     const employeeList = []
                     for(const employee of employees) {
                         let result ={}
@@ -175,6 +177,7 @@ class Employee {
                         if (err) return next(err);
                         res.render('employee/employee-list', {
                             user: sigleToObject(user),
+                            departments: JSON.stringify(departments),
                             employees: JSON.stringify(employeeList), // sản phẩm trên một page
                             current: page, // page hiện tại
                             pages: Math.ceil(count / perPage) // tổng số các page
@@ -195,11 +198,38 @@ class Employee {
         let perPage = 10;
         let page = req.params.page || 1
         try {
+            let result = {}
+            for(const key of Object.keys(data))
+            {
+                if(String(data[`${key}`]) == '')
+                {
+                   
+                }
+                else
+                {
+                    if(String([`${key}`]) == 'code')
+                    {
+                        
+                        result = {...result, [`${key}`]: { $regex: data[`${key}`]}}
+                    }
+                    else
+                    {
+                        result = {...result, [`${key}`]: data[`${key}`]}
+                    }
+                }
+            }
+            
+            //Kiểm tra nếu bộ lọc tìm kiếm không có
+            if(Object.keys(result).length === 0)
+            {
+                page=1000
+            }
+
             await EmployeeProfile
-                .find(data)
+                .find(result)
                 .sort({code:1})
-                .skip((perPage * page) - perPage)
-                .limit(perPage)
+                .skip()
+                .limit()
                 .exec(async (err, employees) => {
                     const employeeList = []
                     for(const employee of employees) {

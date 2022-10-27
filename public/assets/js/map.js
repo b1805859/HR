@@ -171,7 +171,7 @@ map.on('click', (e) => {
         // relative to the top-left corner of the map.
         // `e.lngLat` is the longitude, latitude geographical position of the event.
 
-        `LATITUDE: ${lat} </br>LONGITUDE: ${lng}`
+        `LATITUDE: ${lat}</br>LONGITUDE: ${lng}`
 
     maker.setLngLat([lng, lat])
         .addTo(map);

@@ -1,7 +1,7 @@
 var socket = io("http://localhost:3000");
 
 socket.on("server-send-filter", data => {
-  const {employeeList, current, pages} = data
+  const {employeeList, current} = data
   const employeeListParse = JSON.parse(employeeList.replace(/&quot;/g, '"'));
   $("#table-employee").html("")
   var html_employee =''
@@ -32,6 +32,17 @@ socket.on("server-send-filter", data => {
         html_employee += "</tr>"
   }
   $("#table-employee").html(html_employee)
+
+  if(current == 1000)
+  {
+    $("#pagination").show()
+  }
+  else
+  {
+    $("#pagination").hide()
+
+  }
+
 
 })
 
@@ -107,9 +118,8 @@ socket.on("server-send-acupuncture-data", data => {
         }
         acupuncture_html += `</tr>`
       }
-      console.log("2")
+
   
-      console.log("acupuncture_html",acupuncture_html)
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {
         title_month += `<th class="text-center">${i}</th>`
@@ -124,15 +134,6 @@ socket.on("server-send-acupuncture-data", data => {
 })
 
 
-socket.on("server/api/department/getListDepartment", data=>{
-  var html 
-  for(const month of data)
-  {
-    const {_id ,name} = month
-      html += `<option value="${_id}">${name}</option>`
-  }
-  $("#select-department").html(html)
-})
 
 
 
@@ -297,17 +298,18 @@ socket.on("server-send-result-create-table", data=>{
 
 
 $(document).ready(function () {
-    $("#btn-search-code").click(function () {
-        socket.emit("user-input-code-type",{code: $("#input-code").val(),type: $("#type").val()})
-    })
 
     $("#input-code").on('input',function () {
-        socket.emit("filter-type",{code: { $regex: $("#input-code").val()}})
+        socket.emit("filter-type",{ code:  $("#input-code").val(), status: $('#select-status').val(), department_id: $('#select-department').val()})
     })
 
 
     $('#select-status').on('change', function (e) {
-      socket.emit("filter-type", {status: this.value})
+      socket.emit("filter-type", {status: this.value, code:  $("#input-code").val(), department_id: $('#select-department').val()})
+    });
+
+    $('#select-department').on('change', function (e) {
+      socket.emit("filter-type", {department_id: this.value, status: $('#select-status').val(), code:  $("#input-code").val()})
     });
 
 })
