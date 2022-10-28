@@ -13,7 +13,6 @@ const TimekeepPosition = new Schema({
     longitude: { type: 'string', string: 'Kinh độ' },
     latitude: { type: 'string', string: 'Vĩ độ' },
     address: { type: 'string', string: 'Địa chỉ' },
-    scope: { type: Number, string: 'Phạm vi' },
     location: {
         type: {
             type: String,

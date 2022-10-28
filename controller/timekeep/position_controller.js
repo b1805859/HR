@@ -34,13 +34,12 @@ class TimekeepPosition {
     //Lấy danh sách hồ sơ nhân viên có phân trang
     storePosition = async (req, res, next) => {
         try {
-            const { name, longitude, latitude, address, scope } = req.body
+            const { name, longitude, latitude, address } = req.body
             let result = {
                 name,
                 longitude,
                 latitude,
                 address,
-                scope
             }
             await timekeepPosition.create(result);
             return res.redirect("/api/timekeep/position")
@@ -68,7 +67,7 @@ class TimekeepPosition {
                         ]
                     },
                     distanceField: "dist.calculated",
-                    maxDistance: 800,
+                    maxDistance: 500, // 500 Meters
                     spherical: true
                 }
             }
