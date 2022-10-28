@@ -19,13 +19,13 @@
           <table class="table table-hover table-bordered">
             <thead>
               <tr>
-                <th class="text-center" style=" background:#a7e0fa">Công ty</th>
+                <th class="text-center p-3" style=" background:#a7e0fa">Công ty</th>
                 </th>
-                <th class="text-center" style=" background:#a7e0fa">Địa chỉ</th>
+                <th class="text-center p-3" style=" background:#a7e0fa">Địa chỉ</th>
                 </th>
-                <th class="text-center" style=" background:#a7e0fa">Phạm vi</th>
+                <th class="text-center p-3" style=" background:#a7e0fa">Phạm vi</th>
                 </th>
-                <th class="text-center" style=" background:#a7e0fa">Hoạt động</th>
+                <th class="text-center p-3" style=" background:#a7e0fa">Hoạt động</th>
                 </th>
               </tr>
             </thead>
@@ -55,9 +55,9 @@
   var positions_html = ''
   for (const position of positions) {
     positions_html += `<tr>`
-    positions_html += `<td>${position.name}</td>`
-    positions_html += `<td></td>`
-    positions_html += `<td></td>`
+    positions_html += `<td style="font-size:0.9375rem;">${position.name}</td>`
+    positions_html += `<td style="font-size:0.9375rem;"></td>`
+    positions_html += `<td style="font-size:0.9375rem;"></td>`
     positions_html += `<td class="text-center">
                               <a href='/api/timekeep/position/${position._id}' class='text-danger'>
                                 <button type="button" class="btn btn-outline-danger">

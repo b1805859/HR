@@ -5,9 +5,9 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Phòng ban /</span> Danh sách phòng ban</h4>
 
-    <nav class="navbar bg-light mb-2">
-      <div class="container-fluid">
-        <button class="btn btn-success mt-3 mt-md-0" type="button">
+    <nav class="navbar mb-2">
+      <div class="container-fluid flex-row-reverse">
+        <button class="btn btn-primary mt-3 mt-md-0" type="button">
           <a href="/api/department/formCreateDepartment" class="text-white">
             Thêm phòng ban
           </a>
@@ -20,11 +20,11 @@
         <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Tên phòng ban</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Số điện thoại liên hệ
+              <th class="text-center p-2" style="background:#a7e0fa">Tên phòng ban</th>
+              <th class="text-center p-2" style="background:#a7e0fa">Số điện thoại liên hệ
               </th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Trạng thái</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Trưởng phòng</th>
+              <th class="text-center p-2" style="background:#a7e0fa">Trạng thái</th>
+              <th class="text-center p-2" style="background:#a7e0fa">Trưởng phòng</th>
             </tr>
           </thead>
           <tbody id="table-department" class="table-border-bottom-0">
@@ -48,20 +48,20 @@
           status,
           name_lead } = department
         table_html += "<tr>"
-        table_html += ` <td class="text-center" > <a style='color: #697a8d;'
+        table_html += ` <td class="text-center py-1" > <a style='font-size: 0.9375rem; color: #697a8d;'
             href="/api/department/getDepartmentInformation/${this._id}">${name}</a></td>`
-        table_html += `  <td class="text-center" > <a style='color: #697a8d;'
+        table_html += `  <td class="text-center py-1" > <a style='font-size: 0.9rem; color: #697a8d;'
             href="/api/department/getDepartmentInformation/${this._id}">${phone}</a></td>`
 
         if (status == 'active') {
-          table_html += `  <td class="text-center"><span class="badge bg-label-success me-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hoạt động</font></font></span>
+          table_html += `  <td class="text-center py-1"><span class="badge bg-label-success me-1">Hoạt động</span>
               </td>`
         }
         if (status == 'inactive') {
-          table_html += `  <td class="text-center"><span class="badge bg-label-danger me-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Không hoạt động</font></font></span>
+          table_html += `  <td class="text-center py-1"><span class="badge bg-label-danger me-1">Không hoạt động</span>
               </td>`
         }
-        table_html += `  <td class="text-center"><a style='color: #697a8d;'
+        table_html += `  <td class="text-center py-1"><a style='font-size: 0.9375rem; color: #697a8d;'
                   href="/api/department/getDepartmentInformation/${this._id}">${name_lead}</a>
               </td>`
         table_html += "</tr>"

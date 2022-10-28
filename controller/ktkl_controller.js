@@ -31,7 +31,6 @@ class KTKL {
     }
 
 
-    //Thêm nhân viên
     createKTKL = async (req, res, next) => {
         const {user} = req
         const { employee_code } = req.body
@@ -159,6 +158,26 @@ class KTKL {
             console.log(error)
             return error
         }
+    }
+
+
+
+
+    //Xóa khen thưởng kỷ luật
+    deleteKTKL = async (req, res, next) => {
+        const {id} = req.params
+        try {
+            const result = await KhenThuongKyLuat.deleteOne({ _id: mongoose.Types.ObjectId(id)});
+            if(!result)
+            {
+                return res.json({msgError: "Server Error"})
+            }
+            res.redirect('/api/ktkl/fetchKTKLList')
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+
     }
     
 }

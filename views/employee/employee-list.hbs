@@ -5,9 +5,9 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
 
-    <nav class="navbar bg-light mb-2">
-      <div class="container-fluid">
-        <button class="btn btn-success mt-3 mt-md-0" type="button">
+    <nav class="navbar mb-2">
+      <div class="container-fluid flex-row-reverse">
+        <button class="btn btn-primary mt-3 mt-md-0" type="button">
           <i class='bx bxs-user-plus'></i>
           <a href="/api/employee/formCreateEmployee" class="text-white">
             Nhân viên
@@ -21,13 +21,13 @@
         <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th class="text-center" style=" background:#a7e0fa"></th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Mã</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Tên</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Giới tính</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Phòng ban</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Chức vụ</th>
-              <th class="text-center" style="height: 30px; line-height:30px; background:#a7e0fa">Trạng thái hồ sơ</th>
+              <th class="text-center p-2" style=" background:#a7e0fa"></th>
+              <th class="text-center p-2" style=" background:#a7e0fa">Mã</th>
+              <th class="text-center p-2" style=" background:#a7e0fa">Tên</th>
+              <th class="text-center p-2" style=" background:#a7e0fa">Giới tính</th>
+              <th class="text-center p-2" style=" background:#a7e0fa">Phòng ban</th>
+              <th class="text-center p-2" style=" background:#a7e0fa">Chức vụ</th>
+              <th class="text-center p-2" style=" background:#a7e0fa">Trạng thái hồ sơ</th>
             </tr>
           </thead>
           <tbody>
@@ -97,19 +97,19 @@
                     background-position: top center;
                     border-radius: 50%;
                     margin: 0 auto;"></div></td>`
-        table_html += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
-        table_html += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
-        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
-        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
-        table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+        table_html += `<td class="text-left"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+        table_html += `<td class="text-left"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+        table_html += `<td class="text-center"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+        table_html += `<td class="text-center"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+        table_html += `<td class="text-center"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
         if (employee.status == "draft") {
-          table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+          table_html += `<td class="text-center"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
         }
         else if (employee.status == 'demit') {
-          table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+          table_html += `<td class="text-center"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
         }
         else if (employee.status == 'working') {
-          table_html += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+          table_html += `<td class="text-center"><a style='font-size: 0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
         }
         table_html += "</tr>"
       }

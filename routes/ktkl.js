@@ -62,4 +62,8 @@ router.get('/fetchKTKLList', Auth.isAuth, Auth.checkRole, ktklController.fetchLi
 
 
 
+//Xóa khen thưởng kỷ luật
+router.get('/delete/:id', Auth.isAuth, ktklController.deleteKTKL)
+
+
 module.exports = router;

@@ -15,19 +15,19 @@ socket.on("server-send-filter", data => {
                     background-position: top center;
                     border-radius: 50%;
                     margin: 0 auto;"></div></td>`
-        html_employee += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
-        html_employee += `<td class="text-left"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
-        html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
-        html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
-        html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+        html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+        html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+        html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+        html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+        html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
         if (employee.status == "draft") {
-          html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
         }
         else if (employee.status == 'demit') {
-          html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
         }
         else if (employee.status == 'working') {
-          html_employee += `<td class="text-center"><a style='color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
         }
         html_employee += "</tr>"
   }
@@ -148,7 +148,7 @@ socket.on("server-send-report-user", data=>{
     $("#messageError").css({"display": "flex","flex-direction": "column","align-items": "center"});
   }
   else {
-    var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+    var title_month = "<th class='py-3'>Mã nhân viên</th><th class='py-3'>Tên nhân viên</th>"
       var employeeReports_encode =  data.employeeReports
       var month_encode = data.month
       var employeeReports = JSON.parse(employeeReports_encode.replace(/&quot;/ig, '"'));
@@ -160,28 +160,28 @@ socket.on("server-send-report-user", data=>{
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
-        acupuncture_html += `<td>${code}</td>`
-        acupuncture_html += `<td>${name}</td>`
+        acupuncture_html += `<td class='py-2' style="font-size: 0.9375rem;">${code}</td>`
+        acupuncture_html += `<td class='py-2' style="font-size: 0.9375rem;">${name}</td>`
         for (let i = 1; i <= month.total; i++) {
           if(acupuncture.length ==0)
           {
-            acupuncture_html += `<td></td>`
+            acupuncture_html += `<td class='py-2'></td>`
             continue;
           }
           let check = 0
           for (let j = 0; j < acupuncture.length; j++) {
             const { date } = acupuncture[j];
             if (date == String(i)) {
-              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
               break;
             }
             check++;
             if (check == acupuncture.length) {
               if (i >= acupuncture[acupuncture.length - 1].date) {
-                acupuncture_html += `<td></td>`
+                acupuncture_html += `<td class='py-2'></td>`
               }
               else {
-                acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
               }
             }
           }
@@ -191,7 +191,7 @@ socket.on("server-send-report-user", data=>{
       
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {
-        title_month += `<th class="text-center">${i}</th>`
+        title_month += `<th class="text-center py-3">${i}</th>`
       }
       $('h1:first').text(h1)
     $("#title_month").html(title_month)
@@ -216,7 +216,7 @@ socket.on("server-send-report-employee", data=>{
     $("#messageError").css({"display": "flex","flex-direction": "column","align-items": "center"});
   }
   else {
-    var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+    var title_month = "<th class='py-3'>Mã nhân viên</th><th class='py-3'>Tên nhân viên</th>"
       var employeeReports_encode =  data.employeeReports
       var month_encode = data.month
       var year_encode =  data.year
@@ -228,28 +228,28 @@ socket.on("server-send-report-employee", data=>{
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
-        acupuncture_html += `<td>${code}</td>`
-        acupuncture_html += `<td>${name}</td>`
+        acupuncture_html += `<td class='py-2' style="font-size: 0.9375rem;">${code}</td>`
+        acupuncture_html += `<td class='py-2' style="font-size: 0.9375rem;">${name}</td>`
         for (let i = 1; i <= month.total; i++) {
           if(acupuncture.length ==0)
           {
-            acupuncture_html += `<td></td>`
+            acupuncture_html += `<td class='py-2'></td>`
             continue;
           }
           let check = 0
           for (let j = 0; j < acupuncture.length; j++) {
             const { date } = acupuncture[j];
             if (date == String(i)) {
-              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
               break;
             }
             check++;
             if (check == acupuncture.length) {
               if (i >= acupuncture[acupuncture.length - 1].date) {
-                acupuncture_html += `<td></td>`
+                acupuncture_html += `<td class='py-2'></td>`
               }
               else {
-                acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
               }
             }
           }
@@ -259,7 +259,7 @@ socket.on("server-send-report-employee", data=>{
       
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {
-        title_month += `<th class="text-center">${i}</th>`
+        title_month += `<th class="text-center py-3">${i}</th>`
       }
       $('h1:first').text(h1)
     $("#title_month").html(title_month)
