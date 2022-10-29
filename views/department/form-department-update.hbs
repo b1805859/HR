@@ -14,23 +14,16 @@
           <hr class="my-0" />
           <div class="card-body">
             <form id="formAccountSettings" action="/api/department/updateDepartment/{{department._id}}" method="POST">
-              <div class="row">
-                <div class="mb-3 col-md-12">
+              <div class="row flex-column">
+                <div class="mb-3 col-md-6">
                   <label for="name" class="form-label">Tên phòng ban</label>
                   <input class="form-control" type="text" id="name" name="name" value="{{department.name}}" autofocus
                     autocomplete="off" />
                 </div>
-                <div class="mb-3 col-md-12">
-                  <label for="name" class="form-label">Số điện thoại liên lạc</label>
+                <div class="mb-3 col-md-6">
+                  <label for="name" class="form-label">Liên hệ</label>
                   <input class="form-control" type="text" id="phone" name="phone" value="{{department.phone}}"
                     autocomplete="off" />
-                </div>
-                <div class="mb-3 col-md-12">
-                  <label for="status" class="form-label">Trạng thái</label>
-                  <select id="status" name="status" class="select2 form-select">
-                    <option value="active">Hoạt động</option>
-                    <option value="female">Không hoạt động</option>
-                  </select>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="employee_code" class="form-label">Trưởng phòng</label>

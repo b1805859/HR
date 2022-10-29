@@ -13,7 +13,7 @@
         <pre id="coordinates" class="coordinates"></pre> --}}
       </div>
 
-      <div class="mt-3 col-md-6">
+      <div class="mt-3 col-md-10">
         <h4 class="mb-3">Danh sách vị trí chấm công</h4>
         <div class="table-responsive text-nowrap">
           <table class="table table-hover table-bordered">
@@ -22,8 +22,6 @@
                 <th class="text-center p-3" style=" background:#a7e0fa">Công ty</th>
                 </th>
                 <th class="text-center p-3" style=" background:#a7e0fa">Địa chỉ</th>
-                </th>
-                <th class="text-center p-3" style=" background:#a7e0fa">Phạm vi</th>
                 </th>
                 <th class="text-center p-3" style=" background:#a7e0fa">Hoạt động</th>
                 </th>
@@ -56,8 +54,7 @@
   for (const position of positions) {
     positions_html += `<tr>`
     positions_html += `<td style="font-size:0.9375rem;">${position.name}</td>`
-    positions_html += `<td style="font-size:0.9375rem;"></td>`
-    positions_html += `<td style="font-size:0.9375rem;"></td>`
+    positions_html += `<td style="font-size:0.9375rem;">${position.address}</td>`
     positions_html += `<td class="text-center">
                               <a href='/api/timekeep/position/${position._id}' class='text-danger'>
                                 <button type="button" class="btn btn-outline-danger">

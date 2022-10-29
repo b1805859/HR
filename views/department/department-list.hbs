@@ -21,9 +21,8 @@
           <thead>
             <tr>
               <th class="text-center p-2" style="background:#a7e0fa">Tên phòng ban</th>
-              <th class="text-center p-2" style="background:#a7e0fa">Số điện thoại liên hệ
+              <th class="text-center p-2" style="background:#a7e0fa">Liên hệ
               </th>
-              <th class="text-center p-2" style="background:#a7e0fa">Trạng thái</th>
               <th class="text-center p-2" style="background:#a7e0fa">Trưởng phòng</th>
             </tr>
           </thead>
@@ -35,7 +34,6 @@
     </div>
     <!--/ Basic Bootstrap Table -->
 
-    <hr class="my-4" />
     <script>
       var table_html = ""
       const table_departments = `{{departments}}`
@@ -48,21 +46,12 @@
           status,
           name_lead } = department
         table_html += "<tr>"
-        table_html += ` <td class="text-center py-1" > <a style='font-size: 0.9375rem; color: #697a8d;'
-            href="/api/department/getDepartmentInformation/${this._id}">${name}</a></td>`
-        table_html += `  <td class="text-center py-1" > <a style='font-size: 0.9rem; color: #697a8d;'
-            href="/api/department/getDepartmentInformation/${this._id}">${phone}</a></td>`
-
-        if (status == 'active') {
-          table_html += `  <td class="text-center py-1"><span class="badge bg-label-success me-1">Hoạt động</span>
-              </td>`
-        }
-        if (status == 'inactive') {
-          table_html += `  <td class="text-center py-1"><span class="badge bg-label-danger me-1">Không hoạt động</span>
-              </td>`
-        }
-        table_html += `  <td class="text-center py-1"><a style='font-size: 0.9375rem; color: #697a8d;'
-                  href="/api/department/getDepartmentInformation/${this._id}">${name_lead}</a>
+        table_html += ` <td class="py-2" > <a style='font-size: 0.9375rem; color: #697a8d;'
+            href="/api/department/getDepartmentInformation/${_id}">${name}</a></td>`
+        table_html += `  <td class="py-2" > <a style='font-size: 0.9rem; color: #697a8d;'
+            href="/api/department/getDepartmentInformation/${_id}">${phone}</a></td>`
+        table_html += `  <td class="text-center py-2"><a style='font-size: 0.9375rem; color: #697a8d;'
+                  href="/api/department/getDepartmentInformation/${_id}">${name_lead}</a>
               </td>`
         table_html += "</tr>"
       }

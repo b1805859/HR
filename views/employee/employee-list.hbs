@@ -48,7 +48,7 @@
               <td>
               </td>
               <td><select id="select-status" name="select-status" class="select2 form-select" required>
-                  <option value=''>--Tất cả --</option>
+                  <option class="text-center" value=''>--Tất cả --</option>
                   <option value='working'>Đang làm việc</option>
                   <option value='demit'>Lưu trữ</option>
                   <option value='draft'>Nháp</option>
@@ -73,7 +73,7 @@
       $('#select-department').html()
       var departments_encode = `{{departments}}`
       const departments = JSON.parse(departments_encode.replace(/&quot;/g, '"'));
-      $('#select-department').append(`<option value=''>--Tất cả--</option>`)
+      $('#select-department').append(`<option class="text-center" value=''>--Tất cả--</option>`)
       for (const department of departments) {
         $('#select-department').append(`<option value='${department._id}'>${department.name}</option>`)
       }

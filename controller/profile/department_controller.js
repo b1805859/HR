@@ -31,7 +31,7 @@ class Department {
 
     //Tạo phòng ban
     createDepartment = async (req, res, next) => {
-        const { name, phone, employee_code, status } = req.body
+        const { name, phone, employee_code } = req.body
 
         try {
 
@@ -47,7 +47,6 @@ class Department {
             let result = {
                 name: String(name).trim(),
                 phone: String(phone).trim(),
-                status: status,
 
             }
 
@@ -83,8 +82,7 @@ class Department {
         const { id } = req.params
         const { name,
             phone,
-            employee_code,
-            status, } = req.body
+            employee_code } = req.body
         try {
 
             if (!req.params.hasOwnProperty('id')) {
@@ -110,9 +108,6 @@ class Department {
             }
             if (String(phone).trim() !== String(department.phone).trim()) {
                 result = { ...result, phone: String(phone) }
-            }
-            if (String(status).trim() !== String(department.status).trim()) {
-                result = { ...result, status: String(status) }
             }
 
             const employee = await EmployeeProfile.findOne({ code: employee_code })
@@ -144,7 +139,7 @@ class Department {
         try {
             await DepartmentDepartment
                 .find()
-                .sort({ date: 1 })
+                .sort({name:1})
                 .skip((perPage * page) - perPage)
                 .limit(perPage)
                 .exec((err, departments) => {

@@ -57,7 +57,7 @@
             <table class="table table-hover table-bordered">
               <thead>
                 <tr>
-                  <th class="text-center" style=" background:#a7e0fa">Bảng chấm công đã tạo</th>
+                  <th class="text-center py-2" style=" background:#a7e0fa">Bảng chấm công đã tạo</th>
                   </th>
                 </tr>
               </thead>
@@ -79,7 +79,13 @@
     for (const element of tables) {
       const { table, monthName } = element
       table_timekeep += `<tr>`
-      table_timekeep += `<td class='text-center'>${monthName}/${table.year}</td>`
+      if (String(`${monthName}`).length == 1) {
+
+        table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">0${monthName}/${table.year}</td>`
+      }
+      else {
+        table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">${monthName}/${table.year}</td>`
+      }
       table_timekeep += `</tr>`
     }
 

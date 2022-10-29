@@ -12,14 +12,14 @@
           <!-- Account -->
           <form action="/api/department/createDepartment" id="formAccountSettings" method="POST">
             <div class="card-body">
-              <div class="row">
-                <div class="mb-3 col-md-12">
+              <div class="row flex-column">
+                <div class="mb-3 col-md-6">
                   <label for="name" class="form-label">Tên phòng ban</label> (<span class="text-danger">*</span>)
                   <input class="form-control" type="text" id="name" name="name" placeholder="VD: Kế toán" required
                     autofocus autocomplete="off" />
                 </div>
-                <div class="mb-3 col-md-12">
-                  <label for="phone" class="form-label">Số điện thoại phòng ban</label>
+                <div class="mb-3 col-md-6">
+                  <label for="phone" class="form-label">Liên hệ</label>
                   <input class="form-control" type="text" id="phone" name="phone" placeholder="" autofocus
                     autocomplete="off" />
                 </div>
@@ -29,14 +29,6 @@
                     name="employee_code" placeholder="Nhập mã nhân viên">
                   <datalist id="search-employee">
                   </datalist>
-                </div>
-                <div class="mb-3 col-md-12">
-                  <label for="status" class="form-label">Trạng thái phòng ban</label>
-                  (<span class="text-danger">*</span>)
-                  <select id="status" name="status" class="select2 form-select">
-                    <option value="active">Hoạt động</option>
-                    <option value="inactive">Không hoạt động</option>
-                  </select>
                 </div>
               </div>
               <div class="mt-2">
