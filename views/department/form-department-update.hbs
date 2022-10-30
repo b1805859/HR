@@ -12,35 +12,8 @@
           <h5 class="card-header">Thông tin phòng ban</h5>
           <!-- Account -->
           <hr class="my-0" />
-          <div class="card-body">
-            <form id="formAccountSettings" action="/api/department/updateDepartment/{{department._id}}" method="POST">
-              <div class="row flex-column">
-                <div class="mb-3 col-md-6">
-                  <label for="name" class="form-label">Tên phòng ban</label>
-                  <input class="form-control" type="text" id="name" name="name" value="{{department.name}}" autofocus
-                    autocomplete="off" />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="name" class="form-label">Liên hệ</label>
-                  <input class="form-control" type="text" id="phone" name="phone" value="{{department.phone}}"
-                    autocomplete="off" />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="employee_code" class="form-label">Trưởng phòng</label>
-                  <input id="input-code" type="text" list="search-employee" class="form-control me-2"
-                    name="employee_code" placeholder="Nhập mã nhân viên">
-                  <datalist id="search-employee">
-                  </datalist>
-                </div>
-              </div>
-              <div class="mt-2">
-                <button type="submit" class="btn btn-primary">
-                  <a class="text-white">
-                    Lưu
-                  </a>
-                </button>
-              </div>
-            </form>
+          <div id="department-update" class="card-body">
+
           </div>
           <!-- /Account -->
         </div>
@@ -53,3 +26,39 @@
   <div class="content-backdrop fade"></div>
 </div>
 <!-- Content wrapper -->
+
+<script>
+  var department_encode = `{{department}}`
+  const departments = JSON.parse(department_encode.replace(/&quot;/g, '"'));
+  const { department, name_lead } = departments
+  var html = ` <form id="formAccountSettings" action="/api/department/updateDepartment/${department._id}" method="POST">
+              <div class="row flex-column">
+                <div class="mb-3 col-md-6">
+                  <label for="name" class="form-label">Tên phòng ban</label>
+                  <input class="form-control" type="text" id="name" name="name" value="${department.name}" autofocus
+                    autocomplete="off" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="name" class="form-label">Liên hệ</label>
+                  <input class="form-control" type="text" id="phone" name="phone" value="${department.phone}"
+                    autocomplete="off" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="code-manager" class="form-label">Trưởng phòng</label>
+                  <input id="code-manager" type="text" list="code-manager-list" class="form-control me-2"
+                    name="employee_code" value="${department.employee_code}" autocomplete="off">
+                  <datalist id="code-manager-list">
+                  </datalist>
+                </div>
+              </div>
+              <div class="mt-2">
+                  <a class="text-white">
+                  <button type="submit" class="btn btn-primary">
+                      Lưu
+                  </button>
+                  </a>
+              </div>
+            </form>`
+
+  $("#department-update").html(html)
+</script>

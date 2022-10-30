@@ -67,6 +67,18 @@ io.on('connection', (socket) => {
             socket.emit("server-send-filter", response.data);
     })
 
+    socket.on("search-code-manager",async data => {
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:3000/api/employee/manager`,
+            headers: {},
+            data: {
+                data
+            }
+        });
+        socket.emit("server-send-employee-list", response.data);
+})
+
     socket.on("user-acupuncture", async data => {
         const response = await axios({
             method: 'post',

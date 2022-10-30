@@ -7,33 +7,8 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="card mb-4">
-          <h5 class="card-header">Thông tin phòng ban</h5>
-          <!-- Account -->
-          <div class="card-body">
-            <div class="row flex-column">
-              <div class="mb-3 col-md-6">
-                <label for="name" class="form-label">Tên phòng ban</label>
-                <input class="form-control" type="text" id="name" name="name" value="{{department.name}}" readonly />
-              </div>
-              <div class="mb-3 col-md-6">
-                <label for="name" class="form-label">Liên hệ</label>
-                <input class="form-control" type="text" id="phone" name="phone" value="{{department.phone}}" readonly />
-              </div>
-              <div class="mb-3 col-md-6">
-                <label for="employee_id" class="form-label">Trưởng phòng</label>
-                <input class="form-control" type="text" id="employee_id" value="{{department.name_lead}}" readonly />
-              </div>
-            </div>
-            <div class="mt-2">
-              <button class="btn btn-primary">
-                <a href="/api/department/formUpdateDepartment/{{department._id}}" class="text-white">
-                  Cập nhật
-                </a>
-              </button>
-            </div>
-          </div>
-          <!-- /Account -->
+        <div id="department-information" class="card mb-4">
+
         </div>
       </div>
     </div>
@@ -44,3 +19,37 @@
   <div class="content-backdrop fade"></div>
 </div>
 <!-- Content wrapper -->
+
+<script>
+  var department_encode = `{{department}}`
+  const departments = JSON.parse(department_encode.replace(/&quot;/g, '"'));
+  const { department, name_lead } = departments
+  var html = ` <h5 class="card-header">Thông tin phòng ban</h5>
+          <!-- Account -->
+          <div class="card-body">
+            <div class="row flex-column">
+              <div class="mb-3 col-md-6">
+                <label for="name" class="form-label">Tên phòng ban</label>
+                <input class="form-control" type="text" id="name" name="name" value="${department.name}" readonly />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="name" class="form-label">Liên hệ</label>
+                <input class="form-control" type="text" id="phone" name="phone" value="${department.phone}" readonly />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="employee_id" class="form-label">Trưởng phòng</label>
+                <input class="form-control" type="text" id="employee_id" value="${department.employee_code} - ${name_lead}" readonly />
+              </div>
+            </div>
+            <div class="mt-2">
+                <a href="/api/department/formUpdateDepartment/${department._id}" class="text-white">
+                  <button class="btn btn-primary">
+                    Cập nhật
+                  </button>
+                </a>
+            </div>
+          </div>
+          <!-- /Account -->`
+
+  $("#department-information").html(html)
+</script>

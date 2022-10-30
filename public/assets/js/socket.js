@@ -48,6 +48,21 @@ socket.on("server-send-filter", data => {
 
 
 
+socket.on("server-send-employee-list", data =>{
+  const { list } = data
+  const employeeList = JSON.parse(list.replace(/&quot;/g, '"'));
+  $("#code-manager-list").html("")
+  console.log(employeeList)
+  for(const employee of employeeList)
+  {
+    $("#code-manager-list").append(`<option value="${employee.code}">${employee.name}</option>`)
+
+  }
+  
+})
+
+
+
 socket.on("server-send-result", data => {
     html = `<div class="modal-dialog modal-confirm">
     <div class="modal-content">
@@ -302,6 +317,11 @@ $(document).ready(function () {
     $("#input-code").on('input',function () {
         socket.emit("filter-type",{ code:  $("#input-code").val(), status: $('#select-status').val(), department_id: $('#select-department').val()})
     })
+
+
+    $("#code-manager").on('input',function () {
+      socket.emit("search-code-manager",{ code:  $("#code-manager").val()})
+  })
 
 
     $('#select-status').on('change', function (e) {

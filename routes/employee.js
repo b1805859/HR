@@ -78,5 +78,9 @@ router.get('/fetchEmployeeList/:page', Auth.isAuth, Auth.checkRole, employeeCont
 router.post('/filter', employeeController.filter)
 
 
+//search code manager
+router.post('/manager', employeeController.searchCode)
+
+
 
 module.exports = router;

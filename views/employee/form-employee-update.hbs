@@ -96,9 +96,9 @@
                     placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="department" class="form-label">Phòng ban</label>
+                  <label for="department_id" class="form-label">Phòng ban</label>
                   (<span class="text-danger">*</span>)
-                  <select id="department" name="department-select" class="select2 form-select">
+                  <select id="department" name="department_id" class="select2 form-select">
                     {{#each departmentList}}
                     <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}

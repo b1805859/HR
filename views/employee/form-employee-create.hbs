@@ -99,9 +99,9 @@
                     placeholder="0111324857233 - Vietcombank" required autocomplete="off" />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label class="form-label" for="department-select">Phòng ban</label>
+                  <label class="form-label" for="department_id">Phòng ban</label>
                   (<span class="text-danger">*</span>)
-                  <select id="department-select" name="department-select" class="select2 form-select" required>
+                  <select id="department-select" name="department_id" class="select2 form-select" required>
                     {{#each departmentList}}
                     <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}

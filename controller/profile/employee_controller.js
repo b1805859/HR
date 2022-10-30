@@ -2,9 +2,9 @@ const EmployeeProfile = require('../../models/employee_model')
 const DepartmentDepartment = require('../../models/department_model')
 const department_controller = require('../../controller/profile/department_controller')
 const UserAccount = require('../../models/users_models')
-var mongoose = require('mongoose');
 const { sigleToObject, multipleToObject } = require("../../utils/to_Object")
 const bcrypt = require('bcrypt');
+const { default: mongoose } = require('mongoose')
 const saltRounds = 10;
 class Employee {
 
@@ -53,7 +53,6 @@ class Employee {
             //Khởi tạo thông tin hồ sơ nhân viên
             let result = {
                 status: 'draft',
-                department_id: req.body[`department-select`]
             }
 
 
@@ -75,6 +74,22 @@ class Employee {
                 if (typeof req.body[element] === 'string') {
                     result = { ...result, [`${element}`]: req.body[`${element}`] }
                 }
+            }
+            
+
+            //Them phòng ban
+            if(String(req.body.department_id) != '')
+            {
+                const checkDepartment = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(req.body.department_id)})
+                if(!checkDepartment)
+                {
+                    return res.status(400).json({msg: 'Không tìm thấy phòng ban!'})
+                }
+                result = {...result, department_id: mongoose.Types.ObjectId(req.body.department_id)}
+            }
+            else
+            {
+                result = {...result, department_id: ''}
             }
 
 
@@ -116,7 +131,7 @@ class Employee {
             const employee = await EmployeeProfile.findOne({ _id: id })
             //Tạo json để tạo
             let result = {
-                department: req.body[`department-select`]
+
             }
 
             if(req.hasOwnProperty('file'))
@@ -132,6 +147,22 @@ class Employee {
                 if (typeof req.body[`${element}`] === 'string' && req.body[`${element}`] != employee[`${element}`]) {
                     result = { ...result, [`${element}`]: req.body[`${element}`] }
                 }
+            }
+
+
+            //Them phòng ban
+            if(String(req.body.department_id) != '')
+            {
+                const checkDepartment = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(req.body.department_id)})
+                if(!checkDepartment)
+                {
+                    return res.status(400).json({msg: 'Không tìm thấy phòng ban!'})
+                }
+                result = {...result, department_id: mongoose.Types.ObjectId(req.body.department_id)}
+            }
+            else
+            {
+                result = {...result, department_id: ''}
             }
 
 
@@ -169,8 +200,21 @@ class Employee {
                     for(const employee of employees) {
                         let result ={}
                         const { department_id } = employee
-                        const department = await DepartmentDepartment.findOne({ _id: department_id })
-                        result ={ employee ,department: department.name}
+                        if(String(department_id) != '')
+                        {
+                            const department = await DepartmentDepartment.findOne({ _id: mongoose.Types.ObjectId(department_id) })
+                            if(department)
+                            {
+                                result ={ employee ,department: department.name}
+                            }
+                            else
+                            {
+                                result ={ employee ,department: ''}
+                            }
+                        }else
+                        {
+                            result ={ employee ,department: ''}
+                        }
                         employeeList.push(result)
                     }
                     EmployeeProfile.countDocuments((err, count) => {
@@ -192,7 +236,7 @@ class Employee {
     }
 
 
-    //search manv
+    //fillter
     filter = async (req, res, next) => {
         const {data} = req.body
         let perPage = 10;
@@ -236,7 +280,21 @@ class Employee {
                         let result ={}
                         const { department_id } = employee
                         const department = await DepartmentDepartment.findOne({ _id: department_id })
-                        result ={ employee ,department: department.name}
+                        if(String(department_id) != '')
+                        {
+                            const department = await DepartmentDepartment.findOne({ _id: department_id })
+                            if(department)
+                            {
+                                result ={ employee ,department: department.name}
+                            }
+                            else
+                            {
+                                result ={ employee ,department: ''}
+                            }
+                        }else
+                        {
+                            result ={ employee ,department: ''}
+                        }
                         employeeList.push(result)
                     }
                     EmployeeProfile.countDocuments((err, count) => {
@@ -259,6 +317,31 @@ class Employee {
 
 
 
+
+
+    //search code manager
+    searchCode = async (req, res, next) => {
+            const {data} = req.body
+        try {
+            let result ={}
+
+            if(String(data.code).trim() == '')
+                {
+                   
+                }
+                else
+                {
+                        result = {...result, code: { $regex: data.code}}
+                }
+            const employeeList = await EmployeeProfile.find(result).sort({name:1})
+
+            return res.json({list: JSON.stringify(employeeList)})
+
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
 
 }
 

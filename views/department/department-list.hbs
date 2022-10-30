@@ -7,11 +7,11 @@
 
     <nav class="navbar mb-2">
       <div class="container-fluid flex-row-reverse">
-        <button class="btn btn-primary mt-3 mt-md-0" type="button">
-          <a href="/api/department/formCreateDepartment" class="text-white">
+        <a href="/api/department/formCreateDepartment" class="text-white">
+          <button class="btn btn-primary mt-3 mt-md-0" type="button">
             Thêm phòng ban
-          </a>
-        </button>
+          </button>
+        </a>
       </div>
     </nav>
     <!-- Basic Bootstrap Table -->
@@ -37,21 +37,17 @@
     <script>
       var table_html = ""
       const table_departments = `{{departments}}`
-      const table = JSON.parse(table_departments.replace(/&quot;/g, '"'));
-      console.log("table", table)
-      for (const department of table) {
-        const { _id,
-          name,
-          phone,
-          status,
-          name_lead } = department
+      const tableList = JSON.parse(table_departments.replace(/&quot;/g, '"'));
+      for (const element of tableList) {
+        const { department, name_lead } = element
+        const { _id, name, phone, employee_code } = department
         table_html += "<tr>"
         table_html += ` <td class="py-2" > <a style='font-size: 0.9375rem; color: #697a8d;'
             href="/api/department/getDepartmentInformation/${_id}">${name}</a></td>`
         table_html += `  <td class="py-2" > <a style='font-size: 0.9rem; color: #697a8d;'
             href="/api/department/getDepartmentInformation/${_id}">${phone}</a></td>`
         table_html += `  <td class="text-center py-2"><a style='font-size: 0.9375rem; color: #697a8d;'
-                  href="/api/department/getDepartmentInformation/${_id}">${name_lead}</a>
+                  href="/api/department/getDepartmentInformation/${_id}">${employee_code} - ${name_lead}</a>
               </td>`
         table_html += "</tr>"
       }

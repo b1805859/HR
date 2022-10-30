@@ -13,7 +13,7 @@ const EmployeeProfile = new Schema({
     job: { type: 'string', string: 'Chức vụ' },
 
     birthday: { type: 'string', string: 'Ngày sinh' },
-    status: { type: 'string', enum: ['draff', 'demit', 'working'], string: "Trạng thái" },//nháp, thử vc, đang làm , nghỉ việc, thai sản
+    status: { type: 'string', enum: ['draft', 'demit', 'working'], string: "Trạng thái" },//nháp, thử vc, đang làm , nghỉ việc, thai sản
     cccd_no: { type: 'string', string: 'CMND/CCCD' },
     bank_no: { type: 'string', string: 'Ngân hàng' },
 

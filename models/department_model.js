@@ -6,8 +6,7 @@ const DepartmentDepartment = new Schema({
     name: { type: 'string', string: 'Tên phòng ban' },
     phone: { type: 'string', string: 'Số điện thoại' },
     status: { type: 'string', enum: ['active', 'inactive'], },
-    employee_id: { type: 'string', string: 'Trưởng phòng' },
-    name_lead: { type: 'string', string: 'Tên trưởng phòng' },
+    employee_code: { type: 'string', string: 'Mã trưởng phòng' },
 
     create_date: { type: Date, default: Date.now, string: 'Ngày tạo' },
     create_uid: { type: Schema.Types.ObjectId, ref: 'UserAccount' },

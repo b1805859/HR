@@ -77,9 +77,9 @@
                   placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" readonly />
               </div>
               <div class="mb-3 col-md-6">
-                <label class="form-label" for="department-select">Phòng ban</label>
+                <label class="form-label" for="department_id">Phòng ban</label>
                 (<span class="text-danger">*</span>)
-                <select id="department-select" name="department-select" class="select2 form-select" disabled>
+                <select id="department-select" name="department_id" class="select2 form-select" disabled>
                   <option value="">{{department.name}}</option>
                 </select>
               </div>
@@ -141,11 +141,11 @@
               </div>
             </div>
             <div class="mt-2">
-              <button class="btn btn-primary">
-                <a href="/api/employee/formUpdateEmployee/{{employee._id}}" class="text-white">
+              <a href="/api/employee/formUpdateEmployee/{{employee._id}}" class="text-white">
+                <button class="btn btn-primary">
                   Cập nhật
-                </a>
-              </button>
+                </button>
+              </a>
             </div>
           </div>
           <!-- /Account -->
