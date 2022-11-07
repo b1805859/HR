@@ -112,7 +112,7 @@ async function getStores() {
 // Load map with stores
 function loadMap(stores) {
     map.on('load', () => {
-        map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
+        map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 10 });
 
         map.addSource('dot-point', {
             'type': 'geojson',

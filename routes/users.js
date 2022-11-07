@@ -78,7 +78,7 @@ router.post('/report', async (req, res) => {
             let result = {
                 employee_id:mongoose.Types.ObjectId(user._id),
                 month_id: mongoose.Types.ObjectId(req.body.month_id),
-                year: req.body.year
+                year: String(req.body.year).trim()
             }
             const report = await timekeepTable.aggregate([
                 {
@@ -113,7 +113,6 @@ router.post('/report', async (req, res) => {
             ], function (error, data) {
     
             });
-            console.log("report",report)
 
             if(report.length == 0)
             {   
@@ -124,8 +123,8 @@ router.post('/report', async (req, res) => {
             const {month} = report[0]
             const months = await timekeepMonth.find().sort({ datefield: -1 })
             const employeeReport =[]
-                const { employee } = report[0]
-                const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
+                const { employee, table } = report[0]
+                const acupuncture = await timekeepAcupuncture.find({ table_id: mongoose.Types.ObjectId(table[0]._id) })
                 let data = {
                     acupuncture: acupuncture,
                     ...employee[0],
@@ -241,7 +240,7 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
 router.post('/acupunctureData', async (req, res, next) => {
     const { table_id, user_id } = req.body
     try {
-        console.log("req.body",req.body)
+
 
             var now = new Date();
             var year = now.getFullYear();
@@ -284,7 +283,7 @@ router.post('/acupunctureData', async (req, res, next) => {
             ], function (error, data) {
     
             });
-            console.log("report",report)
+
 
             if(report.length == 0)
             {   
@@ -310,6 +309,18 @@ router.post('/acupunctureData', async (req, res, next) => {
         return error
     }
 });
+
+
+//Vị trí chấm công
+router.get('/position', Auth.isAuth, async (req, res, next) => {
+    const { user } = req
+    try {
+        const positions = await timekeepPosition.find();
+        res.render('user/timekeep-position-list', { layout: 'user', positions, user: sigleToObject(user) })
+    } catch (err) {
+
+    }
+})
 
 
 

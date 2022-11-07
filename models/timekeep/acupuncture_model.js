@@ -7,6 +7,7 @@ const TimekeepAcupunture = new Schema({
     month_id: { type: Schema.Types.ObjectId, ref: 'TimekeepMonth', string: 'Tháng chấm công' },
     year: {type:'string', string:"Năm"},
     table_id: { type: Schema.Types.ObjectId, ref: 'TimekeepTable', string: 'Mã bảng công' },
+    late_check: {type: Boolean, default: false},
 
     employee_id: { type: Schema.Types.ObjectId, ref: 'EmployeeProfile', string: 'Mã hồ sơ nhân viên' },
     create_date: { type: 'Date', string: 'Ngày tạo' },

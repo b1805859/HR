@@ -35,7 +35,7 @@ class KTKL {
         const {user} = req
         const { employee_code } = req.body
         try {
-            console.log("req.body",typeof req.body.day)
+
             //Kiểm tra mã nhân viên đã tồn tại
             const employee = await EmployeeProfile.find({ employee_code })
             if (!employee) {
@@ -134,21 +134,21 @@ class KTKL {
     fetchListPage = async (req, res, next) => {
         const { user } = req
         try {
-            console.log(user)
             const ktkls = await KhenThuongKyLuat.find()
-
             const ktklLine = []
             for(const ktkl of ktkls) {
                 let result = {}
                 const {employee_code} = ktkl
                 const employee = await EmployeeProfile.findOne({code: employee_code})
-                result = {
-                    ktkl,
-                    employee
+                if(employee)
+                {
+                    result = {
+                        ktkl,
+                        employee
+                    }
+                    ktklLine.push(result)
                 }
-                ktklLine.push(result)
             }
-            console.log(ktklLine)
                  res.render('ktkl/ktkl-list',{
                     user: sigleToObject(user),
                     ktklLine: JSON.stringify(ktklLine),

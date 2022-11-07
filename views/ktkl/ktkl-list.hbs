@@ -23,12 +23,12 @@
         <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th class="p-2 text-center" style=" background:#a7e0fa">MÃ NHÂN VIÊN</th>
-              <th class="p-2 text-center" style=" background:#a7e0fa">HỌ TÊN</th>
-              <th class="p-2 text-center" style=" background:#a7e0fa">CHỨC VỤ</th>
-              <th class="p-2 text-center" style=" background:#a7e0fa">THỜI GIAN</th>
-              <th class="p-2 text-center" style=" background:#a7e0fa">MÔ TẢ</th>
-              <th class="p-2 text-center" style=" background:#a7e0fa">Hoạt động</th>
+              <th class="text-center p-3" style="background: #233446; color:#fff">MÃ NHÂN VIÊN</th>
+              <th class="text-center p-3" style="background: #233446; color:#fff">HỌ TÊN</th>
+              <th class="text-center p-3" style="background: #233446; color:#fff">CHỨC VỤ</th>
+              <th class="text-center p-3" style="background: #233446; color:#fff">THỜI GIAN</th>
+              <th class="text-center p-3" style="background: #233446; color:#fff">MÔ TẢ</th>
+              <th class="text-center p-3" style="background: #233446; color:#fff">Hoạt động</th>
             </tr>
           </thead>
           <tbody id="ktklLine">
@@ -51,7 +51,7 @@
 <script>
   const ktklLine = `{{ktklLine}}`
   const ktklLines = JSON.parse(ktklLine.replace(/&quot;/g, '"'));
-  console.log(ktklLines);
+  console.log("ktklLines", ktklLines)
   for (const line of ktklLines) {
     const { employee, ktkl } = line
     const { code, name, job } = employee

@@ -47,7 +47,7 @@ class TimekeepTable {
                 year: String(year).trim()
             }
 
-            console.log("1")
+            
            
             //Kiểm tra đã tồn tại
             const checkExit = await timekeepTable.findOne(result)
@@ -58,7 +58,7 @@ class TimekeepTable {
                     error: "Bảng chấm công đã tồn tại"
                 })
             }
-            console.log("2")
+            
             //Lấy danh sách toàn bộ nhân viên đang làm việc trong công ty để tạo bảng chấm công
             const employeeList = await EmployeeProfile.find({status:'working'})
             for(const employee of employeeList)

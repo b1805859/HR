@@ -12,7 +12,7 @@
           <hr class="my-0" />
           <div class="card-body">
             <div class="row align-items-center">
-              <div class="mb-3 col-md-6">
+              <div class="mb-3 col-md-3">
                 <label class="form-label" for="months">Tháng</label>
                 <select id="months" name="months" class="select2 form-select" required>
                   {{#each months}}
@@ -20,7 +20,7 @@
                   {{/each}}
                 </select>
               </div>
-              <div class="mb-3 col-md-4">
+              <div class="mb-3 col-md-3">
                 <label class="form-label" for="year">Năm</label>
                 <select id="year" name="year" class="select2 form-select" required>
                   <option value="2021">2021</option>
@@ -34,6 +34,22 @@
                   <option value="2029">2029</option>
                   <option value="2030">2030</option>
                 </select>
+              </div>
+              <div class="mt-4 col-md-6">
+                <div class="row align-items-center justify-content-end">
+                  <div class="mb-2 col-md-2">
+                    <span class="badge badge-center rounded-pill bg-danger">x</span>
+                    <span>Vắng</span>
+                  </div>
+                  <div class="mb-2 col-md-2">
+                    <span class="badge badge-center rounded-pill bg-warning">!</span>
+                    <span>Trễ</span>
+                  </div>
+                  <div class="mb-2 col-md-3">
+                    <span class="badge badge-center rounded-pill bg-success">v</span>
+                    <span>Đúng giờ (08:00)</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -84,11 +100,11 @@
     var user_encode = `{{ users }}`
     var user = JSON.parse(user_encode.replace(/&quot;/ig, '"'));
     $('#months').on('change', function () {
-      socket.emit("user-report", { user: user, month_id: this.value, year: $("#year").val() })
+      socket.emit("user-report", { user: user, month_id: $('#months').val(), year: $("#year").val() })
     });
 
     $('#year').on('change', function () {
-      socket.emit("user-report", { user: user, month_id: $('#months').val(), year: this.value })
+      socket.emit("user-report", { user: user, month_id: $('#months').val(), year: $("#year").val() })
     });
 
   </script>

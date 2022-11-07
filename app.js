@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     socket.on("filter-type",async data => {
             const response = await axios({
                 method: 'post',
-                url: `http://localhost:3000/api/employee/filter`,
+                url: `http://localhost:8080/api/employee/filter`,
                 headers: {},
                 data: {
                     data
@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
     socket.on("search-code-manager",async data => {
         const response = await axios({
             method: 'post',
-            url: `http://localhost:3000/api/employee/manager`,
+            url: `http://localhost:8080/api/employee/manager`,
             headers: {},
             data: {
                 data
@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
     socket.on("user-acupuncture", async data => {
         const response = await axios({
             method: 'post',
-            url: `http://localhost:3000/api/timekeep/findPosition`,
+            url: `http://localhost:8080/api/timekeep/findPosition`,
             headers: {},
             data: {
                 latitude: data.latitude,
@@ -91,10 +91,10 @@ io.on('connection', (socket) => {
         });
         const { position } = response.data
         if (position.length > 0) {
-            console.log("0")
+            
             await axios({
                 method: 'post',
-                url: `http://localhost:3000/api/timekeep/acupuncture`,
+                url: `http://localhost:8080/api/timekeep/acupuncture`,
                 data: {
                     table_id: data.table_id,
                     user_id: data.user_id
@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
 
         const acupunctureLine = await axios({
             method: 'post',
-            url: `http://localhost:3000/user/acupunctureData`,
+            url: `http://localhost:8080/user/acupunctureData`,
             data: {
                 table_id: data.table_id,
                 user_id: data.user_id
@@ -119,10 +119,10 @@ io.on('connection', (socket) => {
 
 
     socket.on("user-report", async (data) => {
-        console.log("data",data)
+        
         const response = await axios({
             method: 'post',
-            url: `http://localhost:3000/user/report`,
+            url: `http://localhost:8080/user/report`,
             headers: {},
             data: {
                 user: data.user,
@@ -130,17 +130,17 @@ io.on('connection', (socket) => {
                 year:data.year
             }
         });
-        console.log("response.data",response.data)
+        
         socket.emit("server-send-report-user",response.data)
     })
 
 
     //Báo cáo chấm công của nhân viên
     socket.on("employee-report", async (data) => {
-        console.log("data",data)
+        
         const response = await axios({
             method: 'post',
-            url: `http://localhost:3000/api/timekeep/report`,
+            url: `http://localhost:8080/api/timekeep/report`,
             headers: {},
             data: {
                 month_id: data.month_id,
@@ -153,10 +153,10 @@ io.on('connection', (socket) => {
 
 
     socket.on("hr-create-table", async (data) => {
-        console.log("data",data)
+        
         const response = await axios({
             method: 'post',
-            url: `http://localhost:3000/api/timekeep/table`,
+            url: `http://localhost:8080/api/timekeep/table`,
             headers: {},
             data: {
                 month_id: data.month_id,
@@ -184,8 +184,8 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+server.listen(8080, () => {
+    console.log('listening on *:8080');
 });
 
 module.exports = app;

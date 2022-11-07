@@ -22,9 +22,6 @@ class Employee {
                 return res.status(401).send('Không tìm thấy hồ sơ nhân viên.');
             }
             const department = await DepartmentDepartment.findOne({ _id: employee.department_id })
-            if (!department) {
-                return res.status(401).send('Không tìm thấy phòng ban.');
-            }
             res.render("employee/form-employee-information", {
                 user: sigleToObject(user),
                 employee: sigleToObject(employee),
@@ -127,7 +124,7 @@ class Employee {
         const { id } = req.params
         // const { filename } = req.file
         try {
-            console.log("req.body",req.body)
+            
             const employee = await EmployeeProfile.findOne({ _id: id })
             //Tạo json để tạo
             let result = {
@@ -185,9 +182,9 @@ class Employee {
     //Lấy danh sách hồ sơ nhân viên có phân trang
     fetchListPage = async (req, res, next) => {
         const { user } = req
-
         let perPage = 8;
         let page = req.params.page || 1
+        
         try {
             await EmployeeProfile
                 .find()
@@ -241,7 +238,16 @@ class Employee {
         const {data} = req.body
         let perPage = 10;
         let page = req.params.page || 1
+        let showPag = false;
         try {
+
+
+            if((String(data.code) == '') && (String(data.status) == '') && (String(data.department_id) == '') )
+            {
+                showPag =true;
+            }
+
+
             let result = {}
             for(const key of Object.keys(data))
             {
@@ -303,7 +309,8 @@ class Employee {
                         res.json( {
                             employeeList: JSON.stringify(employeeList), // sản phẩm trên một page
                             current: page, // page hiện tại
-                            pages: Math.ceil(count / perPage) // tổng số các page
+                            pages: Math.ceil(count / perPage), // tổng số các page
+                            showPag: showPag
                         });
                     })
                 })
@@ -333,6 +340,10 @@ class Employee {
                 {
                         result = {...result, code: { $regex: data.code}}
                 }
+            if(data.hasOwnProperty('department_id'))
+            {
+                result = {...result, department_id: mongoose.Types.ObjectId(data.department_id)}
+            }
             const employeeList = await EmployeeProfile.find(result).sort({name:1})
 
             return res.json({list: JSON.stringify(employeeList)})

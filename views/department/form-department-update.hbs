@@ -50,6 +50,8 @@
                   <datalist id="code-manager-list">
                   </datalist>
                 </div>
+              <input id='department_id' type="hidden" class="form-control me-2"
+              name="department_id" value="${department._id}" autocomplete="off">
               </div>
               <div class="mt-2">
                   <a class="text-white">
@@ -57,6 +59,9 @@
                       Lưu
                   </button>
                   </a>
+                <a href="/api/department/getDepartmentInformation/${department._id}">
+                  <button class="btn btn-secondary me-2">Quay lại</button>
+                </a>
               </div>
             </form>`
 

@@ -5,7 +5,7 @@ const DepartmentDepartment = require('../models/department_model')
 const { multipleToObject, sigleToObject } = require('../utils/to_Object')
 const Auth = require('../middlewares/auth_middlewares')
 /* GET home page. */
-router.get('/', async (req, res, next) =>{
+router.get('/',Auth.isAuth, Auth.checkRole, async (req, res, next) =>{
     return res.redirect('/api/employee/fetchEmployeeList/1')
 });
 

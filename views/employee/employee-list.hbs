@@ -3,70 +3,74 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
+    <h4 class="fw-bold mb-4"><span class="text-muted fw-light">Nhân viên /</span> Danh sách nhân viên</h4>
 
-    <nav class="navbar mb-2">
-      <div class="container-fluid flex-row-reverse">
-        <a href="/api/employee/formCreateEmployee" class="text-white">
-          <button class="btn btn-primary mt-3 mt-md-0" type="button">
-            <i class='bx bxs-user-plus'></i>
-            Nhân viên
-          </button>
-        </a>
-      </div>
-    </nav>
     <!-- Basic Bootstrap Table -->
     <div class="card">
-      <div class="table-responsive text-nowrap">
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th class="text-center p-2" style=" background:#a7e0fa"></th>
-              <th class="text-center p-2" style=" background:#a7e0fa">Mã</th>
-              <th class="text-center p-2" style=" background:#a7e0fa">Tên</th>
-              <th class="text-center p-2" style=" background:#a7e0fa">Giới tính</th>
-              <th class="text-center p-2" style=" background:#a7e0fa">Phòng ban</th>
-              <th class="text-center p-2" style=" background:#a7e0fa">Chức vụ</th>
-              <th class="text-center p-2" style=" background:#a7e0fa">Trạng thái hồ sơ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>
-                <input id="input-code" type="text" list="search-employee" class="form-control me-2"
-                  placeholder="Nhập mã nhân viên" autocomplete="off">
-              </td>
-              <td>
+      <div class="card-body">
+        <nav class="navbar mb-1">
+          <div class="container-fluid flex-row-reverse">
+            <a href="/api/employee/formCreateEmployee" class="text-white">
+              <button class="btn btn-primary mt-3 mt-md-0" type="button">
+                <i class='bx bxs-user-plus'></i>
+                Nhân viên
+              </button>
+            </a>
+          </div>
+        </nav>
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center p-3" style="background: #233446; color:#fff"></th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Mã</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Tên</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Giới tính</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Phòng ban</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Chức vụ</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Trạng thái hồ sơ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>
+                  <input id="input-code" type="text" list="search-employee" class="form-control me-2"
+                    placeholder="Nhập mã nhân viên" autocomplete="off">
+                </td>
+                <td>
 
-              </td>
-              <td>
-              </td>
-              <td><select id="select-department" name="select-department" class="select2 form-select">
-                </select>
-              </td>
-              <td>
-              </td>
-              <td><select id="select-status" name="select-status" class="select2 form-select" required>
-                  <option class="text-center" value=''>--Tất cả --</option>
-                  <option value='working'>Đang làm việc</option>
-                  <option value='demit'>Lưu trữ</option>
-                  <option value='draft'>Nháp</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-          <tbody id="table-employee" class="table-border-bottom-0">
-          </tbody>
-        </table>
+                </td>
+                <td>
+                </td>
+                <td><select id="select-department" name="select-department" class="select2 form-select">
+                  </select>
+                </td>
+                <td>
+                </td>
+                <td><select id="select-status" name="select-status" class="select2 form-select" required>
+                    <option class="text-center" value=''>--Tất cả --</option>
+                    <option value='working'>Đang làm việc</option>
+                    <option value='demit'>Lưu trữ</option>
+                    <option value='draft'>Nháp</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+            <tbody id="table-employee" class="table-border-bottom-0">
+            </tbody>
+          </table>
+        </div>
+
+        <div id="pagination" class="row mt-4">
+
+        </div>
       </div>
     </div>
     <!--/ Basic Bootstrap Table -->
 
 
-    <div id="pagination" class="row mt-4">
 
-    </div>
 
     <script>
       //filter
@@ -136,7 +140,7 @@
         } else {
           // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled
           html += "<li class='page-item'>"
-          html += "<a class='page-link' href='http://localhost:3000/api/employee/filter/:1'>First</a>"
+          html += "<a class='page-link' href='http://localhost:8080/api/employee/filter/:1'>First</a>"
           html += "</li>"
         }
 

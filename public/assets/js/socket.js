@@ -1,37 +1,70 @@
-var socket = io("http://localhost:3000");
+var socket = io("http://localhost:8080");
 
 socket.on("server-send-filter", data => {
-  const {employeeList, current} = data
+  const {employeeList, current, showPag} = data
   const employeeListParse = JSON.parse(employeeList.replace(/&quot;/g, '"'));
   $("#table-employee").html("")
   var html_employee =''
-  for(const element of employeeListParse){ 
-    const {employee,department} = element
-    html_employee += "<tr> "
-        html_employee += `<td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
-                    width: 45px;
-                    height: 45px;
-                    background-size: cover;
-                    background-position: top center;
-                    border-radius: 50%;
-                    margin: 0 auto;"></div></td>`
-        html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
-        html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
-        html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
-        html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
-        html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
-        if (employee.status == "draft") {
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
-        }
-        else if (employee.status == 'demit') {
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
-        }
-        else if (employee.status == 'working') {
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
-        }
-        html_employee += "</tr>"
+  if(showPag == false)
+  {
+    for(const element of employeeListParse){ 
+      const {employee,department} = element
+      html_employee += "<tr> "
+          html_employee += `<td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
+                      width: 45px;
+                      height: 45px;
+                      background-size: cover;
+                      background-position: top center;
+                      border-radius: 50%;
+                      margin: 0 auto;"></div></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+          if (employee.status == "draft") {
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+          }
+          else if (employee.status == 'demit') {
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+          }
+          else if (employee.status == 'working') {
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+          }
+          html_employee += "</tr>"
+    }
+    $("#table-employee").html(html_employee)
   }
-  $("#table-employee").html(html_employee)
+  else
+  {
+    for(let i =0; i< 8; i++){ 
+      const {employee,department} = employeeListParse[i]
+      html_employee += "<tr> "
+          html_employee += `<td><div style="background-image: url('/assets/img/avatars/${employee.avatar}');
+                      width: 45px;
+                      height: 45px;
+                      background-size: cover;
+                      background-position: top center;
+                      border-radius: 50%;
+                      margin: 0 auto;"></div></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+          if (employee.status == "draft") {
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+          }
+          else if (employee.status == 'demit') {
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+          }
+          else if (employee.status == 'working') {
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+          }
+          html_employee += "</tr>"
+    }
+    $("#table-employee").html(html_employee)
+  }
 
   if(current == 1000)
   {
@@ -52,7 +85,7 @@ socket.on("server-send-employee-list", data =>{
   const { list } = data
   const employeeList = JSON.parse(list.replace(/&quot;/g, '"'));
   $("#code-manager-list").html("")
-  console.log(employeeList)
+
   for(const employee of employeeList)
   {
     $("#code-manager-list").append(`<option value="${employee.code}">${employee.name}</option>`)
@@ -91,7 +124,7 @@ socket.on("server-send-result", data => {
 
 
 socket.on("server-send-acupuncture-data", data => {
-  console.log(data)
+  
     $("#myModal").modal("toggle");
       var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
       var employeeReports_encode = data.employeeReports
@@ -101,13 +134,13 @@ socket.on("server-send-acupuncture-data", data => {
       var month = JSON.parse(month_encode.replace(/&quot;/ig, '"'));
       var year = JSON.parse(year_encode.replace(/&quot;/ig, '"'));
       var acupuncture_html = ""
-      console.log("1")
+      
       var h1 = `Tháng ${month.name} - Năm ${year}`
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
-        acupuncture_html += `<td>${code}</td>`
-        acupuncture_html += `<td>${name}</td>`
+        acupuncture_html += `<td class='py-2'>${code}</td>`
+        acupuncture_html += `<td class='py-2'>${name}</td>`
         for (let i = 1; i <= month.total; i++) {
           if (acupuncture.length == 0) {
             acupuncture_html += `<td></td>`
@@ -115,18 +148,23 @@ socket.on("server-send-acupuncture-data", data => {
           }
           let check = 0
           for (let j = 0; j < acupuncture.length; j++) {
-            const { date } = acupuncture[j];
+            const { date, late_check } = acupuncture[j];
             if (date == String(i)) {
-              acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              if (late_check == true) {
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-warning">!</span></td>`
+              }
+              else {
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              }
               break;
             }
             check++;
             if (check == acupuncture.length) {
               if (i >= acupuncture[acupuncture.length - 1].date) {
-                acupuncture_html += `<td></td>`
+                acupuncture_html += `<td class='py-2'></td>`
               }
               else {
-                acupuncture_html += `<td><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
               }
             }
           }
@@ -137,9 +175,9 @@ socket.on("server-send-acupuncture-data", data => {
   
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {
-        title_month += `<th class="text-center">${i}</th>`
+        title_month += `<th class="text-center py-3">${i}</th>`
       }
-      console.log("3")
+      
       $('h1:first').text(h1)
       $("#title_month").html(title_month)
       $("#acupuncture_user").html(acupuncture_html)
@@ -172,6 +210,7 @@ socket.on("server-send-report-user", data=>{
       var year_encode =  data.year
       var year = JSON.parse(year_encode.replace(/&quot;/ig, '"'));
       var h1 = `Tháng ${month.name} - Năm ${year}`
+      console.log(employeeReports)
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
@@ -185,9 +224,14 @@ socket.on("server-send-report-user", data=>{
           }
           let check = 0
           for (let j = 0; j < acupuncture.length; j++) {
-            const { date } = acupuncture[j];
+            const { date, late_check } = acupuncture[j];
             if (date == String(i)) {
-              acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              if (late_check == true) {
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-warning">!</span></td>`
+              }
+              else {
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              }
               break;
             }
             check++;
@@ -203,6 +247,8 @@ socket.on("server-send-report-user", data=>{
         }
         acupuncture_html += `</tr>`
       }
+
+      console.log(acupuncture_html)
       
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {
@@ -253,9 +299,14 @@ socket.on("server-send-report-employee", data=>{
           }
           let check = 0
           for (let j = 0; j < acupuncture.length; j++) {
-            const { date } = acupuncture[j];
+            const { date, late_check } = acupuncture[j];
             if (date == String(i)) {
-              acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              if (late_check == true) {
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-warning">!</span></td>`
+              }
+              else {
+                acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-success">v</span></td>`
+              }
               break;
             }
             check++;
@@ -293,18 +344,17 @@ socket.on("server-send-result-create-table", data=>{
   var tables_encode = data.tables
   var tables = JSON.parse(tables_encode.replace(/&quot;/ig, '"'));
   var table_timekeep = ""
+
   for (const element of tables) {
     const { table, monthName } = element
     table_timekeep += `<tr>`
-    table_timekeep += `<td class='text-center'>${monthName}/${table.year}</td>`
-    table_timekeep += `<td class='text-center'>
-      <button id='btn-delete-table' type="button" class="btn btn-outline-danger">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
-                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
-              </svg>
-            </button>
-    </td>`
+    if (String(`${monthName}`).length == 1) {
+
+      table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">0${monthName}/${table.year}</td>`
+    }
+    else {
+      table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">${monthName}/${table.year}</td>`
+    }
     table_timekeep += `</tr>`
   }
 
@@ -320,7 +370,7 @@ $(document).ready(function () {
 
 
     $("#code-manager").on('input',function () {
-      socket.emit("search-code-manager",{ code:  $("#code-manager").val()})
+      socket.emit("search-code-manager",{ code:  $("#code-manager").val(), department_id: $(department_id).val()})
   })
 
 

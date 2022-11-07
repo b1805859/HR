@@ -26,14 +26,22 @@ class TimekeepAcupuncture {
             var minute = now.getMinutes();
             var second = now.getSeconds();
 
+            console.log("minute",minute)
+            console.log("hour",hour)
+
             const monthObj = await timekeepMonth.findOne({name: mon})
 
             //Kiểm tra đã chấm công hay chưa
-            const acupunctureCheck = await timekeepAcupuncture.findOne({ date: day, month_id: mongoose.Types.ObjectId(monthObj._id), year: year})
+            const acupunctureCheck = await timekeepAcupuncture.findOne({employee_id:mongoose.Types.ObjectId(user_id) ,date: day, month_id: mongoose.Types.ObjectId(monthObj._id), year: year})
             if (acupunctureCheck)
                 return res.json({ message: "Đã chấm công cho hôm nay" })
 
+            if(Number(hour) >= 8 && Number(minute) >= 1)
+            {
+                result = {...result, late_check: true}
+            }
             result = {
+                ...result,
                 date: day,
                 employee_id: user_id,
                 month_id:mongoose.Types.ObjectId(monthObj._id),

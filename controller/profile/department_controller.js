@@ -48,16 +48,16 @@ class Department {
     //Tạo phòng ban
     createDepartment = async (req, res, next) => {
         const { name, phone, employee_code } = req.body
-        console.log("req.body",req.body)
+        
         try {
-            console.log("1")
+            
             //Kiểm tra tên phòng ban đã tồn tại
             const nameDepartment = await DepartmentDepartment.findOne({ name: name })
 
             if (!(nameDepartment == null)) {
                 return res.status(401).send('Tên phòng ban đã tồn tại.');
             }
-            console.log("2")
+            
 
             //Tạo json để tạo
             let result = {
@@ -65,10 +65,10 @@ class Department {
                 phone: String(phone).trim(),
 
             }
-            console.log("3")
+            
             //Kiểm tra trưởng phòng có tồn tại
             if (employee_code != '') {
-                console.log("3.5")
+                
                 const employee = await EmployeeProfile.findOne({ code: employee_code })
                 if (employee) {
                     result = { ...result, employee_code: String(employee.code).trim() }
@@ -79,7 +79,7 @@ class Department {
             }
 
 
-            console.log("4")
+            
             const newDepartment = new DepartmentDepartment(result)
             if (!newDepartment) {
                 res.status(401).send('Không thể thêm mới phòng ban');
@@ -162,7 +162,6 @@ class Department {
     //Lấy danh sách hồ sơ nhân viên có phân trang
     fetchListPage = async (req, res, next) => {
         const { user } = req
-
         let perPage = 8;
         let page = req.params.page || 1
         try {

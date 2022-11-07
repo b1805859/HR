@@ -23,7 +23,7 @@
                   <input class="form-control" type="text" id="phone" name="phone" placeholder="" autofocus
                     autocomplete="off" />
                 </div>
-                <div class="mb-3 col-md-6">
+                <div class="mb-3 col-md-6 d-none">
                   <label for="code-manager" class="form-label">Trưởng phòng</label>
                   <input id="code-manager" type="text" list="code-manager-list" class="form-control me-2"
                     name="employee_code" placeholder="Nhập mã nhân viên" autocomplete="off">
@@ -33,6 +33,9 @@
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Tạo mới phòng ban</button>
+                <a href="/api/department/fetchDepartmentList/1">
+                  <button class="btn btn-secondary me-2">Quay lại</button>
+                </a>
               </div>
             </div>
           </form>

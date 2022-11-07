@@ -16,7 +16,7 @@
               <div class="mb-3 row">
                 <label for="input-code" class="col-md-2 col-form-label">Mã nhân
                   viên</label>
-                <div class="col-md-10">
+                <div class="col-md-6">
                   <input id="input-code" type="text" list="search-employee" name="employee_code"
                     class="form-control me-2" placeholder="Nhập mã nhân viên" autocomplete="off"
                     value="{{ktkl.employee_code}}" />
@@ -26,7 +26,7 @@
               </div>
               <div class="mb-3 row">
                 <label for="exampleFormControlSelect2" class="col-md-2 col-form-label">Loại</label>
-                <div class="col-md-10">
+                <div class="col-md-6">
                   <select class="form-select" id="exampleFormControlSelect2" aria-label="Multiple select example"
                     name="type" value="{{ktkl.type}}">
                     <option value="khen_thuong">Khen thưởng</option>
@@ -36,7 +36,7 @@
               </div>
               <div class="mb-3 row">
                 <label for="html5-datetime-local-input" class="col-md-2 col-form-label">Thời gian</label>
-                <div class="col-md-10">
+                <div class="col-md-6">
                   <input class="form-control" type="date" name="day" id="html5-datetime-local-input"
                     value="{{ktkl.day}}" />
                 </div>
@@ -50,6 +50,9 @@
               </div>
               <div class="mt-5">
                 <button type="submit" class="btn btn-primary me-2">Lưu</button>
+                <a href="/api/ktkl/information/{{ktkl._id}}">
+                  <button class="btn btn-secondary me-2">Quay lại</button>
+                </a>
               </div>
             </div>
           </form>

@@ -16,7 +16,7 @@ router.post('/createDepartment', Auth.isAuth, Auth.checkRole, departmentControll
 //render form tạo hồ sơ nhân viên
 router.get('/formCreateDepartment', Auth.isAuth, (req, res, next) => {
     const { user } = req
-    res.render("department/form-department-create", { user: sigleToObject(user) })
+    res.render("department/form-department-create", { user: sigleToObject(user)})
 })
 
 //Cập nhật thông tin phòng ban
