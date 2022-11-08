@@ -4,6 +4,7 @@ const DepartmentDepartment = require('../models/department_model.js')
 const timekeepTable = require('../models/timekeep/table_model')
 const timekeepMonth = require('../models/timekeep/month_model')
 const timekeepPosition = require('../models/timekeep/position_model')
+const userAccount = require('../models/users_models')
 const timekeepAcupuncture = require('../models/timekeep/acupuncture_model')
 var ObjectId = require('mongodb').ObjectId; 
 const EmployeeProfile = require('../models/employee_model')
@@ -33,9 +34,6 @@ router.get('/profile', Auth.isAuth, async (req, res) => {
         }
 
         const department = await DepartmentDepartment.findOne({ _id: employee.department_id })
-            if (!department) {
-                return res.status(401).send('Không tìm thấy phòng ban.');
-            }
 
         if (String(account.role) == "nhan_su") {
             res.render("user/admin-information", { user: sigleToObject(user), employee: sigleToObject(employee) ,department: sigleToObject(department)})
@@ -150,6 +148,7 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
     const { user } = req
         try {
 
+
             //Lấy đối tượng là tháng hiện tại
             var now = new Date();
             var year = now.getFullYear();
@@ -220,14 +219,31 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
                 }
                 employeeReport.push(data)
 
-            return res.render("user/user-acupuncture",{
-                table_id:JSON.stringify(table[0]._id),
-                employeeReports: JSON.stringify(employeeReport),
-                month: JSON.stringify(month[0]),
-                year: JSON.stringify(year),
-                user: sigleToObject(user),
-                layout: 'user'
-            });
+
+            //Lấy thông tin account
+            const account = await userAccount.findOne({username: String(user.code)})
+                console.log("userAccount", account)
+            if(String(account.role)=='nhan_su')
+            {
+                return res.render("user/user-acupuncture",{
+                    table_id:JSON.stringify(table[0]._id),
+                    employeeReports: JSON.stringify(employeeReport),
+                    month: JSON.stringify(month[0]),
+                    year: JSON.stringify(year),
+                    user: sigleToObject(user),
+                });
+            }
+            else
+            {
+                return res.render("user/user-acupuncture",{
+                    table_id:JSON.stringify(table[0]._id),
+                    employeeReports: JSON.stringify(employeeReport),
+                    month: JSON.stringify(month[0]),
+                    year: JSON.stringify(year),
+                    user: sigleToObject(user),
+                    layout: 'user'
+                });
+            }
         } catch (error) {
             console.log(error)
             return error

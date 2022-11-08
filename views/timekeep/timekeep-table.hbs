@@ -5,69 +5,113 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Chấm công /</span> Tạo bảng chấm công</h4>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card mb-4">
-          <!-- Account -->
-          <hr class="my-0" />
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="mb-3 col-md-6">
-                <label class="form-label" for="country">Tháng</label>
-                <select id="month" name="month" class="select2 form-select" required>
-                  {{#each months}}
-                  <option value="{{this._id}}">Tháng {{this.name}}</option>
-                  {{/each}}
-                </select>
-              </div>
-              <div class="mb-3 col-md-6">
-                <label class="form-label" for="year">Tháng</label>
-                <select id="year" name="year" class="select2 form-select" required>
-                  <option value="2021">2021</option>
-                  <option value="2022">2022</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                  <option value="2026">2026</option>
-                  <option value="2027">2027</option>
-                  <option value="2028">2028</option>
-                  <option value="2029">2029</option>
-                  <option value="2030">2030</option>
-                </select>
-              </div>
-              <div class="mb-3 col-md-6">
-                <button id="btn-crate-table" type="submit" class="btn btn-primary me-2">Tạo bảng chấm công</button>
-              </div>
-              <div class="mb-3 col-md-12">
-                {{#if success}}
-                <div class=" alert alert-success">{{success}}</div>
-                {{/if}}
-                {{#if error}}
-                <div class=" alert alert-danger">{{error}}</div>
-                {{/if}}
-              </div>
+    <div class="card mb-4">
+      <!-- Account -->
+      <div class="card-body">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="mb-3 col-md-4">
+              <label class="form-label" for="country">Tháng</label>
+              <select id="month" name="month" class="select2 form-select" required>
+                {{#each months}}
+                <option value="{{this._id}}">Tháng {{this.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="mb-3 col-md-4">
+              <label class="form-label" for="year">Năm</label>
+              <select id="year" name="year" class="select2 form-select" required>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+              </select>
+            </div>
+            <div class="mt-2 col-md-4">
+              <button id="btn-crate-table" type="submit" class="btn btn-primary me-2">Tạo bảng chấm công</button>
+            </div>
+            <div class="mb-3 col-md-12">
+              {{#if success}}
+              <div class=" alert alert-success">{{success}}</div>
+              {{/if}}
+              {{#if error}}
+              <div class=" alert alert-danger">{{error}}</div>
+              {{/if}}
             </div>
           </div>
-          <!-- /Account -->
-
         </div>
+      </div>
+      <!-- /Account -->
 
-        <div class="card col-md-4">
-          <div class="table-responsive text-nowrap">
-            <table class="table table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th class="text-center py-2" style=" background:#a7e0fa">Bảng chấm công đã tạo</th>
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="table-timekeep" class="table-border-bottom-0">
-              </tbody>
-            </table>
+    </div>
+
+    <div class="card col-md-4">
+      <div class="card-body">
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Bảng chấm công đã tạo</th>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table-timekeep" class="table-border-bottom-0">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+    {{!-- //Error --}}
+    <div id="myModalError" class="modal fade">
+      <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="icon-box-err">
+              <i class='bx bx-x' style='vertical-align: middle;
+                font-size: 4.15rem;
+                line-height: 1;'></i>
+            </div>
+            <h4 class="modal-title w-100">Bảng đã tồn tại !</h4>
+          </div>
+          <div class="modal-body">
+            <p class="text-center"></p>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-success btn-block" id="data-dismiss-error">Đóng</button>
           </div>
         </div>
       </div>
     </div>
+
+
+    <div id="myModalSuccess" class="modal fade">
+      <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="icon-box">
+              <i class='bx bx-check'></i>
+            </div>
+            <h4 class="modal-title w-100">Tạo bảng thành công</h4>
+          </div>
+          <div class="modal-body">
+            <p class="text-center"></p>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-success btn-block" id="data-dismiss-success">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <!-- / Content -->
 
@@ -95,5 +139,14 @@
     $("#btn-crate-table").click(function () {
       socket.emit("hr-create-table", { month_id: $('#month').val(), year: $('#year').val() })
     })
+
+
+    $("#data-dismiss-error").click(function () {
+      $("#myModalError").modal("hide");
+    });
+
+    $("#data-dismiss-success").click(function () {
+      $("#myModalSuccess").modal("hide");
+    });
 
   </script>

@@ -5,112 +5,131 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Chấm công /</span> Tạo bảng chấm công</h4>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card mb-4">
-          <!-- Account -->
-          <hr class="my-0" />
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="mb-3 col-md-3">
-                <label class="form-label" for="month">Tháng</label>
-                <select id="month" name="month" class="select2 form-select" required>
-                  {{#each months}}
-                  <option value="{{this._id}}">Tháng {{this.name}}</option>
-                  {{/each}}
-                </select>
+
+
+    <div class="card mb-4">
+      <!-- Account -->
+      <hr class="my-0" />
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="mb-3 col-md-3">
+            <label class="form-label" for="month">Tháng</label>
+            <select id="month" name="month" class="select2 form-select" required>
+              {{#each months}}
+              <option value="{{this._id}}">Tháng {{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="mb-3 col-md-3">
+            <label class="form-label" for="year">Năm</label>
+            <select id="year" name="year" class="select2 form-select" required>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+            </select>
+          </div>
+          <div class="mt-2 col-md-2">
+            <button id="export" type="button" class="btn btn-success">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-box-arrow-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z">
+                </path>
+                <path fill-rule="evenodd"
+                  d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z">
+                </path>
+              </svg>
+              Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="mt-4 col-md-6">
+            <span>Ký hiệu</span>
+            <div class="mt-2 row align-items-center justify-content-start">
+              <div class="mb-2 col-md-2">
+                <span class="badge badge-center rounded-pill bg-danger">x</span>
+                <span>Vắng</span>
               </div>
-              <div class="mb-3 col-md-3">
-                <label class="form-label" for="year">Năm</label>
-                <select id="year" name="year" class="select2 form-select" required>
-                  <option value="2021">2021</option>
-                  <option value="2022">2022</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                  <option value="2026">2026</option>
-                  <option value="2027">2027</option>
-                  <option value="2028">2028</option>
-                  <option value="2029">2029</option>
-                  <option value="2030">2030</option>
-                </select>
+              <div class="mb-2 col-md-2">
+                <span class="badge badge-center rounded-pill bg-warning">!</span>
+                <span>Trễ</span>
               </div>
-              <div class="mt-2 col-md-2">
-                <button id="export" type="button" class="btn btn-success">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-box-arrow-down" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                      d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z">
-                    </path>
-                    <path fill-rule="evenodd"
-                      d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z">
-                    </path>
-                  </svg>
-                  Excel
-                </button>
+              <div class="mb-2 col-md-3">
+                <span class="badge badge-center rounded-pill bg-success">v</span>
+                <span>Đúng giờ (08:00)</span>
               </div>
-              <div </div>
-              </div>
-              <!-- /Account -->
             </div>
           </div>
         </div>
+      </div>
+      <!-- /Account -->
+    </div>
 
-        <!-- Responsive Table -->
-        <div id="card" class="card">
-          <div class="table-responsive text-nowrap">
-            <table id="table-report" class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="18">
-                    <h1 class="text-center mt-4 mb-2"></h1>
-                  </th>
-                </tr>
-                <tr id="title_month" class="text-nowrap">
-                </tr>
-              </thead>
-              <tbody id="acupuncture_user">
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-        <div id="messageError" style="display: flex;flex-direction: column;align-items: center;">
-          <img src="/assets/img/illustrations/no-data.png" alt="" style="
+    <!-- Responsive Table -->
+    <div id="card" class="card">
+      <div class="table-responsive text-nowrap">
+        <table id="table-report" class="table table-bordered">
+          <thead>
+            <tr>
+              <th colspan="18">
+                <h1 class="text-center mt-4 mb-2"></h1>
+              </th>
+            </tr>
+            <tr id="title_month" class="text-nowrap">
+            </tr>
+          </thead>
+          <tbody id="acupuncture_user">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="messageError" style="display: flex;flex-direction: column;align-items: center;">
+      <img src="/assets/img/illustrations/no-data.png" alt="" style="
     width: 350px;
     height: 350px;
     max-width: 100%;
     max-height: 100%;
       ">
-          <h4>Không tìm thấy dữ liệu!</h4>
-        </div>
+      <h4>Không tìm thấy dữ liệu!</h4>
+    </div>
+  </div>
+
+  <!--/ Responsive Table -->
+</div>
+<!-- / Content -->
 
 
-        <!--/ Responsive Table -->
-      </div>
-      <!-- / Content -->
+<script>
+</script>
+<!-- Content wrapper -->
+<script>
+  $("#card").hide()
+  $("#messageError").hide()
+
+  $('#month').on('change', function () {
+    socket.emit("employee-report", { month_id: this.value, year: $('#year').val() })
+  });
+
+  $('#year').on('change', function () {
+    socket.emit("employee-report", { month_id: $('#month').val(), year: this.value })
+  });
 
 
-      <script>
-      </script>
-      <!-- Content wrapper -->
-      <script>
-        $("#card").hide()
-        $("#messageError").hide()
+  var table2excel = new Table2Excel();
 
-        $('#month').on('change', function () {
-          socket.emit("employee-report", { month_id: this.value, year: $('#year').val() })
-        });
+  document.getElementById('export').addEventListener('click', function () {
+    table2excel.export(document.querySelectorAll('#table-report'));
+  });
 
-        $('#year').on('change', function () {
-          socket.emit("employee-report", { month_id: $('#month').val(), year: this.value })
-        });
-
-
-        var table2excel = new Table2Excel();
-
-        document.getElementById('export').addEventListener('click', function () {
-          table2excel.export(document.querySelectorAll('#table-report'));
-        });
-
-      </script>
+</script>

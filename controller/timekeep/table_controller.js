@@ -52,10 +52,9 @@ class TimekeepTable {
             //Kiểm tra đã tồn tại
             const checkExit = await timekeepTable.findOne(result)
             if(checkExit)
-            {
+            {  
                 return res.json({
-                    user: sigleToObject(user),
-                    error: "Bảng chấm công đã tồn tại"
+                    msgError: "Bảng chấm công đã tồn tại"
                 })
             }
             
@@ -92,7 +91,7 @@ class TimekeepTable {
             return res.json( {
                 months: multipleToObject(months),
                 tables: JSON.stringify(tables),
-                success: "Tạo bảng thành công"
+                msgSuccess: "Tạo bảng thành công"
             })
         }
         catch (err) {

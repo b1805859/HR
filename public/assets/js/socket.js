@@ -341,24 +341,33 @@ socket.on("server-send-report-employee", data=>{
 
 
 socket.on("server-send-result-create-table", data=>{
-  var tables_encode = data.tables
-  var tables = JSON.parse(tables_encode.replace(/&quot;/ig, '"'));
-  var table_timekeep = ""
-
-  for (const element of tables) {
-    const { table, monthName } = element
-    table_timekeep += `<tr>`
-    if (String(`${monthName}`).length == 1) {
-
-      table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">0${monthName}/${table.year}</td>`
+  if(data.msgSuccess)
+  {
+    $("#myModalSuccess").modal("show");
+    var tables_encode = data.tables
+    var tables = JSON.parse(tables_encode.replace(/&quot;/ig, '"'));
+    var table_timekeep = ""
+  
+    for (const element of tables) {
+      const { table, monthName } = element
+      table_timekeep += `<tr>`
+      if (String(`${monthName}`).length == 1) {
+  
+        table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">0${monthName}/${table.year}</td>`
+      }
+      else {
+        table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">${monthName}/${table.year}</td>`
+      }
+      table_timekeep += `</tr>`
     }
-    else {
-      table_timekeep += `<td class=" py-2" style="font-size:0.9375rem;">${monthName}/${table.year}</td>`
-    }
-    table_timekeep += `</tr>`
+  
+    $('#table-timekeep').html(table_timekeep)
+
   }
-
-  $('#table-timekeep').html(table_timekeep)
+  else if(data.msgError)
+  {
+    $("#myModalError").modal("show");
+  }
 })
 
 
