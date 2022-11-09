@@ -17,8 +17,7 @@ const { default: axios } = require('axios');
 
 
 router.get('/', Auth.isAuth, (req, res, next) => {
-    const { user } = req
-    res.render('user/timekeep-position-list', { user: sigleToObject(user), layout: 'user' })
+    return res.redirect('/user/position')
 })
 
 
