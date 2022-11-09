@@ -340,5 +340,23 @@ router.get('/position', Auth.isAuth, async (req, res, next) => {
 
 
 
+//Phòng ban của tôi
+router.get('/department', Auth.isAuth, async (req, res, next) => {
+    const { user } = req
+    try {
+        console.log("user", user)
+        const employees = await EmployeeProfile.find({department_id: mongoose.Types.ObjectId(user.department_id)})
+        console.log(employees)
+        res.render('user/user-department', { 
+            layout: 'user',
+            user: sigleToObject(user),
+            employees: multipleToObject(employees)
+        })
+    } catch (err) {
+
+    }
+})
+
+
 
 module.exports = router;

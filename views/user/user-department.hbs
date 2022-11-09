@@ -1,0 +1,39 @@
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-fluid flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-1 mb-2"><span class="text-muted fw-light">Phòng ban /</span> Nhân viên</h4>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row row-cols-1 row-cols-md-4 g-5 mb-5">
+                    {{#each employees}}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <img class="card-img-top" src="../assets/img/avatars/{{this.avatar}}" alt="Card image cap"
+                                style="width: 100%; height: 25vw; object-fit: cover;">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">{{this.job}}</h4>
+                                <p class="card-text">
+                                    <b class="">Mã:</b> {{this.code}}
+                                </p>
+                                <p class="card-text">
+                                    <b class="">Họ tên:</b> {{this.name}}
+                                </p>
+                                <p class="card-text">
+                                    <b class="">Phone:</b> {{this.phone}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <!-- Layout Demo -->
+
+        <!--/ Layout Demo -->
+    </div>
+    <!-- / Content -->
+
+</div>
