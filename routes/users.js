@@ -332,7 +332,7 @@ router.get('/position', Auth.isAuth, async (req, res, next) => {
     const { user } = req
     try {
         const positions = await timekeepPosition.find();
-        res.render('user/timekeep-position-list', { layout: 'user', positions, user: sigleToObject(user) })
+        res.render("user/timekeep-position-list", { user: sigleToObject(user), positions:JSON.stringify(positions), layout: "user" })
     } catch (err) {
 
     }

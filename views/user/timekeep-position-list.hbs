@@ -3,20 +3,50 @@
   <!-- Content -->
 
   <div class="container-fluid flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-1 mb-2"><span class="text-muted fw-light">Chấm công /</span> Vị trí chấm công</h4>
+    <h4 class="fw-bold mb-2"><span class="text-muted fw-light">Chấm công /</span> Vị trí chấm công</h4>
 
     <div class="card">
       <div class="card-body">
-        <div class="container my-3">
-          <div id="map" style="width: 100%; height: 580px;border-radius: 5px;"></div>
+        <!-- Layout Demo -->
+        <div class="row">
+
+          <div class="mt-3 col-md-6">
+            <h4 class="mb-3">Danh sách vị trí chấm công</h4>
+            <div class="table-responsive text-nowrap">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center p-3" style="background: #233446; color:#fff">Công ty</th>
+                    </th>
+                    <th class="text-center p-3" style="background: #233446; color:#fff">Địa chỉ</th>
+                    </th>
+                    <th class="text-center p-3" style="background: #233446; color:#fff">Hoạt động</th>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="timekeep-position" class="table-border-bottom-0">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="mt-3 col-md-6">
+
+            <div id="map" style="width: 100%; height: 600px;border-radius: 5px;"></div>
+            {{!--
+            <pre id="coordinates" class="coordinates"></pre> --}}
+          </div>
+
         </div>
       </div>
     </div>
-    <!-- Layout Demo -->
+
+
 
     <!--/ Layout Demo -->
   </div>
   <!-- / Content -->
+
 
   <div class="content-backdrop fade"></div>
 </div>
@@ -25,6 +55,38 @@
 <script src="/assets/js/map_no.js"></script> --}}
 
 <script>
+
+
+  var positions_encode = `{{ positions }}`
+  var positions = JSON.parse(positions_encode.replace(/&quot;/ig, '"'));
+  var positions_html = ''
+  var coordinates = []
+  for (const position of positions) {
+    let result = {
+      id: position._id,
+      longitude: position.longitude,
+      latitude: position.latitude
+    }
+    positions_html += `<tr>`
+    positions_html += `<td style="font-size:0.9375rem;">${position.name}</td>`
+    positions_html += `<td style="font-size:0.9375rem;">${position.address}</td>`
+    positions_html += `<td class="text-center"> 
+                            <button id="${position._id}" type="button" class="btn btn-outline-primary">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"></path>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
+                              </svg>
+                            </button>
+                        </td>`
+    positions_html += `</tr>`
+    coordinates.push(result)
+  }
+
+  $('#timekeep-position').html(positions_html)
+
+
+
+
   mapboxgl.accessToken =
     'pk.eyJ1IjoibGVoaWV1IiwiYSI6ImNsN3dmanhvbTBsNTIzb3I5M3d3dGJuMzcifQ.SYPd3n3mUWWTlT0K8UvEyg';
 
@@ -191,10 +253,24 @@
         })
       );
 
+
+      for (const coor of coordinates) {
+        const { id, longitude, latitude } = coor
+        $(`#${id}`).click(function () {
+          map.flyTo({
+            center: [longitude, latitude],
+            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+          });
+        })
+      }
+
     });
 
 
 
 
   }
+
+
+
 </script>
