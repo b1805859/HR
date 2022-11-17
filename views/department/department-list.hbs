@@ -45,11 +45,11 @@
         const { department, name_lead } = element
         const { _id, name, phone, employee_code } = department
         table_html += "<tr>"
-        table_html += ` <td class="py-3" style="font-size: 0.9375rem;" > <a style=' color: #697a8d;'
+        table_html += ` <td class="py-3" style="font-size: 0.9375rem;" > <a style=' color: #212529;'
             href="/api/department/getDepartmentInformation/${_id}">${name}</a></td>`
-        table_html += `  <td class="py-3" style="font-size: 0.9375rem;" > <a style=' color: #697a8d;'
+        table_html += `  <td class="py-3" style="font-size: 0.9375rem;" > <a style=' color: #212529;'
             href="/api/department/getDepartmentInformation/${_id}">${phone}</a></td>`
-        table_html += `  <td class="py-3" style="font-size: 0.9375rem;"><a style=' color: #697a8d;'
+        table_html += `  <td class="py-3" style="font-size: 0.9375rem;"><a style=' color: #212529;'
                   href="/api/department/getDepartmentInformation/${_id}">${employee_code} - ${name_lead}</a>
               </td>`
         table_html += "</tr>"

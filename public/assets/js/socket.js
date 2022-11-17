@@ -17,19 +17,19 @@ socket.on("server-send-filter", data => {
                       background-position: top center;
                       border-radius: 50%;
                       margin: 0 auto;"></div></td>`
-          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
-          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
           if (employee.status == "draft") {
-            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
           }
           else if (employee.status == 'demit') {
-            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
           }
           else if (employee.status == 'working') {
-            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
           }
           html_employee += "</tr>"
     }
@@ -47,19 +47,19 @@ socket.on("server-send-filter", data => {
                       background-position: top center;
                       border-radius: 50%;
                       margin: 0 auto;"></div></td>`
-          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
-          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
-          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.code}</a></td>`
+          html_employee += `<td class="text-left"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.name}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.gender}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${department}</a></td>`
+          html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}">${employee.job}</a></td>`
           if (employee.status == "draft") {
-            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-secondary me-1">Nháp</span></a></td>`
           }
           else if (employee.status == 'demit') {
-            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-danger me-1">Lưu trữ</span></a></td>`
           }
           else if (employee.status == 'working') {
-            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #697a8d;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
+            html_employee += `<td class="text-center"><a style='font-size:0.9375rem; color: #212529;' href="/api/employee/getEmployeeInformation/${employee._id}"><span class="badge bg-success me-1">Đang làm việc</span></a></td>`
           }
           html_employee += "</tr>"
     }

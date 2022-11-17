@@ -77,16 +77,16 @@ class Employee {
             //Them phòng ban
             if(String(req.body.department_id) != '')
             {
-                const checkDepartment = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(req.body.department_id)})
+                let checkDepartment = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(req.body.department_id)})
                 if(!checkDepartment)
                 {
                     return res.status(400).json({msg: 'Không tìm thấy phòng ban!'})
                 }
-                result = {...result, department_id: mongoose.Types.ObjectId(req.body.department_id)}
+                result = {...result, department_id: mongoose.Types.ObjectId(req.body.department_id), role: String(checkDepartment.role) }
             }
             else
             {
-                result = {...result, department_id: ''}
+                result = {...result, department_id: '',role: ''}
             }
 
 
@@ -100,7 +100,8 @@ class Employee {
             const hashPassword = bcrypt.hashSync(String(req.body.code).trim(), saltRounds);
             const resultAccount = {
                 username: String(req.body.code).trim(),
-                password: hashPassword
+                password: hashPassword,
+                role: String(result.role).trim()
             };
             const createUser = new UserAccount(resultAccount);
 
@@ -155,11 +156,11 @@ class Employee {
                 {
                     return res.status(400).json({msg: 'Không tìm thấy phòng ban!'})
                 }
-                result = {...result, department_id: mongoose.Types.ObjectId(req.body.department_id)}
+                result = {...result, department_id: mongoose.Types.ObjectId(req.body.department_id),role: String(checkDepartment.role).trim()}
             }
             else
             {
-                result = {...result, department_id: ''}
+                result = {...result, department_id: '', role: ''}
             }
 
 
@@ -168,6 +169,18 @@ class Employee {
             if (!updatedEmployee) {
                 return res.status(401).send('Cập nhật không thành công')
             }
+
+            if(String(req.body.department_id) != String(employee.department_id))
+            {
+                const checkDepartmentRole = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(req.body.department_id)})
+                console.log(checkDepartmentRole)
+                const upateUser = await UserAccount.updateOne({username: String(employee.code).trim()}, {role: String(checkDepartmentRole.role).trim() });
+                if (!upateUser) {
+                    return res.status(401).send('Cập nhật không thành công')
+                }
+            }
+
+
 
             return this.browse(req, res)
         } catch (error) {

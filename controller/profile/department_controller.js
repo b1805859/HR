@@ -63,8 +63,9 @@ class Department {
             let result = {
                 name: String(name).trim(),
                 phone: String(phone).trim(),
-
+                role: 'nhan_vien'
             }
+
             
             //Kiểm tra trưởng phòng có tồn tại
             if (employee_code != '') {
