@@ -9,8 +9,7 @@
       <div class="col-md-12">
         <div class="card mb-4">
           <!-- Account -->
-          <hr class="my-0" />
-          <div class="card-body">
+          {{!-- <div class="card-body">
             <div class="row align-items-center">
               <div class="mb-3 col-md-3">
                 <label class="form-label" for="months">Tháng</label>
@@ -52,14 +51,62 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
           <!-- /Account -->
+
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="mb-3 col-md-3">
+                <label class="form-label" for="month">Tháng</label>
+                <select id="month" name="month" class="select2 form-select" required>
+                  {{#each months}}
+                  <option value="{{this._id}}">Tháng {{this.name}}</option>
+                  {{/each}}
+                </select>
+              </div>
+              <div class="mb-3 col-md-3">
+                <label class="form-label" for="year">Năm</label>
+                <select id="year" name="year" class="select2 form-select" required>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                  <option value="2028">2028</option>
+                  <option value="2029">2029</option>
+                  <option value="2030">2030</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="mt-4 col-md-6">
+                <span>Ký hiệu</span>
+                <div class="mt-2 row align-items-center justify-content-start">
+                  <div class="mb-2 col-md-2">
+                    <span class="badge badge-center rounded-pill bg-danger">x</span>
+                    <span>Vắng</span>
+                  </div>
+                  <div class="mb-2 col-md-2">
+                    <span class="badge badge-center rounded-pill bg-warning">!</span>
+                    <span>Trễ</span>
+                  </div>
+                  <div class="mb-2 col-md-4">
+                    <span class="badge badge-center rounded-pill bg-success">v</span>
+                    <span>Đúng giờ (08:00)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <!-- Responsive Table -->
     <div id="card" class="card">
-      <h1 class="text-center mt-4 mb-2"></h1>
+      <h1 class="text-dark text-center mt-4 mb-2"></h1>
       <div class="table-responsive text-nowrap">
         <table class="table table-bordered">
           <thead>

@@ -53,12 +53,27 @@ router.get('/report', Auth.isAuth, async (req, res) => {
     const { user } = req
     try {
         const months = await timekeepMonth.find().sort({ datefield: -1 })
-        res.render('user/user-report', {
-            months: multipleToObject(months),
-            user: sigleToObject(user),
-            users: JSON.stringify(user),
-            layout: 'user'
-        });
+        console.log("months", months)
+        //Lấy thông tin account
+        const account = await userAccount.findOne({username: String(user.code)})
+        console.log("userAccount", account)
+        if(String(account.role)=='nhan_su')
+            {
+                res.render('user/user-report', {
+                    months: multipleToObject(months),
+                    user: sigleToObject(user),
+                    users: JSON.stringify(user)
+                });
+            }
+            else
+            {
+                res.render('user/user-report', {
+                    months: multipleToObject(months),
+                    user: sigleToObject(user),
+                    users: JSON.stringify(user),
+                    layout: 'user'
+                });
+            }
     } catch (error) {
         console.log(error)
         return error
@@ -203,11 +218,25 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
 
             if(report.length == 0)
             {   
-                return res.render("user/user-acupuncture",{
-                    msgError: "Không có bảng chấm công",
-                    user: sigleToObject(user),
-                    layout: 'user'
-                    })
+
+                //Lấy thông tin account
+                const account = await userAccount.findOne({username: String(user.code)})
+                if(String(account.role)=='nhan_su')
+                {
+                    return res.render("user/user-acupuncture",{
+                        msgError: "Không có bảng chấm công",
+                        user: sigleToObject(user),
+                        })
+                }
+                else
+                {
+                    return res.render("user/user-acupuncture",{
+                        msgError: "Không có bảng chấm công",
+                        user: sigleToObject(user),
+                        layout: 'user'
+                        })
+                }
+                
             }
             const { employee, month, table} = report[0]
             const employeeReport =[]
@@ -221,7 +250,6 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
 
             //Lấy thông tin account
             const account = await userAccount.findOne({username: String(user.code)})
-                console.log("userAccount", account)
             if(String(account.role)=='nhan_su')
             {
                 return res.render("user/user-acupuncture",{
@@ -230,6 +258,7 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
                     month: JSON.stringify(month[0]),
                     year: JSON.stringify(year),
                     user: sigleToObject(user),
+                    layout:'main'
                 });
             }
             else

@@ -37,15 +37,15 @@ class Auth {
         const username = req.body.username
         const password = req.body.password
         const user = await userController.getUser(username)
-        if (!user) return res.render("auth/login", {errorUser:'Tài khoản không tồn tại',layout: false });
+        if (!user) return res.render("auth/login", {errorUser:'Tài khoản không tồn tại!',layout: false });
 
         const isPasswordValid = bcrypt.compareSync(password, user.password);
         if (!isPasswordValid)
-            return res.render("auth/login", {errorPass:'Mật khẩu không chính xác',layout: false });
+            return res.render("auth/login", {errorPass:'Mật khẩu không chính xác!',layout: false });
 
 
         // Set cookie
-        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 9000000000000000, httpOnly: true });//900000
+        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 90000000000000, httpOnly: true });//900000
         if (String(user.role) == 'nhan_su') {
 
             res.redirect('/')

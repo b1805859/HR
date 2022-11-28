@@ -82,25 +82,32 @@
 
 
 
-<body id="particles-js"></body>
+<body id="particles-js" scroll="no" style="overflow: hidden"></body>
 <div class="animated bounceInDown">
   <div class="container">
     <span class="error animated tada" id="msg"></span>
     <form action="#" method="post" name="form1" class="box">
       <img src="/assets/img/favicon_io/apple-touch-icon.png" width="100px" height="100px">
       <h4>Đăng nhập tài khoản nhân viên để kết nối với TomHR Web</h4>
-      <input type="text" name="username" placeholder="Mã nhân viên" autocomplete="off">
-      <i class="typcn typcn-eye" id="eye"></i>
-      <input type="password" name="password" placeholder="Mật khẩu" id="pwd" autocomplete="off">
-      <input type="submit" value="Đăng nhập" class="btn1">
-
-      {{!-- Xử lý thông báo lỗi --}}
-      {{#if errorUser}}
-      <div class="alert alert-danger">{{errorUser}}</div>
-      {{/if}}
-      {{#if errorPass}}
-      <div class="alert alert-danger">{{errorPass}}</div>
-      {{/if}}
+      <div class="" style="min-height:76px; max-height: 77px; padding: 0 24px;">
+        <input type="text" name="username" placeholder="Mã nhân viên" autocomplete="off" style="
+              margin: 10px auto 0 auto;
+              padding-bottom: 10px;
+          ">
+        {{#if errorUser}}
+        <span class="ml-2 d-flex text-left text-danger">{{errorUser}}</span>
+        {{/if}}
+      </div>
+      <div style="min-height:76px; max-height: 77px; padding: 0 24px;">
+        <i class="typcn typcn-eye" id="eye"></i>
+        <input type="password" name="password" placeholder="Mật khẩu" id="pwd" autocomplete="off" style="
+          margin: 0 auto;
+      ">
+        {{#if errorPass}}
+        <span class="ml-2 d-flex text-left text-danger">{{errorPass}}</span>
+        {{/if}}
+      </div>
+      <input type="submit" value="Đăng nhập" class="mt-2 btn1">
     </form>
     <a href="#" class="dnthave">Don’t have an account? Sign up</a>
   </div>

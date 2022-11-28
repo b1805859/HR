@@ -105,7 +105,7 @@ socket.on("server-send-result", data => {
                 font-size: 4.15rem;
                 line-height: 1;'></i>
             </div>
-            <h4 class="modal-title w-100">${data.msg}</h4>
+            <h4 class="text-dark modal-title w-100">${data.msg}</h4>
         </div>
         <div class="modal-body">
             <p class="text-center"></p>
@@ -126,7 +126,7 @@ socket.on("server-send-result", data => {
 socket.on("server-send-acupuncture-data", data => {
   
     $("#myModal").modal("toggle");
-      var title_month = "<th>Mã nhân viên</th><th>Tên nhân viên</th>"
+      var title_month = "<th class='text-center py-3'>Mã nhân viên</th><th class='text-center py-3'>Tên nhân viên</th>"
       var employeeReports_encode = data.employeeReports
       var month_encode = data.month
       var year_encode = data.year

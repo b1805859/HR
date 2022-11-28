@@ -3,7 +3,7 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold mb-1"><span class="text-muted fw-light">Nhân viên /</span> Cập nhật thông tin hồ sơ</h4>
+    <h4 class="fw-bold mb-4"><span class="text-muted fw-light">Nhân viên /</span> Cập nhật thông tin hồ sơ</h4>
 
     <div class="row">
       <div class="col-md-12">
@@ -31,7 +31,6 @@
                 </div>
               </div>
             </div>
-            <hr class="my-0" />
             <div class="card-body">
               <div class="row">
                 <div class="mb-3 col-md-6">
@@ -114,10 +113,36 @@
                   <label for="type" class="form-label">Loại nhân viên</label>
                   (<span class="text-danger">*</span>)
                   <select id="type" name="type" class="select2 form-select" value="{{employee.type}}">
-                    <option value="thoi_vu">Thời vụ</option>
-                    <option value="chinh_thuc">Chính thức</option>
-                    <option value="thu_viec">Thử việc</option>
                   </select>
+                  <script>
+                    $('#type').html()
+                    const type = `{{employee.type}}`
+                    let typeHTML = ''
+                    let typeArr = ['thoi_vu', 'thu_viec', 'chinh_thuc']
+                    if (type == "thoi_vu") {
+                      typeHTML += `<option value = 'thoi_vu'>Thời vụ</option>`
+                    }
+                    else if (type == 'thu_viec') {
+                      typeHTML += `<option value = 'thu_viec'>Thử việc</option>`
+                    }
+                    else if (type == 'chinh_thuc') {
+                      typeHTML += `<option value = 'chinh_thuc'>Chính thức</option>`
+                    }
+
+                    for (const element of typeArr) {
+                      if (element != type && element == 'thoi_vu') {
+                        typeHTML += `<option value = 'thoi_vu'>Thời vụ</option>`
+                      }
+                      if (element != type && element == 'thu_viec') {
+                        typeHTML += `<option value = 'thu_viec'>Thử việc</option>`
+                      }
+                      if (element != type && element == 'chinh_thuc') {
+                        typeHTML += `<option value = 'chinh_thuc'>Chính thức</option>`
+                      }
+                    }
+
+                    $('#type').append(typeHTML)
+                  </script>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="personal_tax_no" class="form-label">Mã số thuế</label>
@@ -142,10 +167,36 @@
                 <div class="mb-3 col-md-6">
                   <label for="status" class="form-label">Trạng thái hồ sơ</label> (<span class="text-danger">*</span>)
                   <select id="status" name="status" class="select2 form-select">
-                    <option value="draft">Nháp</option>
-                    <option value="demit">Lưu trữ</option>
-                    <option value="working">Đang làm việc</option>
                   </select>
+                  <script>
+                    $('status').html()
+                    const status = `{{employee.status}}`
+                    let statusHTML = ''
+                    let statusArr = ['draft', 'demit', 'working']
+                    if (status == "draft") {
+                      statusHTML += `<option value = 'draft'>Nháp</option>`
+                    }
+                    else if (status == 'demit') {
+                      statusHTML += `<option value = 'demit'>Lưu trữ</option>`
+                    }
+                    else if (status == 'working') {
+                      statusHTML += `<option value = 'working'>Đang làm việc</option>`
+                    }
+
+                    for (const element of statusArr) {
+                      if (element != status && element == 'draft') {
+                        statusHTML += `<option value = 'draft'>Nháp</option>`
+                      }
+                      if (element != status && element == 'demit') {
+                        statusHTML += `<option value = 'demit'>Lưu trữ</option>`
+                      }
+                      if (element != status && element == 'working') {
+                        statusHTML += `<option value = 'working'>Đang làm việc</option>`
+                      }
+                    }
+
+                    $('#status').append(statusHTML)
+                  </script>
                 </div>
               </div>
               <div class="mt-2">

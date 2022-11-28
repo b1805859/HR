@@ -15,7 +15,7 @@ class TimekeepAcupuncture {
         try {  
             const table = await timekeepTable.find({ _id: mongoose.Types.ObjectId(table_id) })
             if (!table)
-                res.json({ message: "Bảng không tồn tại" })
+                return res.json({ msgError: "Bảng không tồn tại" })
 
             
             var now = new Date();
@@ -34,7 +34,9 @@ class TimekeepAcupuncture {
             //Kiểm tra đã chấm công hay chưa
             const acupunctureCheck = await timekeepAcupuncture.findOne({employee_id:mongoose.Types.ObjectId(user_id) ,date: day, month_id: mongoose.Types.ObjectId(monthObj._id), year: year})
             if (acupunctureCheck)
-                return res.json({ message: "Đã chấm công cho hôm nay" })
+            {
+                return res.json({ msgError: "Đã chấm công cho hôm nay", acupuncture: acupunctureCheck })
+            }
 
             if(Number(hour) >= 8 && Number(minute) >= 1)
             {

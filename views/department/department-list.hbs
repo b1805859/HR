@@ -3,7 +3,7 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold mb-2"><span class="text-muted fw-light">Phòng ban /</span> Danh sách phòng ban</h4>
+    <h4 class="fw-bold mb-4"><span class="text-muted fw-light">Phòng ban /</span> Danh sách phòng ban</h4>
 
 
     <!-- Basic Bootstrap Table -->
@@ -26,6 +26,7 @@
                 <th class="text-center p-3" style="background: #233446; color:#fff">Liên hệ
                 </th>
                 <th class="text-center p-3" style="background: #233446; color:#fff">Trưởng phòng</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Hoạt động</th>
               </tr>
             </thead>
             <tbody id="table-department" class="table-border-bottom-0">
@@ -52,6 +53,13 @@
         table_html += `  <td class="py-3" style="font-size: 0.9375rem;"><a style=' color: #212529;'
                   href="/api/department/getDepartmentInformation/${_id}">${employee_code} - ${name_lead}</a>
               </td>`
+        table_html += `<td class="text-center"><a style="color: #212529; margin-right:10px" href='/api/department/getDepartmentInformation/${_id}'>
+          <button type="button" class="btn btn-outline-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"></path>
+              <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
+            </svg>
+          </button></a></td>`
         table_html += "</tr>"
       }
 

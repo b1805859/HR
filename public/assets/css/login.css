@@ -38,7 +38,7 @@ body, html {
 }
 
 .box img {
-    margin: 25px auto 35px auto;
+    margin: 25px auto 15px auto;
     display: block;
 }
 
@@ -46,7 +46,7 @@ body, html {
     font-family: 'Source Sans Pro', sans-serif;
     color: #fff; 
     font-size: 18px;
-    margin: 0 59px;
+    margin: 0 60px 35px 60px;
   }
   
   .box h4 span {
