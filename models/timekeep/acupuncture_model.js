@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const TimekeepAcupunture = new Schema({
+    min: {type:'number', string:'Phút'},
+    hour: {type: 'number', string:"Giờ"},
     date: { type: 'number', string: 'Ngày chấm công' },
     month_id: { type: Schema.Types.ObjectId, ref: 'TimekeepMonth', string: 'Tháng chấm công' },
     year: {type:'string', string:"Năm"},
