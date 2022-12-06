@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content -->
 
-  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="container-xxl flex-grow-1">
     <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Nhân viên /</span>
       Thêm hồ sơ nhân viên</h4>
 
@@ -13,70 +13,34 @@
           <!-- Account -->
           <div class="card-body">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
-              <img
-                src="/assets/img/avatars/{{employee.avatar}}"
-                alt="user-avatar"
-                class="d-block rounded"
-                height="320"
-                width="300"
-                id="uploadedAvatar"
-              />
+              <img src="/assets/img/avatars/{{employee.avatar}}" alt="user-avatar" class="d-block rounded" height="320"
+                width="300" id="uploadedAvatar" />
             </div>
           </div>
           <div class="card-body">
-            <form
-              action="/api/employee/storeEmployee/{{employee._id}}"
-              id="formAccountSettings"
-              method="POST"
-            >
+            <form action="/api/employee/storeEmployee/{{employee._id}}" id="formAccountSettings" method="POST">
               <div class="row">
                 <div class="mb-3 col-md-6">
                   <label for="code" class="form-label">Mã nhân viên</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="code"
-                    name="code"
-                    placeholder="VD: B1805859"
-                    value="{{employee.code}}"
-                    readonly
-                    autofocus
-                  />
+                  <input class="form-control" type="text" id="code" name="code" placeholder="VD: B1805859"
+                    value="{{employee.code}}" readonly autofocus />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="name" class="form-label">Họ tên</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="name"
-                    name="name"
-                    value="{{employee.name}}"
-                    readonly
-                    placeholder="VD: Lê Văn Hiếu"
-                  />
+                  <input class="form-control" type="text" id="name" name="name" value="{{employee.name}}" readonly
+                    placeholder="VD: Lê Văn Hiếu" />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="birthday" class="form-label">Ngày sinh</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    class="form-control"
-                    type="date"
-                    id="birthday"
-                    value="birthday"
-                    readonly
-                  />
+                  <input class="form-control" type="date" id="birthday" value="birthday" readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="gender" class="form-label">Giới tính</label>
                   (<span class="text-danger">*</span>)
-                  <select
-                    id="gender"
-                    name="gender"
-                    class="select2 form-select"
-                    disabled
-                  >
+                  <select id="gender" name="gender" class="select2 form-select" disabled>
                     <option value="male">Nam</option>
                     <option value="female">Nữ</option>
                   </select>
@@ -85,83 +49,41 @@
                   <label class="phone" for="phoneNumber">Số điện thoại</label>
                   <div class="input-group input-group-merge">
                     <span class="input-group-text">VN (+84)</span>
-                    <input
-                      type="text"
-                      id="phone"
-                      name="phone"
-                      class="form-control"
-                      value="{{employee.phone}}"
-                      readonly
-                    />
+                    <input type="text" id="phone" name="phone" class="form-control" value="{{employee.phone}}"
+                      readonly />
                   </div>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="email" class="form-label">E-mail</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="email"
-                    name="email"
-                    value="{{employee.email}}"
-                    placeholder="john.doe@example.com"
-                    readonly
-                  />
+                  <input class="form-control" type="text" id="email" name="email" value="{{employee.email}}"
+                    placeholder="john.doe@example.com" readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="address" class="form-label">Địa chỉ</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="address"
-                    name="address"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="address" name="address" readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="cccd_no" class="form-label">CMND/CCCD</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="cccd_no"
-                    name="cccd_no"
-                    value="{{employee.cccd_no}}"
-                    readonly
-                  />
+                  <input class="form-control" type="text" id="cccd_no" name="cccd_no" value="{{employee.cccd_no}}"
+                    readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="nation" class="form-label">Dân tộc</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="nation"
-                    name="nation"
-                    value="{{employee.nation}}"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="nation" name="nation" value="{{employee.nation}}"
+                    readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="religion" class="form-label">Tôn giáo</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="religion"
-                    name="religion"
-                    value="{{employee.religion}}"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="religion" name="religion" value="{{employee.religion}}"
+                    readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label class="form-label" for="country">Quốc tịch</label>
                   (<span class="text-danger">*</span>)
-                  <select
-                    id="country"
-                    name="country"
-                    class="select2 form-select"
-                    disabled
-                  >
+                  <select id="country" name="country" class="select2 form-select" disabled>
                     <option value="">{{employee.country}}</option>
                     <option value="Australia">Australia</option>
                     <option value="Bangladesh">Bangladesh</option>
@@ -193,25 +115,13 @@
                 <div class="mb-3 col-md-6">
                   <label for="bank_no" class="form-label">Tài khoản ngân hàng</label>
                   (<span class="text-danger">*</span>)
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="bank_no"
-                    name="bank_no"
-                    placeholder="0111324857233 - Vietcombank"
-                    value="{{employee.bank_no}}"
-                    readonly
-                  />
+                  <input class="form-control" type="text" id="bank_no" name="bank_no"
+                    placeholder="0111324857233 - Vietcombank" value="{{employee.bank_no}}" readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="type" class="form-label">Loại nhân viên</label>
                   (<span class="text-danger">*</span>)
-                  <select
-                    id="type"
-                    name="type"
-                    class="select2 form-select"
-                    disabled
-                  >
+                  <select id="type" name="type" class="select2 form-select" disabled>
                     <option value="thoi_vu">Thời vụ</option>
                     <option value="chinh_thuc">Chính thức</option>
                     <option value="thu_viec">Thử việc</option>
@@ -219,48 +129,24 @@
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="personal_tax_no" class="form-label">Mã số thuế</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="personal_tax_no"
-                    name="personal_tax_no"
-                    value="{{employee.personal_tax_no}}"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="personal_tax_no" name="personal_tax_no"
+                    value="{{employee.personal_tax_no}}" readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhxh_no" class="form-label">Số BHXH</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="bhxh_no"
-                    name="bhxh_no"
-                    value="{{employee.bhxh_no}}"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="bhxh_no" name="bhxh_no" value="{{employee.bhxh_no}}"
+                    readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_no" class="form-label">Số BHYT</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="bhyt_no"
-                    name="bhyt_no"
-                    value="{{employee.bhyt_no}}"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="bhyt_no" name="bhyt_no" value="{{employee.bhyt_no}}"
+                    readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="bhyt_hospital" class="form-label">Nơi đăng ký khám
                     bệnh</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="bhyt_hospital"
-                    name="bhyt_hospital"
-                    value="{{employee.bhyt_hospital}}"
-                    readonly
-                  />
+                  <input type="text" class="form-control" id="bhyt_hospital" name="bhyt_hospital"
+                    value="{{employee.bhyt_hospital}}" readonly />
                 </div>
               </div>
               <div class="mt-2">

@@ -60,6 +60,10 @@ router.get('/formUpdateKTKL/:id', Auth.isAuth, Auth.checkRole, async (req, res, 
 router.get('/fetchKTKLList', Auth.isAuth, Auth.checkRole, ktklController.fetchListPage)
 
 
+//Lấy danh khen thưởng kỷ có chọn lọc (trang có đối số)
+router.post('/fetchKTKLList/type', ktklController.fetchListType)
+
+
 
 
 //Xóa khen thưởng kỷ luật

@@ -165,6 +165,19 @@ io.on('connection', (socket) => {
         socket.emit("server-send-result-create-table",response.data)
     })
 
+
+    socket.on("ktkl/type", async (data) => {
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:8080/api/ktkl/fetchKTKLList/type`,
+            headers: {},
+            data: {
+                type: data.type
+            }
+        });
+        socket.emit("server-send-result-ktkl-type",response.data)
+    })
+
 });
 
 // catch 404 and forward to error handler

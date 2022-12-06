@@ -43,14 +43,12 @@ class Auth {
         if (!isPasswordValid)
             return res.render("auth/login", {errorPass:'Mật khẩu không chính xác!',layout: false });
 
-
         // Set cookie
         await res.cookie('user_code', String(user.username), { signed: true, maxAge: 90000000000000, httpOnly: true });//900000
         if (String(user.role) == 'nhan_su') {
 
             res.redirect('/')
         } else if (String(user.role) == 'nhan_vien') {
-
             res.redirect('/user/')
         }
     }

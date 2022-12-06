@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content -->
 
-  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="container-xxl flex-grow-1">
     <h4 class="fw-bold mb-4"><span class="text-muted fw-light">
         Khen thưởng kỷ luật /</span>
       Danh sách</h4>
@@ -11,12 +11,21 @@
       <div class="card-body">
         <nav class="navbar mb-2">
           <div class="container-fluid flex-row-reverse">
-            <a href="/api/ktkl/formCreateKTKL" class="text-white">
-              <button class="btn btn-primary mt-3 mt-md-0" type="button">
-                <i class="bx bxs-user-plus"></i>
-                Thêm khen thưởng, kỷ luật
-              </button>
-            </a>
+            <div class=" col-2">
+              <select id="type" name="type" class="select2 form-select">
+                <option value="all">Tất cả</option>
+                <option value="khen_thuong">Khen thưởng</option>
+                <option value="ky_luat">Kỷ luật</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <a href="/api/ktkl/formCreateKTKL" class="text-white">
+                <button class="btn btn-primary mt-3 mt-md-0" type="button">
+                  <i class="bx bxs-user-plus"></i>
+                  Thêm khen thưởng, kỷ luật
+                </button>
+              </a>
+            </div>
           </div>
         </nav>
         <!-- Borderless Table -->
@@ -28,7 +37,7 @@
                 <th class="text-center p-3" style="background: #233446; color:#fff">HỌ TÊN</th>
                 <th class="text-center p-3" style="background: #233446; color:#fff">CHỨC VỤ</th>
                 <th class="text-center p-3" style="background: #233446; color:#fff">THỜI GIAN</th>
-                <th class="text-center p-3" style="background: #233446; color:#fff">MÔ TẢ</th>
+                <th class="text-center p-3" style="background: #233446; color:#fff">Loại</th>
                 <th class="text-center p-3" style="background: #233446; color:#fff">Hoạt động</th>
               </tr>
             </thead>
@@ -57,14 +66,14 @@
   for (const line of ktklLines) {
     const { employee, ktkl } = line
     const { code, name, job } = employee
-    const { _id, day, description } = ktkl
+    const { _id, day, type } = ktkl
     let html = ''
     html += "<tr>"
     html += `<td class="py-2" style="font-size: 0.9375rem;">${code}</td>`
     html += `<td class="py-2" style="font-size: 0.9375rem;">${name}</td>`
     html += `<td class="py-2" style="font-size: 0.9375rem;"> ${job} </td >`
     html += `<td class="py-2" style="font-size: 0.9375rem;"> ${day} </td>`
-    html += `<td class="py-2" style="font-size: 0.9375rem;"> ${description} </td>`
+    html += `<td class="py-2" style="font-size: 0.9375rem;"> ${type} </td>`
     html += `<td class="py-2 text-center" style='font-size: 0.9375rem;'>` +
       `<a style="color: #212529; margin-right:10px" href= '/api/ktkl/information/${_id}'>` +
       `<button type="button" class="btn btn-outline-primary">
@@ -84,4 +93,10 @@
 
     $('#ktklLine').append(html)
   }
+
+  $('#type').on('change', function () {
+    socket.emit("ktkl/type", { type: $('#type').val() })
+  });
+
+
 </script>

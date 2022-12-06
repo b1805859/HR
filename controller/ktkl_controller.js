@@ -163,6 +163,55 @@ class KTKL {
 
 
 
+        //Lấy danh sách khen thưởng kỷ luật
+        fetchListType = async (req, res, next) => {
+            const { user } = req
+            try {   
+                let result = {}
+                if(String(req.body.type) == 'all')
+                {
+                    
+                }
+                else if(String(req.body.type) == "khen_thuong")
+                {
+                    result = {type: "khen_thuong"}
+                }
+                else if(String(req.body.type) == "ky_luat")
+                {
+                    result = {type: "ky_luat"}
+                }
+
+                const ktkls = await KhenThuongKyLuat.find(result)
+                console.log("ktkls", ktkls)
+                const ktklLine = []
+                for(const ktkl of ktkls) {
+                    let result = {}
+                    const {employee_code} = ktkl
+                    const employee = await EmployeeProfile.findOne({code: employee_code})
+                    if(employee)
+                    {
+                        result = {
+                            ktkl,
+                            employee
+                        }
+                        ktklLine.push(result)
+                    }
+                }
+                console.log(ktklLine)
+                    return res.json({
+                        user: sigleToObject(user),
+                        ktklLine: JSON.stringify(ktklLine),
+                     })
+    
+            } catch (error) {
+                console.log(error)
+                return error
+            }
+        }
+
+
+
+
     //Xóa khen thưởng kỷ luật
     deleteKTKL = async (req, res, next) => {
         const {id} = req.params

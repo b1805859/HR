@@ -85,13 +85,14 @@ router.get('/report', Auth.isAuth, async (req, res) => {
 router.post('/report', async (req, res) => {
     const { user } = req.body
         try {
-        
+            
             //Khởi tạo truy vấn
             let result = {
                 employee_id:mongoose.Types.ObjectId(user._id),
                 month_id: mongoose.Types.ObjectId(req.body.month_id),
                 year: String(req.body.year).trim()
             }
+            console.log("result", result)
             const report = await timekeepTable.aggregate([
                 {
                     $match: {
@@ -125,6 +126,7 @@ router.post('/report', async (req, res) => {
             ], function (error, data) {
     
             });
+            console.log(report)
 
             if(report.length == 0)
             {   
@@ -142,6 +144,7 @@ router.post('/report', async (req, res) => {
                     ...employee[0],
                 }
                 employeeReport.push(data)
+            console.log(employeeReport)
             return res.json({
                 employeeReports: JSON.stringify(employeeReport),
                 month: JSON.stringify(month[0]),
