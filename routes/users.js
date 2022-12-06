@@ -53,10 +53,10 @@ router.get('/report', Auth.isAuth, async (req, res) => {
     const { user } = req
     try {
         const months = await timekeepMonth.find().sort({ datefield: -1 })
-        console.log("months", months)
+        
         //Lấy thông tin account
         const account = await userAccount.findOne({username: String(user.code)})
-        console.log("userAccount", account)
+        
         if(String(account.role)=='nhan_su')
             {
                 res.render('user/user-report', {
@@ -92,7 +92,7 @@ router.post('/report', async (req, res) => {
                 month_id: mongoose.Types.ObjectId(req.body.month_id),
                 year: String(req.body.year).trim()
             }
-            console.log("result", result)
+            
             const report = await timekeepTable.aggregate([
                 {
                     $match: {
@@ -126,7 +126,7 @@ router.post('/report', async (req, res) => {
             ], function (error, data) {
     
             });
-            console.log(report)
+            
 
             if(report.length == 0)
             {   
@@ -144,7 +144,7 @@ router.post('/report', async (req, res) => {
                     ...employee[0],
                 }
                 employeeReport.push(data)
-            console.log(employeeReport)
+            
             return res.json({
                 employeeReports: JSON.stringify(employeeReport),
                 month: JSON.stringify(month[0]),
@@ -375,9 +375,9 @@ router.get('/position', Auth.isAuth, async (req, res, next) => {
 router.get('/department', Auth.isAuth, async (req, res, next) => {
     const { user } = req
     try {
-        console.log("user", user)
+        
         const employees = await EmployeeProfile.find({department_id: mongoose.Types.ObjectId(user.department_id)})
-        console.log(employees)
+
         res.render('user/user-department', { 
             layout: 'user',
             user: sigleToObject(user),

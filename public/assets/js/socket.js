@@ -210,7 +210,7 @@ socket.on("server-send-report-user", data=>{
       var year_encode =  data.year
       var year = JSON.parse(year_encode.replace(/&quot;/ig, '"'));
       var h1 = `Tháng ${month.name} - Năm ${year}`
-      console.log(employeeReports)
+      
       for (const employeeReport of employeeReports) {
         const { name, code, acupuncture } = employeeReport;
         acupuncture_html += `<tr>`
@@ -248,7 +248,7 @@ socket.on("server-send-report-user", data=>{
         acupuncture_html += `</tr>`
       }
 
-      console.log(acupuncture_html)
+      
       
       //Hiển thị tháng
       for (let i = 1; i <= month.total; i++) {

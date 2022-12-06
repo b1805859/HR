@@ -73,7 +73,7 @@ class TimekeepReport {
             ], function (error, data) {
     
             });
-            console.log("reports",reports)
+            
 
             if(reports.length == 0)
             {   

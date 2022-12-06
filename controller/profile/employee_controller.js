@@ -173,7 +173,7 @@ class Employee {
             if(String(req.body.department_id) != String(employee.department_id))
             {
                 const checkDepartmentRole = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(req.body.department_id)})
-                console.log(checkDepartmentRole)
+                
                 const upateUser = await UserAccount.updateOne({username: String(employee.code).trim()}, {role: String(checkDepartmentRole.role).trim() });
                 if (!upateUser) {
                     return res.status(401).send('Cập nhật không thành công')
@@ -318,7 +318,7 @@ class Employee {
                     }
                     EmployeeProfile.countDocuments((err, count) => {
                         if (err) return next(err);
-                        console.log(employeeList)
+                        
                         res.json( {
                             employeeList: JSON.stringify(employeeList), // sản phẩm trên một page
                             current: page, // page hiện tại

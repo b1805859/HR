@@ -62,7 +62,7 @@
 <script>
   const ktklLine = `{{ktklLine}}`
   const ktklLines = JSON.parse(ktklLine.replace(/&quot;/g, '"'));
-  console.log("ktklLines", ktklLines)
+  
   for (const line of ktklLines) {
     const { employee, ktkl } = line
     const { code, name, job } = employee

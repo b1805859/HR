@@ -26,8 +26,7 @@ class TimekeepAcupuncture {
             var minute = now.getMinutes();
             var second = now.getSeconds();
 
-            console.log("minute",minute)
-            console.log("hour",hour)
+            
 
             const monthObj = await timekeepMonth.findOne({name: mon})
 

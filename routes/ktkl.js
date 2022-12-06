@@ -12,7 +12,7 @@ const Auth = require('../middlewares/auth_middlewares')
 router.get('/information/:id', Auth.isAuth, ktklController.browse)
 
 router.get('/deleteKTKL/:id', Auth.isAuth,async (req,res,next)=>{
-    console.log("1")
+    
     const {user} = req
     const {id} = req.params
     const ktklLine = await KhenThuongKyLuat.findOneAndDelete({_id: id})

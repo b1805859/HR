@@ -188,7 +188,7 @@ class Department {
                             }
                             departmentList.push(result)
                         }
-                        console.log(departmentList)
+                        
                         if (err) return next(err);
                         res.render('department/department-list', {
                             user: sigleToObject(user),

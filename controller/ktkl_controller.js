@@ -182,7 +182,7 @@ class KTKL {
                 }
 
                 const ktkls = await KhenThuongKyLuat.find(result)
-                console.log("ktkls", ktkls)
+                
                 const ktklLine = []
                 for(const ktkl of ktkls) {
                     let result = {}
@@ -197,7 +197,7 @@ class KTKL {
                         ktklLine.push(result)
                     }
                 }
-                console.log(ktklLine)
+                
                     return res.json({
                         user: sigleToObject(user),
                         ktklLine: JSON.stringify(ktklLine),
