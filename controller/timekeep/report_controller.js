@@ -83,18 +83,20 @@ class TimekeepReport {
                     })
             }
             const {month} = reports[0]
+      
             const months = await timekeepMonth.find().sort({ datefield: -1 })
             const employeeReport = []
             for(const report of reports)
             {
                 const { employee } = report
-                const acupuncture = await timekeepAcupuncture.find({ table_id: ObjectId(report._id) })
+                const acupuncture = await timekeepAcupuncture.find({ employee_id: report.employee_id , month_id: mongoose.Types.ObjectId(req.body.month_id),year: String(req.body.year)})
                 let result = {
                     acupuncture: acupuncture,
                     ...employee[0],
                 }
                 employeeReport.push(result)
             }
+
             return res.json({
                 employeeReports: JSON.stringify(employeeReport),
                 month: JSON.stringify(month[0]),

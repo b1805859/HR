@@ -47,7 +47,7 @@ class Department {
 
     //Tạo phòng ban
     createDepartment = async (req, res, next) => {
-        const { name, phone, employee_code } = req.body
+        const { name, phone } = req.body
         
         try {
             
@@ -63,31 +63,18 @@ class Department {
             let result = {
                 name: String(name).trim(),
                 phone: String(phone).trim(),
+                employee_code:"",
                 role: 'nhan_vien'
             }
 
             
-            //Kiểm tra trưởng phòng có tồn tại
-            if (employee_code != '') {
-                
-                const employee = await EmployeeProfile.findOne({ code: employee_code })
-                if (employee) {
-                    result = { ...result, employee_code: String(employee.code).trim() }
-                }
-            }
-            else {
-                result = { ...result, employee_code: '' }
-            }
-
-
-            
+        
             const newDepartment = new DepartmentDepartment(result)
             if (!newDepartment) {
                 res.status(401).send('Không thể thêm mới phòng ban');
             }
 
             //Cập nhật lại phòng ban nhân viên
-            await EmployeeProfile.updateOne({ code: newDepartment.employee_code })
             await newDepartment.save()
             return this.fetchListPage(req, res)
         } catch (error) {
@@ -177,15 +164,15 @@ class Department {
                         for(const department of departments)
                         {
                             let result = {department}
-                            if(department.employee_code != '')
-                            {
-                                const employee = await EmployeeProfile.findOne({code: department.employee_code})
-                                result = {...result,name_lead: employee.name}
-                            }
-                            else
-                            {
-                                result = {...result,name_lead: ''}
-                            }
+
+                                if(department.employee_code != '')
+                                {
+                                    const employee = await EmployeeProfile.findOne({code: department.employee_code})
+                                    result = {...result,name_lead: employee.name}
+                                }else
+                                {
+                                    result = {...result,name_lead: ''}
+                                }
                             departmentList.push(result)
                         }
                         

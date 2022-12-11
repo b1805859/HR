@@ -201,6 +201,17 @@ socket.on("server-send-report-user", data=>{
     $("#messageError").css({"display": "flex","flex-direction": "column","align-items": "center"});
   }
   else {
+
+    var now = new Date();
+    var yearNow = now.getFullYear();
+    var mon = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+
+
+
     var title_month = "<th class='py-3'>Mã nhân viên</th><th class='py-3'>Tên nhân viên</th>"
       var employeeReports_encode =  data.employeeReports
       var month_encode = data.month
@@ -237,7 +248,14 @@ socket.on("server-send-report-user", data=>{
             check++;
             if (check == acupuncture.length) {
               if (i >= acupuncture[acupuncture.length - 1].date) {
-                acupuncture_html += `<td class='py-2'></td>`
+                if((Number(month.name) < Number(mon)) && (Number(year) <= Number(yearNow)))
+                {
+                  acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+                }
+                else
+                {
+                  acupuncture_html += `<td class='py-2'></td>`
+                }
               }
               else {
                 acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
@@ -277,6 +295,15 @@ socket.on("server-send-report-employee", data=>{
     $("#messageError").css({"display": "flex","flex-direction": "column","align-items": "center"});
   }
   else {
+
+    var now = new Date();
+    var yearNow = now.getFullYear();
+    var mon = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+
     var title_month = "<th class='py-3'>Mã nhân viên</th><th class='py-3'>Tên nhân viên</th>"
       var employeeReports_encode =  data.employeeReports
       var month_encode = data.month
@@ -312,7 +339,14 @@ socket.on("server-send-report-employee", data=>{
             check++;
             if (check == acupuncture.length) {
               if (i >= acupuncture[acupuncture.length - 1].date) {
-                acupuncture_html += `<td class='py-2'></td>`
+                if((Number(month.name) < Number(mon)) && (Number(year) <= Number(yearNow)))
+                {
+                  acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
+                }
+                else
+                {
+                  acupuncture_html += `<td class='py-2'></td>`
+                }
               }
               else {
                 acupuncture_html += `<td class='py-2'><span class="badge badge-center rounded-pill bg-danger">x</span></td>`
@@ -386,7 +420,12 @@ socket.on("server-send-result-ktkl-type", data=>{
     html += `<td class="py-2" style="font-size: 0.9375rem;">${name}</td>`
     html += `<td class="py-2" style="font-size: 0.9375rem;"> ${job} </td >`
     html += `<td class="py-2" style="font-size: 0.9375rem;"> ${day} </td>`
-    html += `<td class="py-2" style="font-size: 0.9375rem;"> ${type} </td>`
+    if (String(type) == 'khen_thuong') {
+      html += `<td class="py-2" style="font-size: 0.9375rem;">Khen thưởng</td>`
+    }
+    else {
+      html += `<td class="py-2" style="font-size: 0.9375rem;">Kỷ luật</td>`
+    }
     html += `<td class="py-2 text-center" style='font-size: 0.9375rem;'>` +
       `<a style="color: #212529; margin-right:10px" href= '/api/ktkl/information/${_id}'>` +
       `<button type="button" class="btn btn-outline-primary">

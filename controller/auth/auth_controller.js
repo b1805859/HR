@@ -44,7 +44,7 @@ class Auth {
             return res.render("auth/login", {errorPass:'Mật khẩu không chính xác!',layout: false });
 
         // Set cookie
-        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 90000000000000, httpOnly: true });//900000
+        await res.cookie('user_code', String(user.username), { signed: true, maxAge: 900000, httpOnly: true });//900000
         if (String(user.role) == 'nhan_su') {
 
             res.redirect('/')

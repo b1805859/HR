@@ -85,13 +85,14 @@ router.get('/report', Auth.isAuth, async (req, res) => {
 router.post('/report', async (req, res) => {
     const { user } = req.body
         try {
-            
             //Khởi tạo truy vấn
             let result = {
                 employee_id:mongoose.Types.ObjectId(user._id),
                 month_id: mongoose.Types.ObjectId(req.body.month_id),
-                year: String(req.body.year).trim()
+                year: req.body.year
             }
+
+
             
             const report = await timekeepTable.aggregate([
                 {
@@ -126,7 +127,6 @@ router.post('/report', async (req, res) => {
             ], function (error, data) {
     
             });
-            
 
             if(report.length == 0)
             {   
@@ -134,21 +134,23 @@ router.post('/report', async (req, res) => {
                     msgError: "Không có bảng chấm công",
                     })
             }
+
             const {month} = report[0]
-            const months = await timekeepMonth.find().sort({ datefield: -1 })
+            const table_id = await timekeepTable.findOne(result)
+
             const employeeReport =[]
                 const { employee, table } = report[0]
-                const acupuncture = await timekeepAcupuncture.find({ table_id: mongoose.Types.ObjectId(table[0]._id) })
+                const acupuncture = await timekeepAcupuncture.find(result)
+                console.log(acupuncture)
                 let data = {
                     acupuncture: acupuncture,
                     ...employee[0],
                 }
                 employeeReport.push(data)
-            
+            //console.log(employeeReport)
             return res.json({
                 employeeReports: JSON.stringify(employeeReport),
                 month: JSON.stringify(month[0]),
-                months: JSON.stringify(months),
                 year: JSON.stringify(req.body.year),
             });
         } catch (error) {
@@ -243,7 +245,7 @@ router.get('/acupuncture', Auth.isAuth, async (req, res, next) => {
             }
             const { employee, month, table} = report[0]
             const employeeReport =[]
-                const acupuncture = await timekeepAcupuncture.find({ table_id: mongoose.Types.ObjectId(table[0]._id) })
+                const acupuncture = await timekeepAcupuncture.find(result)
                 let data = {
                     acupuncture: acupuncture,
                     ...employee[0],
@@ -291,6 +293,9 @@ router.post('/acupunctureData', async (req, res, next) => {
 
             var now = new Date();
             var year = now.getFullYear();
+            var mon = now.getMonth() + 1;
+            
+            const monthObj = await timekeepMonth.findOne({name: String(mon).trim()})
 
             //Khởi tạo truy vấn
             let result = {
@@ -338,7 +343,7 @@ router.post('/acupunctureData', async (req, res, next) => {
             }
             const { employee, month, table} = report[0]
             const employeeReport =[]
-                const acupuncture = await timekeepAcupuncture.find({ table_id: mongoose.Types.ObjectId(table[0]._id) })
+                const acupuncture = await timekeepAcupuncture.find({ employee_id: mongoose.Types.ObjectId(user_id), month_id:mongoose.Types.ObjectId(monthObj._id),year: String(year)})
                 let data = {
                     acupuncture: acupuncture,
                     ...employee[0],
@@ -348,7 +353,7 @@ router.post('/acupunctureData', async (req, res, next) => {
             return res.json({
                 table_id: table[0]._id,
                 employeeReports: JSON.stringify(employeeReport),
-                month: JSON.stringify(month[0]),
+                month: JSON.stringify(monthObj),
                 year: JSON.stringify(year),
             });
     } catch (error) {
@@ -377,11 +382,12 @@ router.get('/department', Auth.isAuth, async (req, res, next) => {
     try {
         
         const employees = await EmployeeProfile.find({department_id: mongoose.Types.ObjectId(user.department_id)})
-
+        const department = await DepartmentDepartment.findOne({_id: mongoose.Types.ObjectId(user.department_id)})
         res.render('user/user-department', { 
             layout: 'user',
             user: sigleToObject(user),
-            employees: multipleToObject(employees)
+            employees: multipleToObject(employees),
+            department: sigleToObject(department)
         })
     } catch (err) {
 

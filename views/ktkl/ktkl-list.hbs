@@ -3,7 +3,7 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1">
-    <h4 class="fw-bold mb-4"><span class="text-muted fw-light">
+    <h4 class="fw-bold mt-3 mb-4"><span class="text-muted fw-light">
         Khen thưởng kỷ luật /</span>
       Danh sách</h4>
 
@@ -62,7 +62,7 @@
 <script>
   const ktklLine = `{{ktklLine}}`
   const ktklLines = JSON.parse(ktklLine.replace(/&quot;/g, '"'));
-  
+
   for (const line of ktklLines) {
     const { employee, ktkl } = line
     const { code, name, job } = employee
@@ -73,7 +73,12 @@
     html += `<td class="py-2" style="font-size: 0.9375rem;">${name}</td>`
     html += `<td class="py-2" style="font-size: 0.9375rem;"> ${job} </td >`
     html += `<td class="py-2" style="font-size: 0.9375rem;"> ${day} </td>`
-    html += `<td class="py-2" style="font-size: 0.9375rem;"> ${type} </td>`
+    if (String(type) == 'khen_thuong') {
+      html += `<td class="py-2" style="font-size: 0.9375rem;">Khen thưởng</td>`
+    }
+    else {
+      html += `<td class="py-2" style="font-size: 0.9375rem;">Kỷ luật</td>`
+    }
     html += `<td class="py-2 text-center" style='font-size: 0.9375rem;'>` +
       `<a style="color: #212529; margin-right:10px" href= '/api/ktkl/information/${_id}'>` +
       `<button type="button" class="btn btn-outline-primary">

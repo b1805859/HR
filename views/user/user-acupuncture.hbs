@@ -3,7 +3,7 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1">
-    <h4 class="fw-bold py-1 mb-3"><span class="text-muted fw-light">Chấm công /</span> Chấm công bằng định vị GPS</h4>
+    <h4 class="fw-bold mt-3 mb-4"><span class="text-muted fw-light">Chấm công /</span> Chấm công qua GPS</h4>
 
     <div id="div-btn" class="row">
       <div class="col-md-12">
@@ -38,7 +38,7 @@
             <div class="row align-items-center">
               <div class=" col-md-3">
                 <input type="hidden" id="user_id" name="user_id" value={{user._id}} />
-                <button id="acupuncture" class="btn btn-danger">Chấm công vào 08:00</button>
+                <button id="acupuncture" class="btn btn-danger">Chấm công</button>
               </div>
             </div>
 
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Responsive Table -->
-    <div id="card" class="card">
+    <div id="card_table" class="card">
       <h1 class="text-dark text-center mt-4 mb-2"></h1>
       <div class="table-responsive text-nowrap">
         <table class="table table-bordered">
@@ -118,12 +118,12 @@
 <!-- Content wrapper -->
 <script>
   var msgError = `{{msgError}}`
+  $('#card_table').hide()
   if (msgError) {
 
     var h1 = `<h3 class="text-center mt-5 p-5">${msg}</h3>`
     $("#title_month").html('')
     $('#acupuncture_user').html('')
-    $('#card').hide()
     $('#div-btn').hide()
     $("#messageError").css({ "display": "flex", "flex-direction": "column", "align-items": "center" });
   }
@@ -182,7 +182,7 @@
     $("#acupuncture_user").html(acupuncture_html)
     $("#messageError").css({ "display": "none", "flex-direction": "column", "align-items": "center" });
     $('#div-btn').show()
-    $('#card').show()
+    $('#card_table').show()
 
 
 
