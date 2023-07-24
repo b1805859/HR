@@ -1,4 +1,4 @@
-var socket = io("http://localhost:8080");
+var socket = io(`http://localhost:${process.env.PORT != null ? process.env.PORT : 8080 }`);
 
 socket.on("server-send-filter", data => {
   const {employeeList, current, showPag} = data

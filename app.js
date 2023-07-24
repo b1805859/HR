@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     socket.on("filter-type",async data => {
             const response = await axios({
                 method: 'post',
-                url: `http://localhost:8080/api/employee/filter`,
+                url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/employee/filter`,
                 headers: {},
                 data: {
                     data
@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
     socket.on("search-code-manager",async data => {
         const response = await axios({
             method: 'post',
-            url: `http://localhost:8080/api/employee/manager`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/employee/manager`,
             headers: {},
             data: {
                 data
@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
     socket.on("user-acupuncture", async data => {
         const response = await axios({
             method: 'post',
-            url: `http://localhost:8080/api/timekeep/findPosition`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/timekeep/findPosition`,
             headers: {},
             data: {
                 latitude: data.latitude,
@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
             
             await axios({
                 method: 'post',
-                url: `http://localhost:8080/api/timekeep/acupuncture`,
+                url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/timekeep/acupuncture`,
                 data: {
                     table_id: data.table_id,
                     user_id: data.user_id
@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
 
         const acupunctureLine = await axios({
             method: 'post',
-            url: `http://localhost:8080/user/acupunctureData`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/user/acupunctureData`,
             data: {
                 table_id: data.table_id,
                 user_id: data.user_id
@@ -122,7 +122,7 @@ io.on('connection', (socket) => {
         
         const response = await axios({
             method: 'post',
-            url: `http://localhost:8080/user/report`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/user/report`,
             headers: {},
             data: {
                 user: data.user,
@@ -140,7 +140,7 @@ io.on('connection', (socket) => {
         
         const response = await axios({
             method: 'post',
-            url: `http://localhost:8080/api/timekeep/report`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/timekeep/report`,
             headers: {},
             data: {
                 month_id: data.month_id,
@@ -155,7 +155,7 @@ io.on('connection', (socket) => {
     socket.on("hr-create-table", async (data) => {
         const response = await axios({
             method: 'post',
-            url: `http://localhost:8080/api/timekeep/table`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/timekeep/table`,
             headers: {},
             data: {
                 month_id: data.month_id,
@@ -169,7 +169,7 @@ io.on('connection', (socket) => {
     socket.on("ktkl/type", async (data) => {
         const response = await axios({
             method: 'post',
-            url: `http://localhost:8080/api/ktkl/fetchKTKLList/type`,
+            url: `http://localhost:${process.env.PORT != null ? process.env.PORT : 8080}/api/ktkl/fetchKTKLList/type`,
             headers: {},
             data: {
                 type: data.type
